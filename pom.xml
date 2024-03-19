@@ -10,6 +10,7 @@
     <version>1.0</version>
     <modules>
         <module>study-common</module>
+        <module>elasticsearch-demo</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,6 +25,12 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <artifactId>study-common</artifactId>
+                <groupId>com.aquarius.wizard</groupId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
