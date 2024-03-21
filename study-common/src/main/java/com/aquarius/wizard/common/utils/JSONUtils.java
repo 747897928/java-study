@@ -326,12 +326,12 @@ public class JSONUtils {
     }
 
     // 将 Map 转换成对象
-    public static <T> T mapToBean(Map<?, ?> map, Class<T> beanClass) throws IllegalArgumentException {
+    public static <T> T mapToBean(Map<?, ?> map, Class<T> beanClass) {
         return objectMapper.convertValue(map, beanClass);
     }
 
     // 将对象转换成 Map
-    public static Map<String, Object> beanToMap(Object bean) throws IllegalArgumentException {
+    public static Map<String, Object> beanToMap(Object bean) {
         return objectMapper.convertValue(bean, new TypeReference<Map<String, Object>>() {});
     }
 

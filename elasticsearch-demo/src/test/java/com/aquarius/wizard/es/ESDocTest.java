@@ -72,7 +72,7 @@ public class ESDocTest {
     }
 
     @Test
-    public void docUpdate2() throws Exception {
+    public void docUpdate2() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         UpdateRequest request = new UpdateRequest();
 
@@ -108,7 +108,7 @@ public class ESDocTest {
     }
 
     @Test
-    public void docGet() throws Exception {
+    public void docGet() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         GetRequest request = new GetRequest();
         String id = "1001";
@@ -120,7 +120,7 @@ public class ESDocTest {
     }
 
     @Test
-    public void docDelete() throws Exception {
+    public void docDelete() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         DeleteRequest request = new DeleteRequest();
         String id = "1001";
