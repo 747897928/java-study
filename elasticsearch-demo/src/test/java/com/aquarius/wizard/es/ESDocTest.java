@@ -3,6 +3,9 @@ package com.aquarius.wizard.es;
 import com.aquarius.wizard.common.utils.JSONUtils;
 import com.aquarius.wizard.entity.User;
 import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.bulk.BulkItemResponse;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
@@ -21,7 +24,7 @@ import java.util.Map;
 
 public class ESDocTest {
 
-    String hostname = "192.168.2.220";
+    String hostname = "127.0.0.1";
     int port = 9200;
     String username = "elastic";
     String password = "elastic";
@@ -131,4 +134,50 @@ public class ESDocTest {
         esClient.close();
     }
 
+    @Test
+    public void docBatchInsert() throws IOException {
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        BulkRequest bulkRequest = new BulkRequest();
+
+        bulkRequest.add(new IndexRequest().index(index).id("1001").source(XContentType.JSON, "name", "lili", "sex", "女", "language", "Java"));
+
+        User user = new User();
+        user.setName("张三");
+        user.setSex("男");
+        user.setAge(18);
+
+        String json = JSONUtils.toJsonString(user);
+        bulkRequest.add(new IndexRequest().index(index).id("1002").source(json, XContentType.JSON));
+
+        Map<String, Object> map = JSONUtils.beanToMap(user);
+        map.put("game", "虚幻引擎");
+        map.remove("name");
+        bulkRequest.add(new IndexRequest().index(index).id("1003").source(map));
+
+        BulkResponse response = esClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+        System.out.println(response.getTook());
+        BulkItemResponse[] responseItems = response.getItems();
+        for (BulkItemResponse responseItem : responseItems) {
+            System.out.println(responseItem.isFailed());
+        }
+        esClient.close();
+    }
+
+    @Test
+    public void docBatchDelete() throws IOException {
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+
+        BulkRequest bulkRequest = new BulkRequest();
+        bulkRequest.add(new DeleteRequest().index(index).id("1001"));
+        bulkRequest.add(new DeleteRequest().index(index).id("1002"));
+        bulkRequest.add(new DeleteRequest().index(index).id("1003"));
+
+        BulkResponse response = esClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+        System.out.println(response.getTook());
+        BulkItemResponse[] responseItems = response.getItems();
+        for (BulkItemResponse responseItem : responseItems) {
+            System.out.println(responseItem.isFailed());
+        }
+        esClient.close();
+    }
 }

@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class ESIndexTest {
 
-    String hostname = "192.168.2.220";
+    String hostname = "127.0.0.1";
     int port = 9200;
     String username = "elastic";
     String password = "elastic";
