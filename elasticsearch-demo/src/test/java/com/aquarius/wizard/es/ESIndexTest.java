@@ -20,11 +20,13 @@ public class ESIndexTest {
     String username = "elastic";
     String password = "elastic";
 
+    String index = "user";
+
     @Test
     public void createIndex() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         IndicesClient indicesClient = esClient.indices();
-        CreateIndexRequest request = new CreateIndexRequest("user");
+        CreateIndexRequest request = new CreateIndexRequest(index);
         CreateIndexResponse response = indicesClient.create(request, RequestOptions.DEFAULT);
         boolean acknowledged = response.isAcknowledged();
         System.out.println(acknowledged);
@@ -35,7 +37,7 @@ public class ESIndexTest {
     public void getIndex() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         IndicesClient indicesClient = esClient.indices();
-        GetIndexRequest indexRequest = new GetIndexRequest("user");
+        GetIndexRequest indexRequest = new GetIndexRequest(index);
         GetIndexResponse response = indicesClient.get(indexRequest, RequestOptions.DEFAULT);
         System.out.println(response.getAliases());
         Map<String, MappingMetadata> mappings = response.getMappings();
@@ -53,7 +55,7 @@ public class ESIndexTest {
     public void deleteIndex() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         IndicesClient indicesClient = esClient.indices();
-        DeleteIndexRequest indexRequest = new DeleteIndexRequest("user");
+        DeleteIndexRequest indexRequest = new DeleteIndexRequest(index);
         AcknowledgedResponse response = indicesClient.delete(indexRequest, RequestOptions.DEFAULT);
         System.out.println(response.isAcknowledged());
         esClient.close();

@@ -29,7 +29,7 @@ public class ESDocTest {
     String username = "elastic";
     String password = "elastic";
 
-    String index = "user-test-index";
+    String index = "user";
 
     @Test
     public void docInsert() throws IOException {
@@ -79,7 +79,7 @@ public class ESDocTest {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         UpdateRequest request = new UpdateRequest();
 
-        String id = "1001";
+        String id = "1006";
         request.index(index).id(id);
         User user = new User();
         user.setName("张三");
