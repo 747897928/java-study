@@ -100,6 +100,18 @@ public class ESQueryTest {
         SearchSourceBuilder builder = new SearchSourceBuilder();
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 
+        //bool查询是Elasticsearch中的布尔查询，它允许组合多个查询条件以过滤和排序文档。bool查询有四个主要子句：
+        //
+        //must：所有的查询子句都必须匹配，类似于"AND"操作。
+        //should：至少一个查询子句必须匹配，类似于"OR"操作。
+        //must_not：查询子句不应该匹配，类似于"NOT"操作。
+        //filter：与must相似，但不会影响查询的相关性得分。
+        //bool查询具有以下特点
+        //
+        //内部可以包含多个全文检索和精确查询语法
+        //子查询可以任意顺序出现
+        //可以嵌套多个查询，包括bool查询
+        //如果bool查询中没有must条件，should中必须至少满足一条才会返回结果。
         boolQueryBuilder.must(QueryBuilders.rangeQuery("age").gt(16).lte(20));
         boolQueryBuilder.must(QueryBuilders.matchQuery("sex", "男"));
         boolQueryBuilder.mustNot(QueryBuilders.rangeQuery("age").gte(19).lt(20));
