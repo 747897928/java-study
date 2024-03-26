@@ -11,6 +11,7 @@
     <modules>
         <module>study-common</module>
         <module>elasticsearch-demo</module>
+        <module>zookeeper-demo</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,12 +23,32 @@
         <lombok.version>1.18.12</lombok.version>
         <log4j-core.version>2.23.1</log4j-core.version>
         <commons-logging.version>1.2</commons-logging.version>
+        <slf4j.version>1.7.36</slf4j.version>
+        <curator.version>5.6.0</curator.version>
         <es.version>7.10.0</es.version>
         <encoding>UTF-8</encoding>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
@@ -110,7 +131,7 @@
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
-                <version>${commons-logging.version}</version> <!-- 确认使用的是合适的版本号 -->
+                <version>${commons-logging.version}</version>
             </dependency>
 
         </dependencies>
