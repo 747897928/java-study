@@ -1,7 +1,14 @@
 package com.aquarius.wizard.es;
 
+import com.aquarius.wizard.common.utils.JSONUtils;
+import com.aquarius.wizard.entity.User;
 import com.carrotsearch.hppc.cursors.ObjectObjectCursor;
 import org.elasticsearch.ElasticsearchStatusException;
+import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.admin.indices.alias.Alias;
+import org.elasticsearch.action.admin.indices.template.delete.DeleteIndexTemplateRequest;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.IndexLifecycleClient;
 import org.elasticsearch.client.IndicesClient;
@@ -21,11 +28,10 @@ import org.elasticsearch.client.indices.AnalyzeRequest;
 import org.elasticsearch.client.indices.AnalyzeResponse;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
-import org.elasticsearch.client.indices.DeleteComposableIndexTemplateRequest;
-import org.elasticsearch.client.indices.GetComposableIndexTemplateRequest;
-import org.elasticsearch.client.indices.GetComposableIndexTemplatesResponse;
+import org.elasticsearch.client.indices.GetIndexTemplatesRequest;
+import org.elasticsearch.client.indices.GetIndexTemplatesResponse;
+import org.elasticsearch.client.indices.IndexTemplateMetadata;
 import org.elasticsearch.client.indices.PutIndexTemplateRequest;
-import org.elasticsearch.cluster.metadata.ComposableIndexTemplate;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.ByteSizeUnit;
@@ -157,17 +163,51 @@ public class ESLifecyclePolicyTest {
         //  ...模板定义...
         //}
         PutIndexTemplateRequest request = new PutIndexTemplateRequest(indexTemplateName);
-        //这里的模式支持*这种匹配方式，但是我们不需要这种匹配方式，精确匹配就行
-        List<String> indexPatterns = new ArrayList<>();
-        indexPatterns.add(index);
-        request.patterns(indexPatterns);
-
-        Settings.Builder settingsBuilder = Settings.builder()
-                .put("number_of_shards", 1)
-                .put("index.lifecycle.name", lifecycleName)
-                .put("index.lifecycle.rollover_alias", index);
-        request.settings(settingsBuilder);
-
+        String json = "{\n" +
+                "  \"index_patterns\": [\n" +
+                "    \"event_pipeline_realtime-*\"\n" +
+                "  ],\n" +
+                "  \"template\": {\n" +
+                "    \"settings\": {\n" +
+                "      \"number_of_shards\": 1,\n" +
+                "      \"number_of_replicas\": 1,\n" +
+                "      \"index.lifecycle.name\": \"nexus_edt_event_data_lifecycle\",\n" +
+                "      \"index.lifecycle.rollover_alias\": \"event_pipeline_realtime\"\n" +
+                "    },\n" +
+                "    \"mappings\": {\n" +
+                "      \"properties\": {\n" +
+                "        \"appId\": {\n" +
+                "          \"type\": \"keyword\"\n" +
+                "        },\n" +
+                "        \"content\": {\n" +
+                "          \"type\": \"text\",\n" +
+                "          \"index\": false\n" +
+                "        },\n" +
+                "        \"createTime\": {\n" +
+                "          \"type\": \"date\"\n" +
+                "        },\n" +
+                "        \"eventCode\": {\n" +
+                "          \"type\": \"keyword\",\n" +
+                "          \"copy_to\": \"searchContent\"\n" +
+                "        },\n" +
+                "        \"eventName\": {\n" +
+                "          \"type\": \"keyword\",\n" +
+                "          \"copy_to\": \"searchContent\"\n" +
+                "        },\n" +
+                "        \"projectId\": {\n" +
+                "          \"type\": \"keyword\"\n" +
+                "        },\n" +
+                "        \"ts\": {\n" +
+                "          \"type\": \"long\"\n" +
+                "        },\n" +
+                "        \"searchContent\": {\n" +
+                "          \"type\": \"keyword\"\n" +
+                "        }\n" +
+                "      }\n" +
+                "    }\n" +
+                "  }\n" +
+                "}";
+        request.source(json, XContentType.JSON);
         AcknowledgedResponse response = esClient.indices().putTemplate(request, RequestOptions.DEFAULT);
         if (response.isAcknowledged()) {
             System.out.println("Index template created successfully.");
@@ -180,17 +220,17 @@ public class ESLifecyclePolicyTest {
     @Test
     public void queryIndexTemplate() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
-        GetComposableIndexTemplateRequest request = new GetComposableIndexTemplateRequest(indexTemplateName);
-        GetComposableIndexTemplatesResponse response = esClient.indices().getIndexTemplate(request, RequestOptions.DEFAULT);
-        Map<String, ComposableIndexTemplate> indexTemplates = response.getIndexTemplates();
+        GetIndexTemplatesRequest request = new GetIndexTemplatesRequest(indexTemplateName);
+        GetIndexTemplatesResponse response = esClient.indices().getIndexTemplate(request, RequestOptions.DEFAULT);
+        List<IndexTemplateMetadata> indexTemplates = response.getIndexTemplates();
         System.out.println(indexTemplates);
     }
 
     @Test
     public void deleteIndexTemplate() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
-        DeleteComposableIndexTemplateRequest request = new DeleteComposableIndexTemplateRequest(indexTemplateName);
-        AcknowledgedResponse acknowledgedResponse = esClient.indices().deleteIndexTemplate(request, RequestOptions.DEFAULT);
+        DeleteIndexTemplateRequest request = new DeleteIndexTemplateRequest(indexTemplateName);
+        AcknowledgedResponse acknowledgedResponse = esClient.indices().deleteTemplate(request, RequestOptions.DEFAULT);
         System.out.println(acknowledgedResponse.isAcknowledged());
     }
 
