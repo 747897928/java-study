@@ -31,6 +31,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.ByteSizeUnit;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -198,9 +199,8 @@ public class ESLifecyclePolicyTest {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         IndicesClient indicesClient = esClient.indices();
         CreateIndexRequest request = new CreateIndexRequest(index);
-        Map<String, Object> source = new HashMap<>();
-        //todo mapping未完成
-        request.mapping(source);
+        String json = "{\"mappings\":{\"properties\":{\"apexId\":{\"type\":\"keyword\",\"copy_to\":\"searchContent\"},\"appId\":{\"type\":\"keyword\"},\"appVersion\":{\"type\":\"keyword\"},\"content\":{\"type\":\"text\",\"index\":false},\"createTime\":{\"type\":\"date\"},\"error\":{\"type\":\"text\",\"index\":false},\"eventCode\":{\"type\":\"keyword\",\"copy_to\":\"searchContent\"},\"eventName\":{\"type\":\"keyword\",\"copy_to\":\"searchContent\"},\"eventType\":{\"type\":\"keyword\"},\"projectId\":{\"type\":\"keyword\"},\"sendType\":{\"type\":\"keyword\"},\"ts\":{\"type\":\"long\"},\"wechatOpenId\":{\"type\":\"keyword\",\"copy_to\":\"searchContent\"},\"wechatUnionId\":{\"type\":\"keyword\",\"copy_to\":\"searchContent\"},\"searchContent\":{\"type\":\"keyword\"}}}}";
+        request.source(json, XContentType.JSON);
         CreateIndexResponse response = indicesClient.create(request, RequestOptions.DEFAULT);
         boolean acknowledged = response.isAcknowledged();
         System.out.println(acknowledged);
