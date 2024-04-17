@@ -4,6 +4,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
@@ -32,7 +33,7 @@ public class ESQueryTest {
     String username = "elastic";
     String password = "elastic";
 
-    String index = "user";
+    String index = "hotel";
 
     @Test
     public void docQuery() throws IOException {
@@ -61,10 +62,134 @@ public class ESQueryTest {
     }
 
     @Test
+    public void docMultiQuery() throws IOException {
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        SearchRequest request = new SearchRequest();
+        request.indices(index);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        //建议使用copy to
+        builder.query(QueryBuilders.multiMatchQuery("java", "name", "age", "sex"));
+        //(当前页码-1)*每页显示数据条数
+        int currentPage = 2;
+        int pageSize = 2;
+        builder.from((currentPage - 1) * pageSize);
+        builder.size(pageSize);
+        request.source(builder);
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+        SearchHits hits = response.getHits();
+        //总条数
+        System.out.println(hits.getTotalHits());
+        //查询的时间
+        System.out.println(response.getTook());
+
+        for (SearchHit hit : hits) {
+            System.out.println(hit.getSourceAsString());
+        }
+        esClient.close();
+    }
+
+    @Test
+    public void docGeoBoundingBoxQuery() throws IOException {
+        //根据经纬度查询，官方文档。例如:
+        //geo_bounding_box:查询geo_point值落在某个矩形范围的所有文档，比较适合查询一定范围内的所有信息
+        // geo_bounding_box查询GET /indexName/_search
+        //GET /hotel/_search
+        //{
+        //    "query": {
+        //        "geo_bounding_box": {
+        //            "FIELD": {
+        //                "top_left": {
+        //                    "lat": 31.1,
+        //                    "lon": 121.5
+        //                },
+        //                "bottom_right": {
+        //                    "lat": 30.9,
+        //                    "lon": 121.7
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        SearchRequest request = new SearchRequest();
+        request.indices(index);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        GeoBoundingBoxQueryBuilder location = QueryBuilders.geoBoundingBoxQuery("location");
+        GeoPoint topLeft = new GeoPoint(31.1, 121.5);
+        GeoPoint bottomRight = new GeoPoint(30.9, 121.7);
+        location.setCorners(topLeft, bottomRight);
+        builder.query(location);
+        request.source(builder);
+        System.out.println(request.source().toString());
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+        SearchHits hits = response.getHits();
+        //总条数
+        System.out.println(hits.getTotalHits());
+        //查询的时间
+        System.out.println(response.getTook());
+
+        for (SearchHit hit : hits) {
+            System.out.println(hit.getSourceAsString());
+        }
+        esClient.close();
+    }
+
+
+    @Test
+    public void docGeoDistanceQuery() throws IOException {
+        //根据经纬度查询，官方文档。例如:
+        //geo_distance:查询到指定中心点小于某个距离值的所有文档，中心点，长度distance画圆，在园内的文档
+        // geo_distance查询GET /indexName/_search
+        //GET /hotel/_search
+        //{
+        //    "query": {
+        //        "geo_distance": {
+        //            "location": "31.21,121.5",
+        //            "distance": "15km"
+        //        }
+        //    }
+        //}
+
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        SearchRequest request = new SearchRequest();
+        request.indices(index);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        GeoDistanceQueryBuilder location = QueryBuilders.geoDistanceQuery("location");
+        GeoPoint center = new GeoPoint(31.21, 121.5);
+        location.distance("15km").point(center);
+        builder.query(location);
+        request.source(builder);
+        System.out.println(request.source().toString());
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+        SearchHits hits = response.getHits();
+        //总条数
+        System.out.println(hits.getTotalHits());
+        //查询的时间
+        System.out.println(response.getTook());
+
+        for (SearchHit hit : hits) {
+            System.out.println(hit.getSourceAsString());
+        }
+        esClient.close();
+    }
+
+
+    @Test
     public void docTermQuery() throws IOException {
         RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
         SearchRequest request = new SearchRequest();
         request.indices(index);
+        //term查询
+        // GET /indexName/_search
+        //{
+        //    "query": {
+        //        "term": {
+        //            "FIELD": {
+        //                "value": "VALUE"
+        //            }
+        //        }
+        //    }
+        //}
         SearchSourceBuilder builder = new SearchSourceBuilder();
         builder.query(QueryBuilders.termQuery("name", "张"));
         //(当前页码-1)*每页显示数据条数
@@ -114,6 +239,32 @@ public class ESQueryTest {
         //如果bool查询中没有must条件，should中必须至少满足一条才会返回结果。
         boolQueryBuilder.must(QueryBuilders.rangeQuery("age").gt(16).lte(20));
         boolQueryBuilder.must(QueryBuilders.matchQuery("sex", "男"));
+
+        //range查询:
+        // range查询
+        // GET /indexName/_search
+        //{
+        //    "query": {
+        //        "range": {
+        //            "FIELD": {
+        //                "gte": 10,
+        //                "lte": 20
+        //            }
+        //        }
+        //    }
+        //}
+
+        //GET /hotel/_search
+        //{
+        //  "query": {
+        //    "range": {
+        //      "price": {
+        //        "gte": 249,
+        //        "lte": 336
+        //      }
+        //    }
+        //  }
+        //}
         boolQueryBuilder.mustNot(QueryBuilders.rangeQuery("age").gte(19).lt(20));
         boolQueryBuilder.should(QueryBuilders.matchQuery("age", 22));
 
