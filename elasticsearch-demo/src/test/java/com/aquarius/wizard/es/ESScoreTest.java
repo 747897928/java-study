@@ -93,4 +93,66 @@ public class ESScoreTest {
         }
         esClient.close();
     }
+
+    @Test
+    public void functionSourceTest2() throws IOException {
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        //案例：给“如家”这个品牌的酒店排名靠前一些
+        //把这个问题翻译下，function score需要的三要素
+        //1.哪些文档需要算分加权。品牌为如家的酒店
+        //2.算分函数是什么？weight就可以
+        //3.加权模式是什么？就和
+        //GET /hotel/_search
+        //{
+        //    "query": {
+        //        "function_score": {
+        //            "query": {
+        //                "match": {"all": "外滩"}
+        //            },
+        //            "functions": [ //算分函数
+        //                {
+        //                    "filter": { //满足的条件，平拍必须是如家
+        //                        "term": {
+        //                            "brand": {"value": "如家"}
+        //                        }
+        //                    },
+        //                    "weight": 2 //算分权重为2
+        //                }
+        //            ],
+        //            "boost_mode": "sum"
+        //        }
+        //    }
+        //}
+
+        //{"query":{"function_score":{"query":{"match":{"all":"外滩"}},"functions":[{"filter":{"term":{"brand":{"value":"如家"}}},"weight":2}],"boost_mode":"sum"}}}
+
+        SearchRequest request = new SearchRequest();
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        MatchQueryBuilder queryScoreBuilder = QueryBuilders.matchQuery("all", "外滩");
+        QueryBuilder filter = QueryBuilders.termQuery("brand", "如家");
+        ScoreFunctionBuilder<WeightBuilder> scoreFunctionBuilder = new WeightBuilder();
+        scoreFunctionBuilder.setWeight(2);
+        FunctionScoreQueryBuilder.FilterFunctionBuilder filterFunctionBuilder = new FunctionScoreQueryBuilder.FilterFunctionBuilder(filter, scoreFunctionBuilder);
+        FunctionScoreQueryBuilder.FilterFunctionBuilder[] filterFunctionBuilders = new FunctionScoreQueryBuilder.FilterFunctionBuilder[]{filterFunctionBuilder};
+        FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryScoreBuilder, filterFunctionBuilders);
+        functionScoreQueryBuilder.boostMode(CombineFunction.SUM);
+        builder.query(functionScoreQueryBuilder);
+        request.source(builder);
+        System.out.println(request.source().toString());
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+        System.out.println(response);
+        SearchHits hits = response.getHits();
+        //总条数
+        System.out.println(hits.getTotalHits());
+        //查询的时间
+        System.out.println(response.getTook());
+        float maxScore = hits.getMaxScore();
+        System.out.println("maxScore = " + maxScore);
+        for (SearchHit hit : hits) {
+            float score = hit.getScore();
+            System.out.println("score = " + score);
+            System.out.println(hit.getSourceAsString());
+        }
+        esClient.close();
+    }
 }
