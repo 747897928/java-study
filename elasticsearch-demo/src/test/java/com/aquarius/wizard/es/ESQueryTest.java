@@ -318,6 +318,7 @@ public class ESQueryTest {
         builder.aggregation(aggregationBuilder);
 
         request.source(builder);
+        System.out.println(request.source());
         SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
         System.out.println(response);
         //{
@@ -367,5 +368,71 @@ public class ESQueryTest {
         //}
         esClient.close();
     }
+
+    @Test
+    public void boolQueryTest() throws IOException {
+        //复合查询布尔查询
+        //复合查询 Boolean Query
+        //布尔查询是一个或多个查询子句的组合。子查询的组合方式有:
+        // must:必须匹配每个子查询，类似"与"
+        // should:选择性匹配子查询，类似"或"
+        // must_not:必须不匹配，不参与算分，类似"非"
+        //filter:必须匹配，不参与算分
+        //{
+        //    "query": {
+        //        "bool": {
+        //            "must": [
+        //                {
+        //                    "term": {"city": "上海"}
+        //                }
+        //            ],
+        //            "filter": [
+        //                {
+        //                    "range": {"score": {"gte": 45}}
+        //                }
+        //            ],
+        //            "must_not": [
+        //                {
+        //                    "range": {"price": {"lte": 500}}
+        //                }
+        //            ],
+        //            "should": [
+        //                {
+        //                    "term": {"brand": "皇冠假日"}
+        //                },
+        //                {
+        //                    "term": {"brand": "华美达"}
+        //                }
+        //            ]
+        //        }
+        //    }
+        //}
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        SearchRequest request = new SearchRequest();
+        request.indices(index);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        boolQueryBuilder.must(QueryBuilders.termQuery("city","上海"));
+        boolQueryBuilder.should(QueryBuilders.termQuery("brand","皇冠假日"));
+        boolQueryBuilder.should(QueryBuilders.termQuery("brand","华美达"));
+        boolQueryBuilder.mustNot(QueryBuilders.rangeQuery("price").lte(500));
+        boolQueryBuilder.filter(QueryBuilders.rangeQuery("score").gte(45));
+        builder.query(boolQueryBuilder);
+        request.source(builder);
+        System.out.println(request.source());
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+        SearchHits hits = response.getHits();
+        //总条数
+        System.out.println(hits.getTotalHits());
+        //查询的时间
+        System.out.println(response.getTook());
+
+        for (SearchHit hit : hits) {
+            System.out.println(hit.getSourceAsString());
+        }
+        esClient.close();
+    }
+
+
 }
 

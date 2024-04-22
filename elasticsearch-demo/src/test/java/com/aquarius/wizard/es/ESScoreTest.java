@@ -4,19 +4,28 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.lucene.search.function.CombineFunction;
+import org.elasticsearch.common.text.Text;
+import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.index.query.functionscore.WeightBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class ESScoreTest {
 
@@ -129,10 +138,17 @@ public class ESScoreTest {
         SearchRequest request = new SearchRequest();
         SearchSourceBuilder builder = new SearchSourceBuilder();
         MatchQueryBuilder queryScoreBuilder = QueryBuilders.matchQuery("all", "外滩");
+        //过滤条件
         QueryBuilder filter = QueryBuilders.termQuery("brand", "如家");
-        ScoreFunctionBuilder<WeightBuilder> scoreFunctionBuilder = new WeightBuilder();
-        scoreFunctionBuilder.setWeight(2);
-        FunctionScoreQueryBuilder.FilterFunctionBuilder filterFunctionBuilder = new FunctionScoreQueryBuilder.FilterFunctionBuilder(filter, scoreFunctionBuilder);
+
+        //ScoreFunctionBuilder<WeightBuilder> scoreFunctionBuilder = new WeightBuilder();
+        //scoreFunctionBuilder.setWeight(2);
+        //FunctionScoreQueryBuilder.FilterFunctionBuilder filterFunctionBuilder = new FunctionScoreQueryBuilder.FilterFunctionBuilder(filter, scoreFunctionBuilder);
+
+        //算分函数
+        WeightBuilder weightBuilder = ScoreFunctionBuilders.weightFactorFunction(2);
+        FunctionScoreQueryBuilder.FilterFunctionBuilder filterFunctionBuilder = new FunctionScoreQueryBuilder.FilterFunctionBuilder(filter, weightBuilder);
+
         FunctionScoreQueryBuilder.FilterFunctionBuilder[] filterFunctionBuilders = new FunctionScoreQueryBuilder.FilterFunctionBuilder[]{filterFunctionBuilder};
         FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryScoreBuilder, filterFunctionBuilders);
         functionScoreQueryBuilder.boostMode(CombineFunction.SUM);
@@ -155,4 +171,101 @@ public class ESScoreTest {
         }
         esClient.close();
     }
+
+    @Test
+    public void highlightTest() throws IOException {
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        SearchRequest request = new SearchRequest();
+        request.indices(index);
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        //高亮查询，默认情况下，ES搜索字段必须与高亮字段一致
+        builder.query(QueryBuilders.matchQuery("all", "如家"));
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        String highlightFieldName = "name";
+        highlightBuilder.field(highlightFieldName);
+        //设置为true将导致仅在查询与该字段匹配时突出显示该字段。默认值为false，表示无论查询是否与之匹配，术语都会在所有请求字段上突出显示。
+        highlightBuilder.requireFieldMatch(false);
+        highlightBuilder.preTags("<em>");
+        highlightBuilder.postTags("</em>");
+        builder.highlighter(highlightBuilder);
+        request.source(builder);
+        System.out.println(request.source());
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+        SearchHits hits = response.getHits();
+        //总条数
+        System.out.println(hits.getTotalHits());
+        //查询的时间
+        System.out.println(response.getTook());
+
+        for (SearchHit hit : hits) {
+            System.out.println(hit.getSourceAsString());
+            Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+            HighlightField highlightField = highlightFields.get(highlightFieldName);
+            Text[] fragments = highlightField.getFragments();
+            for (Text fragment : fragments) {
+                System.out.println(fragment.string());
+            }
+        }
+        esClient.close();
+    }
+
+
+    @Test
+    public void geoSortTest() throws IOException {
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        SearchRequest request = new SearchRequest();
+        request.indices(index);
+        //{
+        //    "query": {
+        //        "match_all": {}
+        //    },
+        //    "sort": [
+        //        {
+        //            "price": {
+        //                "order": "asc"
+        //            }
+        //        },
+        //        {
+        //            "_geo_distance": {
+        //                "location": [
+        //                    {
+        //                        "lat": 31.21,
+        //                        "lon": 121.5
+        //                    }
+        //                ],
+        //                "unit": "km",
+        //                "order": "asc"
+        //            }
+        //        }
+        //    ]
+        //}
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        builder.query(QueryBuilders.matchAllQuery());
+        //距离排序与普通字段排序有所差异
+        //价格排序
+        builder.sort("price", SortOrder.ASC);
+        //距离排序
+        builder.sort(SortBuilders.geoDistanceSort("location", new GeoPoint(31.21, 121.5))
+                .order(SortOrder.ASC)
+                .unit(DistanceUnit.KILOMETERS)
+        );
+        request.source(builder);
+        System.out.println(request.source());
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+        //System.out.println(response);
+        SearchHits hits = response.getHits();
+        for (SearchHit hit : hits) {
+            System.out.println("hit.getSourceAsString() = " + hit.getSourceAsString());
+            Object[] sortValues = hit.getSortValues();
+            if (sortValues != null) {
+                for (int i = 0; i < sortValues.length; i++) {
+                    Object sortValue = sortValues[i];
+                    System.out.println("i = " + i + ", sortValue = " + sortValue);
+                }
+            }
+            System.out.println("****************************************************");
+        }
+        esClient.close();
+    }
+
 }
