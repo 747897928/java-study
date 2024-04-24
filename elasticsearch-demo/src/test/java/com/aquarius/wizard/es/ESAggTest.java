@@ -5,12 +5,15 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.BucketOrder;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author zhaoyijie
@@ -62,7 +65,8 @@ public class ESAggTest {
         //    }
         //}
         builder.size(0);
-        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms("brandAgg")
+        String aggName = "brandAgg";
+        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms(aggName)
                 .field("brand").size(20).order(BucketOrder.count(true));
 
         builder.aggregation(aggregationBuilder);
@@ -70,7 +74,154 @@ public class ESAggTest {
         request.source(builder);
         System.out.println(request.source());
         SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
-        System.out.println(response);
+        //System.out.println(response);
+        Aggregations aggregations = response.getAggregations();
+        //根据名称获取聚合结果
+        Terms brandTerms = aggregations.get(aggName);
+        //获取桶
+        List<? extends Terms.Bucket> buckets = brandTerms.getBuckets();
+        for (Terms.Bucket bucket : buckets) {
+            //获取key,也是品牌信息
+            String brandName = bucket.getKeyAsString();
+            System.out.println("brandName = " + brandName);
+            long docCount = bucket.getDocCount();
+            System.out.println("docCount = " + docCount);
+
+        }
+        esClient.close();
+
+    }
+
+
+    @Test
+    public void aggMetricsTest() throws IOException {
+
+        RestHighLevelClient esClient = ElasticsearchUtils.getEsClient(hostname, port, username, password);
+        SearchRequest request = new SearchRequest();
+        request.indices(index);
+
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        //{
+        //    "size": 0,
+        //    "aggregations": {
+        //        "brandAgg": {
+        //            "terms": {
+        //                "field": "brand",
+        //                "size": 20,
+        //                "order": [
+        //                    {
+        //                        "scoreAgg.avg": "desc"
+        //                    }
+        //                ]
+        //            },
+        //            "aggregations": {
+        //                "scoreAgg": {
+        //                    "stats": {
+        //                        "field": "score"
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        builder.size(0);
+        String aggName = "brandAgg";
+        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms(aggName)
+                .field("brand").size(20).order(BucketOrder.aggregation("scoreAgg.avg", false));
+        //是brand聚合的子聚合，也就是分组后对每组分到的计算
+        //state可以计算min，max，avg等
+        TermsAggregationBuilder termsAggregationBuilder = aggregationBuilder.subAggregation(
+                AggregationBuilders.stats("scoreAgg").field("score")
+        );
+        builder.aggregation(aggregationBuilder);
+
+        request.source(builder);
+        System.out.println(request.source());
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+        //System.out.println(response);
+        Aggregations aggregations = response.getAggregations();
+        //根据名称获取聚合结果
+        Terms brandTerms = aggregations.get(aggName);
+        //获取桶
+        List<? extends Terms.Bucket> buckets = brandTerms.getBuckets();
+        for (Terms.Bucket bucket : buckets) {
+            //获取key,也是品牌信息
+            String brandName = bucket.getKeyAsString();
+            System.out.println("brandName = " + brandName);
+            long docCount = bucket.getDocCount();
+            System.out.println("docCount = " + docCount);
+        }
+        //{
+        //  "took" : 63,
+        //  "timed_out" : false,
+        //  "_shards" : {
+        //    "total" : 1,
+        //    "successful" : 1,
+        //    "skipped" : 0,
+        //    "failed" : 0
+        //  },
+        //  "hits" : {
+        //    "total" : {
+        //      "value" : 201,
+        //      "relation" : "eq"
+        //    },
+        //    "max_score" : null,
+        //    "hits" : [ ]
+        //  },
+        //  "aggregations" : {
+        //    "brandAgg" : {
+        //      "doc_count_error_upper_bound" : 0,
+        //      "sum_other_doc_count" : 0,
+        //      "buckets" : [
+        //        {
+        //          "key" : "万丽",
+        //          "doc_count" : 2,
+        //          "scoreAgg" : {
+        //            "count" : 2,
+        //            "min" : 46.0,
+        //            "max" : 47.0,
+        //            "avg" : 46.5,
+        //            "sum" : 93.0
+        //          }
+        //        },
+        //        {
+        //          "key" : "凯悦",
+        //          "doc_count" : 8,
+        //          "scoreAgg" : {
+        //            "count" : 8,
+        //            "min" : 45.0,
+        //            "max" : 47.0,
+        //            "avg" : 46.25,
+        //            "sum" : 370.0
+        //          }
+        //        },
+        //        {
+        //          "key" : "和颐",
+        //          "doc_count" : 12,
+        //          "scoreAgg" : {
+        //            "count" : 12,
+        //            "min" : 44.0,
+        //            "max" : 47.0,
+        //            "avg" : 46.083333333333336,
+        //            "sum" : 553.0
+        //          }
+        //        },
+        //        {
+        //          "key" : "丽笙",
+        //          "doc_count" : 2,
+        //          "scoreAgg" : {
+        //            "count" : 2,
+        //            "min" : 46.0,
+        //            "max" : 46.0,
+        //            "avg" : 46.0,
+        //            "sum" : 92.0
+        //          }
+        //        }
+        //      ]
+        //    }
+        //  }
+        //}
         esClient.close();
 
     }
