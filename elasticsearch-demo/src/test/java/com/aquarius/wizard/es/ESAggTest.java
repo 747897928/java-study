@@ -223,6 +223,5 @@ public class ESAggTest {
         //  }
         //}
         esClient.close();
-
     }
 }
