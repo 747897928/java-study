@@ -13,6 +13,7 @@
         <module>elasticsearch-demo</module>
         <module>zookeeper-demo</module>
         <module>Leetcode-demo</module>
+        <module>Jdk-api-demo</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
