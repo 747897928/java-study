@@ -756,3 +756,435 @@ https://juejin.cn/post/7258445421417660475
      config.setMinimumIdle(2);
      config.setConnectionTimeout(30000);
      ```
+
+### 测试死锁
+```sql
+CREATE TABLE test_dead_lock ( id INT PRIMARY KEY, NAME VARCHAR ( 50 ), age INT );
+
+INSERT INTO `test_dead_lock`(`id`, `NAME`, `age`) VALUES (1, 'lisi', 11);
+INSERT INTO `test_dead_lock`(`id`, `NAME`, `age`) VALUES (2, 'zhangsan', 22);
+INSERT INTO `test_dead_lock`(`id`, `NAME`, `age`) VALUES (3, 'wangwu', 33);
+SELECT * FROM test_dead_lock;
+
+--查看当前运行的所有事务
+select * from information_schema.innodb_trx;
+
+--查看死锁日志
+show engine INNODB status;
+
+mysql版本不同。 命令不同。
+
+5.7
+
+--查看加锁信息
+select * from information_schema.innodb_locks;
+--查看锁等待的信息
+select * from information_schema.innodb_lock_waits
+--查看当前MySQL的事务隔离级别
+select @@tx_isolation;
+
+8.0
+--查看加锁信息
+select * from performance_schema.data_locks;
+--查看锁等待的信息
+select * from performance_schema.data_lock_waits;
+--查看当前MySQL的事务隔离级别
+select @@transaction_isolation;
+
+```
+
+
+
+
+### 案例分析
+
+mysql 5.7 为select @@tx_isolation;
+
+本次使用的MySQL版本为8.4
+
+```sql
+mysql> select @@transaction_isolation;
++-------------------------+
+| @@transaction_isolation |
++-------------------------+
+| REPEATABLE-READ         |
++-------------------------+
+```
+
+
+
+查看查看当前运行的所有事务，简化版SQL
+
+```sql
+SELECT 
+	trx_id '事务ID',
+	trx_state '事务状态',
+	trx_started '事务开始时间',
+	trx_weight '事务权重',
+	trx_mysql_thread_id '事务线程ID',
+	trx_tables_locked '事务锁定的行数',
+	trx_rows_modified '事务修改的行数' 
+FROM
+	information_schema.innodb_trx;
+```
+
+
+
+详细步骤：
+
+```sql
+-- 窗口1
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+
+-- 窗口2
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+
+-- 注意begin后如果没有操作，select * from information_schema.innodb_trx;是查不到数据的，只有执行过一条sql语句才会有数据
+mysql> select * from information_schema.innodb_trx;
+Empty set (0.00 sec)
+
+-- 窗口1
+mysql> select * from test_dead_lock where id = 1 for update;
++----+------+------+
+| id | NAME | age  |
++----+------+------+
+|  1 | lisi |   11 |
++----+------+------+
+1 row in set (0.00 sec)
+
+-- 可以看到当窗口1执行了一条sql语句后，information_schema.innodb_trx就开始有了窗口1事务的数据,此时事务id为4926
+mysql> SELECT
+    -> trx_id '事务ID',
+    -> trx_state '事务状态',
+    -> trx_started '事务开始时间',
+    -> trx_weight '事务权重',
+    -> trx_mysql_thread_id '事务线程ID',
+    -> trx_tables_locked '事务锁定的行数',
+    -> trx_rows_modified '事务修改的行数'
+    -> FROM
+    -> information_schema.innodb_trx;
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+| 事务ID   | 事务状态     | 事务开始时间        | 事务权重     | 事务线程ID     | 事务锁定的行数        | 事务修改的行数        |
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+|     4926 | RUNNING      | 2024-06-03 16:05:02 |            2 |             15 |                     1 |                     0 |
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+1 row in set (0.00 sec)
+
+
+-- 窗口2
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from test_dead_lock where id = 3;
+
+Query OK, 1 row affected (0.00 sec)
+
+-- 可以看到当窗口2执行了一条sql语句后，information_schema.innodb_trx就开始有了窗口2事务的数据，事务id为4927
+mysql> SELECT
+    -> trx_id '事务ID',
+    -> trx_state '事务状态',
+    -> trx_started '事务开始时间',
+    -> trx_weight '事务权重',
+    -> trx_mysql_thread_id '事务线程ID',
+    -> trx_tables_locked '事务锁定的行数',
+    -> trx_rows_modified '事务修改的行数'
+    -> FROM
+    -> information_schema.innodb_trx;
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+| 事务ID   | 事务状态     | 事务开始时间        | 事务权重     | 事务线程ID     | 事务锁定的行数        | 事务修改的行数        |
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+|     4927 | RUNNING      | 2024-06-03 16:07:06 |            3 |             12 |                     1 |                     1 |
+|     4926 | RUNNING      | 2024-06-03 16:05:02 |            2 |             15 |                     1 |                     0 |
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+2 rows in set (0.00 sec)
+
+
+-- 窗口1
+mysql> update test_dead_lock set name = 'aaa' where id = 3;
+-- 窗口1开始阻塞
+
+
+-- 窗口2
+mysql> delete from test_dead_lock where id = 1;
+Query OK, 0 rows affected (0.00 sec) -- 删除还是成功了，明明窗口1开始的时候for update锁定了id为1的数据，因为这里删除只是给了标识
+
+-- 然后在窗口2执行删除操作的时候，窗口1就会立刻出现检测到死锁发生的错误信息
+ERROR 1213 (40001): Deadlock found when trying to get lock; try restarting transaction
+
+
+-- 再次执行查看当前事务，发现窗口1的事务(事务id为4926)没了，只有窗口2的数据(事务id为4927)
+mysql> SELECT
+    -> trx_id '事务ID',
+    -> trx_state '事务状态',
+    -> trx_started '事务开始时间',
+    -> trx_weight '事务权重',
+    -> trx_mysql_thread_id '事务线程ID',
+    -> trx_tables_locked '事务锁定的行数',
+    -> trx_rows_modified '事务修改的行数'
+    -> FROM
+    -> information_schema.innodb_trx;
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+| 事务ID   | 事务状态     | 事务开始时间        | 事务权重     | 事务线程ID     | 事务锁定的行数        | 事务修改的行数        |
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+|     4927 | RUNNING      | 2024-06-03 16:07:06 |            5 |             12 |                     1 |                     2 |
++----------+--------------+---------------------+--------------+----------------+-----------------------+-----------------------+
+1 row in set (0.00 sec)
+
+```
+
+
+
+最后窗口1的事务被取消了事务，窗口2的事务没有被取消，依旧可以commit和rollback
+
+
+
+现在就可以查看死锁的信息了：
+
+```sql
+show engine INNODB status;
+```
+
+
+
+我们查看Status这一列，搜索LATEST DETECTED DEADLOCK
+
+死锁日志的查看：
+
+```sql
+------------------------
+LATEST DETECTED DEADLOCK
+------------------------
+2024-06-03 16:08:08 0x28e4
+*** (1) TRANSACTION:
+
+TRANSACTION 4926, ACTIVE 186 sec starting index read
+
+-- TRANSACTION事务的编号，这里4926就是我们之前的窗口1的事务id，ACTIVE活跃的秒数，starting index read表示事务状态为根据索引读取数据
+
+mysql tables in use 1, locked 1
+-- 表示有一张表被使用，locked表示表上有一个表锁，对于DML语句为LOCK_IX
+
+LOCK WAIT 3 lock struct(s), heap size 1128, 2 row lock(s)
+MySQL thread id 15, OS thread handle 17160, query id 802 localhost ::1 root updating
+update test_dead_lock set name = 'aaa' where id = 3
+-- 表示正在等待锁的SQL语句
+
+*** (1) HOLDS THE LOCK(S):
+RECORD LOCKS space id 2 page no 4 n bits 72 index PRIMARY of table `study_demo`.`test_dead_lock` trx id 4926 lock_mode X locks rec but not gap
+Record lock, heap no 2 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000001; asc     ;;
+ 1: len 6; hex 000000001329; asc      );;
+ 2: len 7; hex 820000010f0110; asc        ;;
+ 3: len 4; hex 6c697369; asc lisi;;
+ 4: len 4; hex 8000000b; asc     ;;
+
+
+*** (1) WAITING FOR THIS LOCK TO BE GRANTED:
+RECORD LOCKS space id 2 page no 4 n bits 72 index PRIMARY of table `study_demo`.`test_dead_lock` trx id 4926 lock_mode X locks rec but not gap waiting
+Record lock, heap no 4 PHYSICAL RECORD: n_fields 5; compact format; info bits 32
+```
+
+
+
+死锁总结：
+
+1、对索引加锁的顺序不一致，很可能导致死锁，所以应该尽量以相同的顺序来访问索引记录和表。
+
+2.间隙锁往往是程序中导致死锁的元凶，由于MySQL默认隔离级别是RR，会用到间隙锁来防止幻读。所以如果不可重复读和幻读对当前业务影响不大的话，可以考虑降低隔离级别为RC。
+3.为表添加合理的索引，如果不走索引就会为表中的每一行数据加锁，死锁的概率增加。
+
+4.避免大事务，尽量将大事务拆分成多个小事务来处理
+
+5.避免在同一时间点运行多个对同一表进行读写的脚本。
+
+6.设置锁等待的超时参数。
+
+
+
+附加内容：
+
+mysql5.7
+
+```sql
+SELECT
+	lock_id '锁的ID',
+	1ock_trx_id '拥有锁的事务ID',
+	lock_mode '锁的模式',
+	LOCK_type '锁的类型',
+	lock_table '加锁的表',
+	lock_index '被锁的索引',
+	lock_space '被锁的表空间号',
+	lock_page '被锁的页是',
+	lock_rec '被锁的记录号',
+	lock_data '被锁的数据' 
+FROM
+	information_schema.innodb_locks;
+```
+
+
+
+mysql8.4
+
+
+
+```sql
+SELECT
+    ENGINE_LOCK_ID AS '锁的ID',
+    ENGINE_TRANSACTION_ID AS '拥有锁的事务ID',
+    LOCK_MODE AS '锁的模式',
+    LOCK_TYPE AS '锁的类型',
+    CONCAT(OBJECT_SCHEMA, '.', OBJECT_NAME) AS '加锁的表',
+    INDEX_NAME AS '被锁的索引',
+    OBJECT_INSTANCE_BEGIN AS '被锁的表空间号',
+    NULL AS '被锁的页是',  -- MySQL 8.0 没有直接对应的列
+    NULL AS '被锁的记录号',  -- MySQL 8.0 没有直接对应的列
+    LOCK_DATA AS '被锁的数据'
+FROM
+    performance_schema.data_locks;
+
+
+```
+
+
+
+我尝试用mysql8 lock_page and lock_rec not find in performance_schema.data_locks去查看，找到
+
+https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-locks-table.html
+
+这是对应的改动
+
+`INNODB_LOCKS`和 之间的区别[`data_locks`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-locks-table.html)：
+
+- 如果事务持有锁， `INNODB_LOCKS`则仅当另一个事务正在等待时才显示该锁。 [`data_locks`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-locks-table.html)无论是否有任何事务正在等待它，都显示该锁。
+- 该[`data_locks`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-locks-table.html)表没有与`LOCK_SPACE`、 `LOCK_PAGE`或 对应的列`LOCK_REC`。
+- 该`INNODB_LOCKS`表需要全局[`PROCESS`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)权限。该表需要对要选择的表 [`data_locks`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-locks-table.html)具有通常的性能模式权限 。[`SELECT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)
+
+`INNODB_LOCKS`下表显示了列与 列之间 的映射 [`data_locks`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-locks-table.html)。使用此信息将应用程序从一个表迁移到另一个表。
+
+**表 29.4 从 INNODB_LOCKS 到 data_locks 列的映射**
+
+| INNODB_LOCKS 列               | data_locks 列                                    |
+| :---------------------------- | :----------------------------------------------- |
+| `LOCK_ID`                     | `ENGINE_LOCK_ID`                                 |
+| `LOCK_TRX_ID`                 | `ENGINE_TRANSACTION_ID`                          |
+| `LOCK_MODE`                   | `LOCK_MODE`                                      |
+| `LOCK_TYPE`                   | `LOCK_TYPE`                                      |
+| `LOCK_TABLE`（组合模式/表名） | `OBJECT_SCHEMA`(模式名称), `OBJECT_NAME`(表名称) |
+| `LOCK_INDEX`                  | `INDEX_NAME`                                     |
+| `LOCK_SPACE`                  | 没有任何                                         |
+| `LOCK_PAGE`                   | 没有任何                                         |
+| `LOCK_REC`                    | 没有任何                                         |
+| `LOCK_DATA`                   | `LOCK_DATA`                                      |
+
+
+
+下面操作基于msql8，mysql5.7的语句看上面
+
+```sql
+mysql> SELECT
+    ->     ENGINE_LOCK_ID AS '锁的ID',
+    ->     ENGINE_TRANSACTION_ID AS '拥有锁的事务ID',
+    ->     LOCK_MODE AS '锁的模式',
+    ->     LOCK_TYPE AS '锁的类型',
+    ->     CONCAT(OBJECT_SCHEMA, '.', OBJECT_NAME) AS '加锁的表',
+    ->     INDEX_NAME AS '被锁的索引',
+    ->     OBJECT_INSTANCE_BEGIN AS '被锁的表空间号',
+    ->     LOCK_DATA AS '被锁的数据'
+    -> FROM
+    ->     performance_schema.data_locks;
++-----------------------------------+----------------------+---------------+--------------+---------------------------+-----------------+-----------------------+-----------------+
+| 锁的ID                            | 拥有锁的事务ID       | 锁的模式      | 锁的类型     | 加锁的表                  | 被锁的索引      | 被锁的表空间号        | 被锁的数据      |
++-----------------------------------+----------------------+---------------+--------------+---------------------------+-----------------+-----------------------+-----------------+
+| 2597458092448:1064:2597448456216  |                 4897 | IX            | TABLE        | study_demo.test_dead_lock | NULL            |         2597448456216 | NULL            |
+| 2597458092448:2:4:2:2597447139352 |                 4897 | X,REC_NOT_GAP | RECORD       | study_demo.test_dead_lock | PRIMARY         |         2597447139352 | 1               |
+| 2597458092448:2:4:4:2597447140040 |                 4897 | X,REC_NOT_GAP | RECORD       | study_demo.test_dead_lock | PRIMARY         |         2597447140040 | 3               |
+| 2597458091672:1064:2597448455448  |                 4894 | IX            | TABLE        | study_demo.test_dead_lock | NULL            |         2597448455448 | NULL            |
+| 2597458091672:2:4:4:2597447083032 |                 4894 | X,REC_NOT_GAP | RECORD       | study_demo.test_dead_lock | PRIMARY         |         2597447083032 | 3               |
++-----------------------------------+----------------------+---------------+--------------+---------------------------+-----------------+-----------------------+-----------------+
+5 rows in set (0.00 sec)
+```
+
+
+
+查看锁等待的信息
+
+mysql 5.7请用
+
+select * from information_schema.innodb_lock_waits
+
+下列是mysql8.4的操作
+
+```sql
+mysql> select * from performance_schema.data_lock_waits;
++--------+-----------------------------------+----------------------------------+----------------------+---------------------+----------------------------------+-----------------------------------+--------------------------------+--------------------+-------------------+--------------------------------+
+| ENGINE | REQUESTING_ENGINE_LOCK_ID         | REQUESTING_ENGINE_TRANSACTION_ID | REQUESTING_THREAD_ID | REQUESTING_EVENT_ID | REQUESTING_OBJECT_INSTANCE_BEGIN | BLOCKING_ENGINE_LOCK_ID           | BLOCKING_ENGINE_TRANSACTION_ID | BLOCKING_THREAD_ID | BLOCKING_EVENT_ID | BLOCKING_OBJECT_INSTANCE_BEGIN |
++--------+-----------------------------------+----------------------------------+----------------------+---------------------+----------------------------------+-----------------------------------+--------------------------------+--------------------+-------------------+--------------------------------+
+| INNODB | 2597458092448:2:4:4:2597447140384 |                             4897 |                   51 |                  19 |                    2597447140384 | 2597458091672:2:4:4:2597447083032 |                           4894 |                 54 |                12 |                  2597447083032 |
++--------+-----------------------------------+----------------------------------+----------------------+---------------------+----------------------------------+-----------------------------------+--------------------------------+--------------------+-------------------+--------------------------------+
+1 row in set (0.00 sec)
+
+mysql>
+```
+
+
+
+查看锁等待信息
+
+mysql5.7
+
+```sql
+SELECT
+	requesting_trx_id '请求锁的事务ID',
+	requested_lock_id '请求锁的锁ID',
+	blocking_trx_id '当前拥有锁的事务ID',
+	blocking_lock_id '当前拥有锁的锁ID' 
+FROM
+	information_schema.innodb_lock_waits;
+```
+
+
+
+mysql8.4
+
+```sql
+mysql> SELECT
+    ->     REQUESTING_ENGINE_TRANSACTION_ID AS '请求锁的事务ID',
+    ->     REQUESTING_ENGINE_LOCK_ID AS '请求锁的锁ID',
+    ->     BLOCKING_ENGINE_TRANSACTION_ID AS '当前拥有锁的事务ID',
+    ->     BLOCKING_ENGINE_LOCK_ID AS '当前拥有锁的锁ID'
+    -> FROM
+    ->     performance_schema.data_lock_waits;
++----------------------+-----------------------------------+----------------------------+-----------------------------------+
+| 请求锁的事务ID       | 请求锁的锁ID                      | 当前拥有锁的事务ID         | 当前拥有锁的锁ID                  |
++----------------------+-----------------------------------+----------------------------+-----------------------------------+
+|                 4897 | 2597458092448:2:4:4:2597447140728 |                       4894 | 2597458091672:2:4:4:2597447083032 |
++----------------------+-----------------------------------+----------------------------+-----------------------------------+
+1 row in set (0.00 sec)
+```
+
+
+
+https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-lock-waits-table.html
+
+[`TRUNCATE TABLE`](https://dev.mysql.com/doc/refman/8.0/en/truncate-table.html)不允许用于该[`data_lock_waits`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-lock-waits-table.html)表。
+
+笔记
+
+[`data_lock_waits`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-lock-waits-table.html)在 MySQL 8.0.1 之前，表中提供了 类似于性能模式表中的信息 `INFORMATION_SCHEMA.INNODB_LOCK_WAITS` ，该表提供有关每个被阻止 `InnoDB`事务的信息，指示其请求的锁以及阻止该请求的任何锁。 `INFORMATION_SCHEMA.INNODB_LOCK_WAITS`已弃用并从 MySQL 8.0.1 开始删除。 [`data_lock_waits`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-lock-waits-table.html)应该改用。
+
+这些表在所需的权限方面有所不同： `INNODB_LOCK_WAITS`表需要全局 [`PROCESS`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)权限。 表需要所选表 [`data_lock_waits`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-lock-waits-table.html)的常规性能模式权限 。[`SELECT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)
+
+`INNODB_LOCK_WAITS`下表显示了列与 列之间 的映射 [`data_lock_waits`](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-data-lock-waits-table.html)。使用此信息将应用程序从一个表迁移到另一个表。
+
+
+
+**表 29.5 从 INNODB_LOCK_WAITS 到 data_lock_waits 列的映射**
+
+| INNODB_LOCK_WAITS 列 | data_lock_waits 列                 |
+| :------------------- | :--------------------------------- |
+| `REQUESTING_TRX_ID`  | `REQUESTING_ENGINE_TRANSACTION_ID` |
+| `REQUESTED_LOCK_ID`  | `REQUESTING_ENGINE_LOCK_ID`        |
+| `BLOCKING_TRX_ID`    | `BLOCKING_ENGINE_TRANSACTION_ID`   |
+| `BLOCKING_LOCK_ID`   | `BLOCKING_ENGINE_LOCK_ID`          |
