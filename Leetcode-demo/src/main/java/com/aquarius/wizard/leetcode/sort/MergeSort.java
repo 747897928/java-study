@@ -5,9 +5,15 @@ import java.util.Arrays;
 /**
  * <p>description:  </p>
  * <p>create:  2020/11/20 15:23</p>
+ *
  * @author zhaoyijie(AquariusGenius)
  */
-public class MergeSort {
+public class MergeSort implements SortBase {
+
+    @Override
+    public int[] sort(int[] arr) {
+        return mergeSort(arr);
+    }
 
     /**
      * 归并排序，是创建在归并操作上的一种有效的排序算法。算法是采用分治法（Divide and Conquer）的一个非常典型
@@ -21,12 +27,6 @@ public class MergeSort {
      * 首先把一个未排序的序列从中间分割成2部分，再把2部分分成4部分，依次分割下去，直到分割成一个一个的数据，
      * 再把这些数据两两归并到一起，使之有序，不停的归并，最后成为一个排好序的序列。
      */
-    public static void main(String[] args) {
-        int[] arr = {14,12,15,13,11,16};
-        int[] result = mergeSort(arr);
-        System.out.println(Arrays.toString(result));
-    }
-
     public static int[] mergeSort(int[] arr) {
         int len = arr.length;
         int[] result = new int[len];
@@ -53,4 +53,6 @@ public class MergeSort {
         for (k = start; k <= end; k++)
             arr[k] = result[k];
     }
+
+
 }

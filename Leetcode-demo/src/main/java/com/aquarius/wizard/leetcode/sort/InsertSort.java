@@ -12,7 +12,15 @@ import java.util.concurrent.ThreadPoolExecutor;
  *
  * @author zhaoyijie(AquariusGenius)
  */
-public class InsertSort {
+public class InsertSort implements SortBase {
+
+    @Override
+    public int[] sort(int[] arr) {
+        int[] a = new int[arr.length];
+        System.arraycopy(arr, 0, a, 0, arr.length);
+        insertSort(a);
+        return a;
+    }
 
     /**
      * 插入排序（Insertion-Sort）算法的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，
@@ -37,7 +45,7 @@ public class InsertSort {
     }
 
     // 插入排序
-    public static void insertSort(int[] arr) {
+    public void insertSort(int[] arr) {
         // 检查数据合法性
         if (arr == null) {
             return;
@@ -62,7 +70,7 @@ public class InsertSort {
     }
 
     // 插入排序改进：二分插入排序
-    public static void binaryInsertSort(int[] arr, int len) {
+    public void binaryInsertSort(int[] arr, int len) {
         int key, left, right, middle;
         for (int i = 1; i < len; i++) {
             key = arr[i];

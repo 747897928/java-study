@@ -2,12 +2,22 @@ package com.aquarius.wizard.leetcode.sort;
 
 import java.util.Arrays;
 
-/*
+/**
  * <p>description:  </p>
  * <p>create:  2020/11/20 15:32</p>
+ *
  * @author: zhaoyijie(AquariusGenius)
  */
-public class QuickSort {
+public class QuickSort implements SortBase {
+
+    @Override
+    public int[] sort(int[] arr) {
+        int[] a = new int[arr.length];
+        System.arraycopy(arr, 0, a, 0, arr.length);
+        quickSort(a);
+        return a;
+    }
+
     /**
      * 快速排序排序效率在同为O(N*logN)的几种排序方法中效率较高,加上快速排序思想----分治法也确实实用
      * 该方法的基本思想是：
@@ -17,17 +27,12 @@ public class QuickSort {
      * 虽然快速排序称为分治法，但分治法这三个字显然无法很好的概括快速排序的全部步骤。因此我的对快速排序作
      * 了进一步的说明：挖坑填数+分治法：
      */
-    public static void main(String[] args) {
-        int[] arr = {14, 12, 15, 13, 11, 16};
-        quickSort(arr);
-        System.out.println(Arrays.toString(arr));
-    }
-
-    public static void quickSort(int[] s) {
+    public void quickSort(int[] s) {
         quickSort(s, 0, s.length - 1);
     }
+
     //快速排序
-    public static void quickSort(int[] s, int l, int r) {
+    public void quickSort(int[] s, int l, int r) {
         if (l < r) {
             //Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换 参见注1
             int i = l, j = r, x = s[l];
@@ -47,4 +52,5 @@ public class QuickSort {
             quickSort(s, i + 1, r);
         }
     }
+
 }
