@@ -3,6 +3,7 @@ package com.aquarius.wizard.leetcode.addtwonumbers;
 /**
  * <p>description:  </p>
  * <p>create: 2020/10/30 19:46</p>
+ *
  * @author zhaoyijie
  * @version v1.0
  */
@@ -23,26 +24,53 @@ package com.aquarius.wizard.leetcode.addtwonumbers;
  */
 public class ListNode {
 
-    int val;
+    public int val;
 
-    ListNode next;
+    public ListNode next;
 
-    ListNode() {
+    public ListNode() {
     }
 
-    ListNode(int val) {
+    public ListNode(int val) {
         this.val = val;
     }
 
-    ListNode(int val, ListNode next) {
+    public ListNode(int val, ListNode next) {
         this.val = val;
         this.next = next;
+    }
+
+    public static ListNode createList(ListNode... listNode) {
+        if (listNode != null && listNode.length > 0) {
+            ListNode head = listNode[0];
+            ListNode cur = head;
+            for (int i = 1; i < listNode.length; i++) {
+                cur.next = listNode[i];
+                cur = cur.next;
+            }
+            return head;
+        } else {
+            return new ListNode();
+        }
     }
 
     /*@Override
     public String toString() {
         return val + "->" + next;
     }*/
+
+    public static void printList(ListNode head) {
+        ListNode cur = head;
+        while (cur != null) {
+            System.out.print(cur.val);
+            cur = cur.next;
+            if (cur != null) {
+                System.out.print("->");
+            }
+        }
+        System.out.println();
+    }
+
     public static class Solution {
         /*public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
             ArrayList<Integer> list1 = new ArrayList<>();
