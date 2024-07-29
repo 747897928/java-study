@@ -1,0 +1,39 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: resilience4j-demo
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%mdc{traceId:-},%mdc{ts:-}]'
+  level:
+    root: INFO
+
+resilience4j: #配置Resilience4j，默认的配置文件路径为classpath:resilience4j.properties，Resilience4j是一个用于增加服务弹性的库
+  retry: #重试机制的配置
+    instances: #定义第一个重试实例
+      retryApi: #第一个重试策略实例的名称
+        max-attempts: 5 #当操作失败时，最大尝试次数为5次
+        wait-duration: 1s #每次重试之间的等待时间为1秒
+        #enable-exponential-backoff: true #是否启用指数退避
+  circuitbreaker:
+    instances: #定义第一个熔断实例
+      circuitBreakerApi: #第一个熔断实例的名称
+        register-health-indicator: true #是否将熔断器的状态注册健康指标，这样可以在服务监控中查看熔断器的状态
+        sliding-window-type: TIME_BASED #滑动窗口类型是基于时间的，这意味着窗口内的调用是根据时间而不是
+        sliding-window-size: 10 #用于计算失败率的滑动窗口大小为10，即最近10个调用的失败情况会被
+        minimum-number-of-calls: 5 #在断路器开始计算失败之前，至少需要有的调用次数5次
+        permitted-number-of-calls-in-half-open-state: 3 #半开状态下的允许的请求数
+        wait-duration-in-open-state: 5s #当断路器打开后(即服务被认为不可用)，会等待5秒后在尝试进入半开状态
+        failure-rate-threshold: 20 #当失败率达到20%时，断路器会打开，阻止进一步调用
+        event-consumer-buffer-size: 10 #事件消费缓冲区大小
+        record-exceptions: #记录异常
+          - org.springframework.web.client.HttpServerErrorException
+
+  ratelimiter:  #限流机制的配置，用于防止过多的请求涌入系统
+    instances: #定义多个限流实例
+      flowlimitApi: #第一个限流实例的名称
+        limit-for-period: 1 #在一个特定的时间段内，允许的最大请求数为1次
+        limit-refresh-period: 1s #这个事件周期的长度是1秒，即1秒会重置请求次数
+        timeout-duration: 100ms # 当请求超过限制是，客户端应立即收到超时的响应，而不等待处理

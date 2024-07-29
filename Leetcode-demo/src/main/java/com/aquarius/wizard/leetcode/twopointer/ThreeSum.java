@@ -40,7 +40,6 @@ public class ThreeSum {
      * 输出：[[0,0,0]]
      * 解释：唯一可能的三元组和为 0 。
      *
-     *
      * 提示：
      *
      * 3 <= nums.length <= 3000
@@ -50,6 +49,7 @@ public class ThreeSum {
      * @return
      */
     public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
 
