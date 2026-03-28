@@ -70,6 +70,45 @@ import java.util.PriorityQueue;
  */
 public class OrganizationReputationUpdater {
 
+    public static void main(String[] args) {
+        int employeeCount = 5;
+        int[] efficiencies = {1, 2, 3, 4, 5};
+        int teamIdCount = 5;
+        int[] teamIds = {1, 2, 1, 1, 2};
+        int dayCount = 2;
+        int actionWidth = 2;
+        int[][] dailyActions = {
+                {3, 2},
+                {2, 0}
+        };
+
+        if (efficiencies.length != employeeCount || teamIds.length != teamIdCount) {
+            throw new IllegalArgumentException("Input array length does not match the declared size");
+        }
+        if (dailyActions.length != dayCount) {
+            throw new IllegalArgumentException("dailyActions.length must equal dayCount");
+        }
+        for (int[] action : dailyActions) {
+            if (action.length != actionWidth) {
+                throw new IllegalArgumentException("Each action row must contain firedId and resignCount");
+            }
+        }
+
+        OrganizationReputationUpdater solver = new OrganizationReputationUpdater();
+        System.out.println(format(solver.updateReputation(efficiencies, teamIds, dailyActions)));
+    }
+
+    private static String format(long[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public long[] updateReputation(int[] efficiencies, int[] teamIds, int[][] dailyActions) {
         int n = efficiencies.length;
         boolean[] active = new boolean[n];

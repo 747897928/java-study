@@ -57,6 +57,30 @@ import java.util.Map;
  */
 public class StreetLightStateAfterMDays {
 
+    public static void main(String[] args) {
+        int lightCount = 8;
+        int[] currentState = {1, 1, 1, 0, 1, 1, 1, 1};
+        int dayCount = 2;
+
+        if (currentState.length != lightCount) {
+            throw new IllegalArgumentException("currentState.length must equal lightCount");
+        }
+
+        StreetLightStateAfterMDays solver = new StreetLightStateAfterMDays();
+        System.out.println(format(solver.stateAfterDays(currentState, dayCount)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] stateAfterDays(int[] currentState, int days) {
         int state = encode(currentState);
         Map<Integer, Integer> seenAt = new HashMap<>();

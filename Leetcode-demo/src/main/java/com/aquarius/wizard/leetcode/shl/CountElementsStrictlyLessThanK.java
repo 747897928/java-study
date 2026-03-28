@@ -47,6 +47,19 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class CountElementsStrictlyLessThanK {
 
+    public static void main(String[] args) {
+        int listSize = 7;
+        int[] numbers = {1, 7, 4, 5, 6, 3, 2};
+        int targetK = 5;
+
+        if (numbers.length != listSize) {
+            throw new IllegalArgumentException("numbers.length must equal listSize");
+        }
+
+        CountElementsStrictlyLessThanK solver = new CountElementsStrictlyLessThanK();
+        System.out.println(solver.countLessThan(numbers, targetK));
+    }
+
     public int countLessThan(int[] nums, int target) {
         int count = 0;
         for (int num : nums) {

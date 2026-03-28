@@ -49,6 +49,29 @@ import java.util.Arrays;
  */
 public class AlternateSortedElements {
 
+    public static void main(String[] args) {
+        int listSize = 8;
+        int[] numbers = {3, 5, 1, 5, 9, 10, 2, 6};
+
+        if (numbers.length != listSize) {
+            throw new IllegalArgumentException("numbers.length must equal listSize");
+        }
+
+        AlternateSortedElements solver = new AlternateSortedElements();
+        System.out.println(format(solver.alternateSort(numbers)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] alternateSort(int[] nums) {
         int[] sorted = Arrays.copyOf(nums, nums.length);
         Arrays.sort(sorted);

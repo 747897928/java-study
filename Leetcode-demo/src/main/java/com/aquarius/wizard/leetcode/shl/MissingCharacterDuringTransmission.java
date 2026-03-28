@@ -51,6 +51,14 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class MissingCharacterDuringTransmission {
 
+    public static void main(String[] args) {
+        String sentString = "abcdfigerj";
+        String receivedString = "abcdfiger";
+
+        MissingCharacterDuringTransmission solver = new MissingCharacterDuringTransmission();
+        System.out.println(solver.findMissingCharacter(sentString, receivedString));
+    }
+
     public char findMissingCharacter(String sent, String received) {
         int xor = 0;
         for (int i = 0; i < sent.length(); i++) {

@@ -54,6 +54,19 @@ import java.util.Arrays;
  */
 public class KthSmallestRelativeStockPrice {
 
+    public static void main(String[] args) {
+        int stockCount = 5;
+        int[] stockPrices = {10, 5, 7, 88, 19};
+        int targetRank = 3;
+
+        if (stockPrices.length != stockCount) {
+            throw new IllegalArgumentException("stockPrices.length must equal stockCount");
+        }
+
+        KthSmallestRelativeStockPrice solver = new KthSmallestRelativeStockPrice();
+        System.out.println(solver.kthSmallest(stockPrices, targetRank));
+    }
+
     public int kthSmallest(int[] stockPrices, int k) {
         int[] sorted = Arrays.copyOf(stockPrices, stockPrices.length);
         Arrays.sort(sorted);

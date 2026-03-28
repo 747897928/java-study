@@ -1857,7 +1857,7 @@ A maximum of `4` alumni can be seated around the circular table in the following
 ### 校对与理解备注
 - 考点：函数图构造、最优方案恢复、字典序比较。
 - 难度：困难。
-- 校对：我已把编号从题面里可疑的 `0..N-1` 修正为与示例一致的 `1..N`。
+- 校对：我已把编号从题面里可疑的 `0..N-1` 修正为与示例一致的 `1..N`；同时根据原图，示例输入明确是两行：第一行 `N`，第二行 likes 数组，不是一行扁平输入。
 - 提示：这题比 A10 难，因为不仅要算最多人数，还要恢复“字典序最小”的那组参会 ID。
 
 
@@ -1969,20 +1969,18 @@ type = 2
 **Example**
 
 Input:
-
+```text
 4 2
-
 1 2
-
 4 10
-
 20 21
-
 2 23
+```
 
 Output:
-
+```text
 33
+```
 
 **Explanation**
 
@@ -2054,22 +2052,16 @@ numS = 2
 **Example**
 
 Input:
-
+```text
 50
-
 3 2
-
 5 10
-
 3 30
-
 6 20
-
 3 2
-
 6 30
-
 2 10
+```
 
 
 
@@ -2192,16 +2184,16 @@ Print an integer representing the Kth smallest stock price of selected N stocks.
 **Example**
 
 Input:
-
+```text
 5
-
 10 5 7 88 19
-
 3
+```
 
 Output:
-
+```text
 10
+```
 
 **Explanation**
 
@@ -2257,14 +2249,15 @@ Print an integer representing the maximum number of days during which the salesm
 **Example**
 
 Input:
-
+```text
 3
-
 7 2 3
+```
 
 Output:
-
+```text
 11
+```
 
 **Explanation**
 
@@ -2320,14 +2313,15 @@ The input strings stringSent and stringRec consist of lowercase and uppercase En
 **Example**
 
 Input:
-
+```text
 abcdfigerj
-
 abcdfiger
+```
 
 Output:
-
+```text
 j
+```
 
 **Explanation**
 
@@ -2373,14 +2367,15 @@ Print an integer representing the number of occurrences of sub in parent. If no 
 **Example**
 
 Input:
-
+```text
 TimisplayinginthehouseofTimwiththetoysofTim
-
 Tim
+```
 
 Output:
-
+```text
 3
+```
 
 **Explanation**
 
@@ -2592,14 +2587,15 @@ Print space-separated positive integers representing the palindromic list of max
 **Example**
 
 Input:
-
+```text
 6
-
 15 10 15 34 25 15
+```
 
 Output:
-
+```text
 15 25 34 25 15
+```
 
 
 
@@ -2653,22 +2649,19 @@ Print an integer representing the length of the shortest route between the two g
 **Example**
 
 Input:
-
+```text
 5 5 0 3 1
-
 0 1 1
-
 0 4 1
-
 1 2 2
-
 2 3 4
-
 4 3 7
+```
 
 Output:
-
+```text
 1
+```
 
 **Explanation**
 
@@ -2753,12 +2746,14 @@ Print space-separated integers representing the numbers required by the teacher.
 **Example**
 
 Input:
-
+```text
 11
+```
 
 Output:
-
+```text
 2 3 5 7 11
+```
 
 **Explanation**
 
@@ -2824,30 +2819,23 @@ studentNum=studentsIssuedBooks
 **Example**
 
 Input:
-
+```text
 3
-
 2 2 3
-
 3 3
-
 2 4 0
-
 0 0 1
-
 0 1 3
-
 3 3
-
 3 5 4
-
 1 3 4
-
 2 3 5
+```
 
 Output:
-
+```text
 2 0 1
+```
 
 **Explanation**
 

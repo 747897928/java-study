@@ -41,6 +41,18 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class PerfectSquareBillCount {
 
+    public static void main(String[] args) {
+        int customerCount = 6;
+        int[] billAmounts = {25, 77, 54, 81, 48, 34};
+
+        if (billAmounts.length != customerCount) {
+            throw new IllegalArgumentException("billAmounts.length must equal customerCount");
+        }
+
+        PerfectSquareBillCount solver = new PerfectSquareBillCount();
+        System.out.println(solver.countPerfectSquares(billAmounts));
+    }
+
     public int countPerfectSquares(int[] bills) {
         int count = 0;
         for (int bill : bills) {

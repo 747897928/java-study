@@ -68,6 +68,28 @@ public class ShortestPathWithUpToKZeroCostSpells {
 
     private static final long INF = Long.MAX_VALUE / 4;
 
+    public static void main(String[] args) {
+        int cityCount = 5;
+        int roadCount = 5;
+        int sourceCity = 0;
+        int targetCity = 3;
+        int maxSpellCount = 1;
+        int[][] roads = {
+                {0, 1, 1},
+                {0, 4, 1},
+                {1, 2, 2},
+                {2, 3, 4},
+                {4, 3, 7}
+        };
+
+        if (roads.length != roadCount) {
+            throw new IllegalArgumentException("roads.length must equal roadCount");
+        }
+
+        ShortestPathWithUpToKZeroCostSpells solver = new ShortestPathWithUpToKZeroCostSpells();
+        System.out.println(solver.shortestPath(cityCount, roads, sourceCity, targetCity, maxSpellCount));
+    }
+
     public long shortestPath(int cityCount, int[][] roads, int source, int target, int maxSpells) {
         List<int[]>[] graph = buildGraph(cityCount, roads);
         long[][] distance = new long[cityCount][maxSpells + 1];

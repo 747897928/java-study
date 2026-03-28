@@ -41,6 +41,31 @@ import java.util.Arrays;
  */
 public class PartialSortWithAscendingPrefixAndDescendingSuffix {
 
+    public static void main(String[] args) {
+        int listSize = 8;
+        int[] numbers = {11, 7, 5, 10, 46, 23, 16, 8};
+        int prefixLength = 3;
+
+        if (numbers.length != listSize) {
+            throw new IllegalArgumentException("numbers.length must equal listSize");
+        }
+
+        PartialSortWithAscendingPrefixAndDescendingSuffix solver =
+                new PartialSortWithAscendingPrefixAndDescendingSuffix();
+        System.out.println(format(solver.partialSort(numbers, prefixLength)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] partialSort(int[] nums, int k) {
         int[] result = Arrays.copyOf(nums, nums.length);
         Arrays.sort(result, 0, k);

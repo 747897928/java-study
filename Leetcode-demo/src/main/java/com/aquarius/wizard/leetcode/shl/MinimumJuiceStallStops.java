@@ -49,9 +49,72 @@ import java.util.PriorityQueue;
  * 考点：最大堆贪心。
  * 校对：样例已做代码校验。
  * 做法：先尽量往前走，走不动时，从已经路过的摊位里选补给量最大的一个。
+ * 相似题：LeetCode 871 Minimum Number of Refueling Stops。
+ *
+ * 这题真正难的地方不是堆，而是“贪心时机”。
+ *
+ * 很多人第一次会想：
+ *
+ * “我应该提前决定在哪几个摊位停下。”
+ *
+ * 这个想法很容易把自己绕进状态设计。
+ *
+ * 更好的想法是：
+ *
+ * “先一路往前走，等到真的走不动了，再回头问：
+ *  我之前路过的摊位里，补哪一个最划算？”
+ *
+ * 答案显然是：
+ *
+ * 补给量最大的那个。
+ *
+ * 所以这题的核心反应应该是：
+ *
+ * 1. 已经过了的补给站，先放进最大堆
+ * 2. 真正缺油/缺能量的时候，再从堆里拿最大的补
+ *
+ * 这类题的本质是“延迟决策”：
+ *
+ * 不是先决定停哪里，
+ * 而是把所有可选补给先缓存起来，等真的不够时再做最优选择。
  */
 public class MinimumJuiceStallStops {
 
+    public static void main(String[] args) {
+        int stallCount = 4;
+        int[] stallDistances = {5, 7, 8, 10};
+        int[] juiceLiters = {2, 3, 1, 5};
+        int destinationDistance = 15;
+        int initialEnergy = 5;
+
+        if (stallDistances.length != stallCount || juiceLiters.length != stallCount) {
+            throw new IllegalArgumentException("Input array length does not match stallCount");
+        }
+
+        MinimumJuiceStallStops solver = new MinimumJuiceStallStops();
+        System.out.println(solver.minStops(stallDistances, juiceLiters, destinationDistance, initialEnergy));
+    }
+
+    /**
+     * 这段代码的正确脑补方式是：
+     *
+     * John 从 previousDistance 走到 currentDistance，
+     * 这段路需要 needed 单位能量。
+     *
+     * 如果当前 energy 不够：
+     *
+     * 就说明必须从“之前已经路过的摊位”里补能量。
+     *
+     * 为什么一定从最大堆里取最大的：
+     *
+     * 因为题目要的是“最少停几次”，不是“剩余能量最平滑”。
+     * 每停一次都很贵，所以每次停下时都应该尽量补最多。
+     *
+     * 这也是为什么这里用 while (energy < needed)：
+     *
+     * 说明我们不是“每到一个摊位就立即决定喝不喝”，
+     * 而是等到真的走不到下一个位置时，才回头从历史可选项里拿最好的。
+     */
     public int minStops(int[] distances, int[] liters, int destination, int initialEnergy) {
         int n = distances.length;
         int previousDistance = 0;

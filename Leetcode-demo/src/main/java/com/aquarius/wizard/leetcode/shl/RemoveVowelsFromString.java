@@ -32,6 +32,13 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class RemoveVowelsFromString {
 
+    public static void main(String[] args) {
+        String source = "MynameisAnthony";
+
+        RemoveVowelsFromString solver = new RemoveVowelsFromString();
+        System.out.println(solver.removeVowels(source));
+    }
+
     public String removeVowels(String input) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {

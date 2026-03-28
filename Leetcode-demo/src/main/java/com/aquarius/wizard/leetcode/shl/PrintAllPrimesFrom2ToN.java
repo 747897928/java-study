@@ -42,6 +42,24 @@ import java.util.List;
  */
 public class PrintAllPrimesFrom2ToN {
 
+    public static void main(String[] args) {
+        int limit = 11;
+
+        PrintAllPrimesFrom2ToN solver = new PrintAllPrimesFrom2ToN();
+        System.out.println(format(solver.listPrimes(limit)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] listPrimes(int limit) {
         if (limit < 2) {
             return new int[0];

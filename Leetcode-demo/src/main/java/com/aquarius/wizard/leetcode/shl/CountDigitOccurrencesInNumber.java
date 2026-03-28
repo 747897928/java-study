@@ -42,6 +42,14 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class CountDigitOccurrencesInNumber {
 
+    public static void main(String[] args) {
+        int targetDigit = 2;
+        int sourceNumber = 123228;
+
+        CountDigitOccurrencesInNumber solver = new CountDigitOccurrencesInNumber();
+        System.out.println(solver.countOccurrences(targetDigit, sourceNumber));
+    }
+
     public int countOccurrences(int digit, int number) {
         if (number == 0) {
             return digit == 0 ? 1 : 0;

@@ -51,6 +51,19 @@ import java.util.Set;
  */
 public class FifoCacheMissCounter {
 
+    public static void main(String[] args) {
+        int requestCount = 6;
+        int[] pageRequests = {1, 2, 1, 3, 1, 2};
+        int cacheSize = 2;
+
+        if (pageRequests.length != requestCount) {
+            throw new IllegalArgumentException("pageRequests.length must equal requestCount");
+        }
+
+        FifoCacheMissCounter solver = new FifoCacheMissCounter();
+        System.out.println(solver.countMisses(pageRequests, cacheSize));
+    }
+
     public int countMisses(int[] pageRequests, int maxCacheSize) {
         if (maxCacheSize <= 0) {
             return pageRequests.length;

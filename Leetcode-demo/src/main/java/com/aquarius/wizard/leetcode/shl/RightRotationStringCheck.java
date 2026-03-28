@@ -39,6 +39,14 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class RightRotationStringCheck {
 
+    public static void main(String[] args) {
+        String word1 = "sample";
+        String word2 = "plesam";
+
+        RightRotationStringCheck solver = new RightRotationStringCheck();
+        System.out.println(solver.isRightRotation(word1, word2));
+    }
+
     public int isRightRotation(String word1, String word2) {
         if (word1.length() != word2.length()) {
             return -1;

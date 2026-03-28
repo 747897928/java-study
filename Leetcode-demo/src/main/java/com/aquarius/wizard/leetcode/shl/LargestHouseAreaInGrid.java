@@ -49,6 +49,30 @@ public class LargestHouseAreaInGrid {
             {1, 0}, {-1, 0}, {0, 1}, {0, -1}
     };
 
+    public static void main(String[] args) {
+        int rowCount = 5;
+        int columnCount = 5;
+        int[][] grid = {
+                {0, 0, 0, 0, 0},
+                {0, 1, 1, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 1, 1, 0},
+                {0, 0, 1, 0, 0}
+        };
+
+        if (grid.length != rowCount) {
+            throw new IllegalArgumentException("grid.length must equal rowCount");
+        }
+        for (int[] row : grid) {
+            if (row.length != columnCount) {
+                throw new IllegalArgumentException("Each row length must equal columnCount");
+            }
+        }
+
+        LargestHouseAreaInGrid solver = new LargestHouseAreaInGrid();
+        System.out.println(solver.largestArea(grid));
+    }
+
     public int largestArea(int[][] grid) {
         int rows = grid.length;
         int cols = rows == 0 ? 0 : grid[0].length;

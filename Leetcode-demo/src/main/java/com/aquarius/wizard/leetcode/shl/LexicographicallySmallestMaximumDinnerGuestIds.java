@@ -62,6 +62,20 @@ import java.util.Queue;
  */
 public class LexicographicallySmallestMaximumDinnerGuestIds {
 
+    public static void main(String[] args) {
+        int alumniCount = 4;
+        int[] likesOneBased = {2, 3, 4, 1};
+
+        if (likesOneBased.length != alumniCount) {
+            throw new IllegalArgumentException("likesOneBased.length must equal alumniCount");
+        }
+
+        LexicographicallySmallestMaximumDinnerGuestIds solver =
+                new LexicographicallySmallestMaximumDinnerGuestIds();
+        int[] guestIds = solver.findGuestIds(likesOneBased);
+        System.out.println(joinSpaceSeparated(guestIds));
+    }
+
     public int[] findGuestIds(int[] likesOneBased) {
         int n = likesOneBased.length;
         int[] likes = new int[n];
@@ -180,5 +194,16 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
             result[i] = values.get(i);
         }
         return result;
+    }
+
+    private static String joinSpaceSeparated(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
     }
 }

@@ -40,6 +40,14 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class CaseInsensitiveSubstringOccurrenceCount {
 
+    public static void main(String[] args) {
+        String parentString = "TimisplayinginthehouseofTimwiththetoysofTim";
+        String subString = "Tim";
+
+        CaseInsensitiveSubstringOccurrenceCount solver = new CaseInsensitiveSubstringOccurrenceCount();
+        System.out.println(solver.countOccurrences(parentString, subString));
+    }
+
     public int countOccurrences(String parent, String sub) {
         String source = parent.toLowerCase();
         String target = sub.toLowerCase();

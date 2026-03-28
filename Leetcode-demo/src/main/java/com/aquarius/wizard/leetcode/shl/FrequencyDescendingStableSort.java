@@ -43,6 +43,29 @@ import java.util.Map;
  */
 public class FrequencyDescendingStableSort {
 
+    public static void main(String[] args) {
+        int listSize = 19;
+        int[] numbers = {1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 5, 6, 6, 6, 7, 8, 9, 10};
+
+        if (numbers.length != listSize) {
+            throw new IllegalArgumentException("numbers.length must equal listSize");
+        }
+
+        FrequencyDescendingStableSort solver = new FrequencyDescendingStableSort();
+        System.out.println(format(solver.sortByFrequency(numbers)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] sortByFrequency(int[] nums) {
         Map<Integer, Integer> count = new HashMap<>();
         Map<Integer, Integer> firstIndex = new HashMap<>();

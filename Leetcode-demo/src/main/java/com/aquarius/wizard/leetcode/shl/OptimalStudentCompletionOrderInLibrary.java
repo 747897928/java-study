@@ -87,6 +87,56 @@ import java.util.Arrays;
  */
 public class OptimalStudentCompletionOrderInLibrary {
 
+    public static void main(String[] args) {
+        int subjectCount = 3;
+        int[] availableBooks = {2, 2, 3};
+        int studentCount = 3;
+        int booksPerStudent = 3;
+        int[][] issuedBooks = {
+                {2, 4, 0},
+                {0, 0, 1},
+                {0, 1, 3}
+        };
+        int studentsIssuedBooks = 3;
+        int issuedBookTypeCount = 3;
+        int[][] requiredBooks = {
+                {3, 5, 4},
+                {1, 3, 4},
+                {2, 3, 5}
+        };
+
+        if (availableBooks.length != subjectCount) {
+            throw new IllegalArgumentException("availableBooks.length must equal subjectCount");
+        }
+        if (issuedBooks.length != studentCount || requiredBooks.length != studentsIssuedBooks) {
+            throw new IllegalArgumentException("Student matrix row count does not match the declared size");
+        }
+        for (int[] row : issuedBooks) {
+            if (row.length != booksPerStudent) {
+                throw new IllegalArgumentException("Each issuedBooks row must have booksPerStudent values");
+            }
+        }
+        for (int[] row : requiredBooks) {
+            if (row.length != issuedBookTypeCount) {
+                throw new IllegalArgumentException("Each requiredBooks row must have issuedBookTypeCount values");
+            }
+        }
+
+        OptimalStudentCompletionOrderInLibrary solver = new OptimalStudentCompletionOrderInLibrary();
+        System.out.println(format(solver.findOptimalOrder(availableBooks, issuedBooks, requiredBooks)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] findOptimalOrder(int[] availableBooks, int[][] issuedBooks, int[][] requiredBooks) {
         int studentCount = issuedBooks.length;
         int subjectCount = availableBooks.length;

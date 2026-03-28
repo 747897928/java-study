@@ -58,6 +58,20 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class MinimumProjectsToZeroErrorScores {
 
+    public static void main(String[] args) {
+        int teamMemberCount = 3;
+        long[] errorScores = {6L, 4L, 1L};
+        long projectDecrease = 4L;
+        long otherDecrease = 1L;
+
+        if (errorScores.length != teamMemberCount) {
+            throw new IllegalArgumentException("errorScores.length must equal teamMemberCount");
+        }
+
+        MinimumProjectsToZeroErrorScores solver = new MinimumProjectsToZeroErrorScores();
+        System.out.println(solver.minimumProjects(errorScores, projectDecrease, otherDecrease));
+    }
+
     public long minimumProjects(long[] errorScores, long projectDecrease, long otherDecrease) {
         if (projectDecrease == otherDecrease) {
             long max = 0L;

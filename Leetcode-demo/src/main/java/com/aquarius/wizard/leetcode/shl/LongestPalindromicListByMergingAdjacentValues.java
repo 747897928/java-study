@@ -51,6 +51,29 @@ import java.util.List;
  */
 public class LongestPalindromicListByMergingAdjacentValues {
 
+    public static void main(String[] args) {
+        int listSize = 6;
+        int[] salesData = {15, 10, 15, 34, 25, 15};
+
+        if (salesData.length != listSize) {
+            throw new IllegalArgumentException("salesData.length must equal listSize");
+        }
+
+        LongestPalindromicListByMergingAdjacentValues solver = new LongestPalindromicListByMergingAdjacentValues();
+        System.out.println(format(solver.longestPalindromicList(salesData)));
+    }
+
+    private static String format(long[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public long[] longestPalindromicList(int[] salesData) {
         List<Long> values = new ArrayList<>(salesData.length);
         for (int value : salesData) {

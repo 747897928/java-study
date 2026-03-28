@@ -55,6 +55,41 @@ import java.util.Arrays;
  */
 public class LargestPlotBetweenHouses {
 
+    public static void main(String[] args) {
+        int houseCount = 5;
+        int houseValueCount = 2;
+        int[][] houses = {
+                {3, 7},
+                {1, 9},
+                {2, 0},
+                {5, 15},
+                {4, 30}
+        };
+
+        if (houses.length != houseCount) {
+            throw new IllegalArgumentException("houses.length must equal houseCount");
+        }
+        for (int[] house : houses) {
+            if (house.length != houseValueCount) {
+                throw new IllegalArgumentException("Each house row must contain house number and position");
+            }
+        }
+
+        LargestPlotBetweenHouses solver = new LargestPlotBetweenHouses();
+        System.out.println(format(solver.findHouseNumbers(houses)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] findHouseNumbers(int[][] houses) {
         int[][] sorted = Arrays.copyOf(houses, houses.length);
         Arrays.sort(sorted, (a, b) -> Integer.compare(a[1], b[1]));

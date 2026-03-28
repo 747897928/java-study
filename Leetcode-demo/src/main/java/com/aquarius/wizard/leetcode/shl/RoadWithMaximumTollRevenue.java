@@ -56,9 +56,79 @@ import java.util.List;
  * 考点：树边贡献、子树规模。
  * 校对：样例已做代码校验。
  * 核心公式：若边把树拆成大小为 size 和 n-size 的两块，则该边贡献为 size * (n-size)。
+ * 相似题：所有“删一条树边后，左右两部分怎样贡献答案”的题。
+ *
+ * 这题最值得学会的不是 DFS 本身，而是这个树题通用反应：
+ *
+ * “某条边对答案的贡献，往往等于删掉它之后，两边子树规模的乘积”
+ *
+ * 为什么是乘积：
+ *
+ * 如果一条边把树切成了：
+ *
+ * leftSize = size
+ * rightSize = n - size
+ *
+ * 那么任何一条跨越这条边的路径，
+ * 都必须一端在左边，一端在右边。
+ *
+ * 左边有 size 个点可以选，
+ * 右边有 n - size 个点可以选，
+ * 所以一共有：
+ *
+ * size * (n - size)
+ *
+ * 条路径会经过这条边。
+ *
+ * 这就是公式的来源，不是死记硬背出来的。
  */
 public class RoadWithMaximumTollRevenue {
 
+    public static void main(String[] args) {
+        int cityCount = 4;
+        int roadCount = 3;
+        int[][] roads = {
+                {1, 2},
+                {2, 3},
+                {3, 4}
+        };
+
+        if (roads.length != roadCount) {
+            throw new IllegalArgumentException("roads.length must equal roadCount");
+        }
+
+        RoadWithMaximumTollRevenue solver = new RoadWithMaximumTollRevenue();
+        System.out.println(format(solver.findBestRoad(cityCount, roads)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 这段实现分两步：
+     *
+     * 1. 先用一次树遍历拿到 parent 和访问顺序
+     * 2. 再按逆后序回推 subtreeSize
+     *
+     * 当我们从叶子往上回推时，
+     * 就能知道“以 node 为根的子树有多大”。
+     *
+     * 一旦知道 subtreeSize[node]，
+     * 连接 node 和 parent[node] 的那条边的贡献就直接出来了：
+     *
+     * subtreeSize[node] * (n - subtreeSize[node])
+     *
+     * 所以这题的关键不是枚举路径，
+     * 而是把“多少条路径经过这条边”翻译成子树规模问题。
+     */
     public int[] findBestRoad(int cityCount, int[][] edges) {
         List<List<Integer>> graph = new ArrayList<>(cityCount + 1);
         for (int i = 0; i <= cityCount; i++) {

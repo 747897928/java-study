@@ -44,6 +44,29 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class StableEvenOddPartition {
 
+    public static void main(String[] args) {
+        int listSize = 8;
+        int[] numbers = {10, 98, 3, 33, 12, 22, 21, 11};
+
+        if (numbers.length != listSize) {
+            throw new IllegalArgumentException("numbers.length must equal listSize");
+        }
+
+        StableEvenOddPartition solver = new StableEvenOddPartition();
+        System.out.println(format(solver.rearrange(numbers)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] rearrange(int[] nums) {
         int[] result = new int[nums.length];
         int index = 0;

@@ -56,6 +56,29 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class MaximumInternshipSalary {
 
+    public static void main(String[] args) {
+        int internshipDays = 4;
+        int taskTypeCount = 2;
+        int[][] payByDay = {
+                {1, 2},
+                {4, 10},
+                {20, 21},
+                {2, 23}
+        };
+
+        if (payByDay.length != internshipDays) {
+            throw new IllegalArgumentException("payByDay.length must equal internshipDays");
+        }
+        for (int[] dayPay : payByDay) {
+            if (dayPay.length != taskTypeCount) {
+                throw new IllegalArgumentException("Each day must contain easy and hard pay");
+            }
+        }
+
+        MaximumInternshipSalary solver = new MaximumInternshipSalary();
+        System.out.println(solver.maxSalary(payByDay));
+    }
+
     public long maxSalary(int[][] payByDay) {
         long prevIdle = 0L;
         long prevEasy = Long.MIN_VALUE / 4;

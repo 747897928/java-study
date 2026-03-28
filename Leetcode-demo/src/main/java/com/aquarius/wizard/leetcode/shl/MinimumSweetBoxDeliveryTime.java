@@ -77,6 +77,30 @@ import java.util.List;
  */
 public class MinimumSweetBoxDeliveryTime {
 
+    public static void main(String[] args) {
+        int boxCount = 20;
+        int oldMachineTime = 10;
+        int budget = 20;
+        int machineOptionCount = 3;
+        int shopOfferCount = 2;
+        int[][] machineOptions = {
+                {2, 30},
+                {3, 25},
+                {4, 10}
+        };
+        int[][] shopOffers = {
+                {5, 10},
+                {15, 80}
+        };
+
+        if (machineOptions.length != machineOptionCount || shopOffers.length != shopOfferCount) {
+            throw new IllegalArgumentException("Matrix row count does not match the declared input size");
+        }
+
+        MinimumSweetBoxDeliveryTime solver = new MinimumSweetBoxDeliveryTime();
+        System.out.println(solver.minimumTime(boxCount, oldMachineTime, budget, machineOptions, shopOffers));
+    }
+
     public long minimumTime(int boxCount, int oldMachineTime, int budget, int[][] machineOptions, int[][] shopOffers) {
         long best = (long) boxCount * oldMachineTime;
         List<int[]> affordableMachines = new ArrayList<>();

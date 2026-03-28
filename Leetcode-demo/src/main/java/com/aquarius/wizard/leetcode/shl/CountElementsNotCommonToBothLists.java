@@ -49,6 +49,20 @@ import java.util.Set;
  */
 public class CountElementsNotCommonToBothLists {
 
+    public static void main(String[] args) {
+        int firstListSize = 11;
+        int[] firstList = {1, 1, 2, 3, 4, 5, 5, 7, 6, 9, 10};
+        int secondListSize = 10;
+        int[] secondList = {11, 12, 13, 4, 5, 6, 7, 18, 19, 20};
+
+        if (firstList.length != firstListSize || secondList.length != secondListSize) {
+            throw new IllegalArgumentException("Input array length does not match the declared size");
+        }
+
+        CountElementsNotCommonToBothLists solver = new CountElementsNotCommonToBothLists();
+        System.out.println(solver.countNotCommon(firstList, secondList));
+    }
+
     public int countNotCommon(int[] first, int[] second) {
         Set<Integer> firstValues = new HashSet<>();
         Set<Integer> secondValues = new HashSet<>();

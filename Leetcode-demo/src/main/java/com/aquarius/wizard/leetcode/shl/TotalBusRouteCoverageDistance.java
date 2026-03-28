@@ -47,6 +47,28 @@ import java.util.Arrays;
  */
 public class TotalBusRouteCoverageDistance {
 
+    public static void main(String[] args) {
+        int busCount = 3;
+        int routeWidth = 2;
+        int[][] busRoutes = {
+                {2, 4},
+                {3, 5},
+                {6, 7}
+        };
+
+        if (busRoutes.length != busCount) {
+            throw new IllegalArgumentException("busRoutes.length must equal busCount");
+        }
+        for (int[] busRoute : busRoutes) {
+            if (busRoute.length != routeWidth) {
+                throw new IllegalArgumentException("Each route must contain exactly two station IDs");
+            }
+        }
+
+        TotalBusRouteCoverageDistance solver = new TotalBusRouteCoverageDistance();
+        System.out.println(solver.totalDistance(busRoutes));
+    }
+
     public int totalDistance(int[][] busRoutes) {
         if (busRoutes.length == 0) {
             return 0;

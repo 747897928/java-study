@@ -54,9 +54,72 @@ import java.util.Queue;
  * 考点：函数图、环检测、链长统计。
  * 校对：样例已做代码校验。
  * 本题与 LeetCode 2127 同型：答案是“最长大环”和“所有二元环加两侧最长链”的较大者。
+ * 相似题：
+ * 1. [LexicographicallySmallestMaximumDinnerGuestIds]：同一个函数图模型，但输出要求更难。
+ * 2. LeetCode 2127：模型完全同型。
+ *
+ * 学这题时一定要先接受一个事实：
+ *
+ * “每个人只喜欢一个人”
+ *
+ * 这一句意味着图不是普通图，而是函数图：
+ *
+ * 每个点出度都恰好为 1。
+ *
+ * 函数图的结构非常固定：
+ *
+ * 若干条链，最后一定流进某个环。
+ *
+ * 所以这题最后只会有两种有效答案来源：
+ *
+ * 1. 一个长度 >= 3 的大环
+ * 2. 一个长度恰好为 2 的二元环，再加两边能接进来的最长链
+ *
+ * 为什么二元环特殊：
+ *
+ * a <-> b
+ *
+ * 这种结构的两边都还能继续接链：
+ *
+ * x -> ... -> a <-> b <- ... <- y
+ *
+ * 但长度 >= 3 的环不行，因为环上每个人两边座位都已经被环内邻居占掉了。
  */
 public class CircularDinnerMaximumAttendees {
 
+    public static void main(String[] args) {
+        int alumniCount = 4;
+        int[] likesOneBased = {2, 3, 4, 1};
+
+        if (likesOneBased.length != alumniCount) {
+            throw new IllegalArgumentException("likesOneBased.length must equal alumniCount");
+        }
+
+        CircularDinnerMaximumAttendees solver = new CircularDinnerMaximumAttendees();
+        System.out.println(solver.maxAttendees(likesOneBased));
+    }
+
+    /**
+     * 这道题要拆成两阶段理解：
+     *
+     * 第一阶段：把所有不在环上的链剥掉
+     *
+     * indegree 为 0 的点一定不在环里，
+     * 所以可以像拓扑排序一样不断删除。
+     * 在删除链的过程中，顺手维护“流到某个点的最长链长度”。
+     *
+     * 第二阶段：只剩环
+     *
+     * 1. 如果遇到大环，答案候选是环长
+     * 2. 如果遇到二元环，答案候选是 longestChain[a] + longestChain[b]
+     *
+     * 最终答案取：
+     *
+     * max(最大大环, 所有二元环贡献之和)
+     *
+     * 这题的本质不是图搜索本身，
+     * 而是先看懂函数图结构，再把不同类型的环分开处理。
+     */
     public int maxAttendees(int[] likesOneBased) {
         int n = likesOneBased.length;
         int[] likes = new int[n];

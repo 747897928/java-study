@@ -52,6 +52,29 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class ReplaceValuesWithTheirIndexPositions {
 
+    public static void main(String[] args) {
+        int listSize = 4;
+        int[] numbers = {3, 2, 0, 1};
+
+        if (numbers.length != listSize) {
+            throw new IllegalArgumentException("numbers.length must equal listSize");
+        }
+
+        ReplaceValuesWithTheirIndexPositions solver = new ReplaceValuesWithTheirIndexPositions();
+        System.out.println(format(solver.replaceWithIndices(numbers)));
+    }
+
+    private static String format(int[] nums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                builder.append(' ');
+            }
+            builder.append(nums[i]);
+        }
+        return builder.toString();
+    }
+
     public int[] replaceWithIndices(int[] nums) {
         int[] indices = new int[nums.length];
         for (int index = 0; index < nums.length; index++) {

@@ -50,6 +50,18 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class TravelingSalesmanMaximumWorkingDays {
 
+    public static void main(String[] args) {
+        int townCount = 3;
+        int[] townVisitLimits = {7, 2, 3};
+
+        if (townVisitLimits.length != townCount) {
+            throw new IllegalArgumentException("townVisitLimits.length must equal townCount");
+        }
+
+        TravelingSalesmanMaximumWorkingDays solver = new TravelingSalesmanMaximumWorkingDays();
+        System.out.println(solver.maxWorkingDays(townVisitLimits));
+    }
+
     public long maxWorkingDays(int[] townCounts) {
         long total = 0L;
         int max = 0;

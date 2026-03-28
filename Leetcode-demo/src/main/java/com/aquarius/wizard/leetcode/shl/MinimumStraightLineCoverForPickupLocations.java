@@ -71,6 +71,27 @@ public class MinimumStraightLineCoverForPickupLocations {
 
     private static final int MAX_REFERENCE_POINTS = 20;
 
+    public static void main(String[] args) {
+        int pickupLocationCount = 8;
+        int[][] pickupLocations = {
+                {1, 4},
+                {2, 3},
+                {2, 1},
+                {3, 2},
+                {4, 1},
+                {5, 0},
+                {4, 3},
+                {5, 4}
+        };
+
+        if (pickupLocations.length != pickupLocationCount) {
+            throw new IllegalArgumentException("pickupLocations.length must equal pickupLocationCount");
+        }
+
+        MinimumStraightLineCoverForPickupLocations solver = new MinimumStraightLineCoverForPickupLocations();
+        System.out.println(solver.minimumRoutes(pickupLocations));
+    }
+
     public int minimumRoutes(int[][] pickupLocations) {
         Point[] points = uniquePoints(pickupLocations);
         int pointCount = points.length;

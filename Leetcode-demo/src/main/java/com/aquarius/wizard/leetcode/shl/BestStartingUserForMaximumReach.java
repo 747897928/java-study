@@ -74,6 +74,24 @@ import java.util.List;
  */
 public class BestStartingUserForMaximumReach {
 
+    public static void main(String[] args) {
+        int userCount = 5;
+        int friendshipPairCount = 4;
+        int[][] friendships = {
+                {0, 1},
+                {3, 4},
+                {1, 2},
+                {2, 1}
+        };
+
+        if (friendships.length != friendshipPairCount) {
+            throw new IllegalArgumentException("friendships.length must equal friendshipPairCount");
+        }
+
+        BestStartingUserForMaximumReach solver = new BestStartingUserForMaximumReach();
+        System.out.println(solver.bestUserId(userCount, friendships));
+    }
+
     public int bestUserId(int users, int[][] friendships) {
         List<Integer>[] graph = buildGraph(users, friendships);
         int bestUserId = 0;

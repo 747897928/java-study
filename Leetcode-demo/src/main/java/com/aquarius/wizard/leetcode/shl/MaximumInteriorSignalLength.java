@@ -47,6 +47,18 @@ package com.aquarius.wizard.leetcode.shl;
  */
 public class MaximumInteriorSignalLength {
 
+    public static void main(String[] args) {
+        int stringLength = 6;
+        String signal = "101000";
+
+        if (signal.length() != stringLength) {
+            throw new IllegalArgumentException("signal.length() must equal stringLength");
+        }
+
+        MaximumInteriorSignalLength solver = new MaximumInteriorSignalLength();
+        System.out.println(solver.maximumLength(signal));
+    }
+
     public int maximumLength(String signal) {
         int best = 0;
         int left = 0;
