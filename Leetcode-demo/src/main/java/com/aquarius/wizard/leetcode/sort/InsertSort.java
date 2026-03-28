@@ -1,7 +1,5 @@
 package com.aquarius.wizard.leetcode.sort;
 
-import com.sun.jmx.snmp.tasks.ThreadService;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
