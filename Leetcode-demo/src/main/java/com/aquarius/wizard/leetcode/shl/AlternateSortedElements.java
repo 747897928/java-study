@@ -46,6 +46,24 @@ import java.util.Arrays;
  * 考点：排序后按间隔取值。
  * 校对：题面稳定，示例无歧义。
  * 提示：这题不是交替输出最小最大，而是排序后取下标 0,2,4,... 的元素。
+ *
+ * positive积极的，正，正面，肯定的。
+ * positive integer正整数
+ *
+ * alternate(在这里指隔一个取一个)
+ * adj.轮流的，交替的；间隔的；供选择的，备用的；（叶，芽）互生的；另类的
+ * v.（使）交替，（使）轮流
+ * n.替补者，候补者
+ *
+ * ascending
+ * adj.上升的，增长的；升（序）的
+ * v.上升；攀登（ascend 的现在分词）
+ *
+ * representing
+ * v.代表；为……代言（辩护）；等于，相当于；（符号或象征）代表，表示（represent 的现在分词）
+ *
+ * consists v.由……构成；由……组成（consist 的三单形式）
+ * consists of 包含；由……组成；充斥着
  */
 public class AlternateSortedElements {
 
@@ -57,8 +75,8 @@ public class AlternateSortedElements {
             throw new IllegalArgumentException("numbers.length must equal listSize");
         }
 
-        AlternateSortedElements solver = new AlternateSortedElements();
-        System.out.println(format(solver.alternateSort(numbers)));
+        System.out.println(format(alternateSort(numbers)));
+        System.out.println(format(alternateSort2(numbers)));
     }
 
     private static String format(int[] nums) {
@@ -72,7 +90,7 @@ public class AlternateSortedElements {
         return builder.toString();
     }
 
-    public int[] alternateSort(int[] nums) {
+    public static int[] alternateSort(int[] nums) {
         int[] sorted = Arrays.copyOf(nums, nums.length);
         Arrays.sort(sorted);
         int[] answer = new int[(sorted.length + 1) / 2];
@@ -80,5 +98,17 @@ public class AlternateSortedElements {
             answer[index++] = sorted[i];
         }
         return answer;
+    }
+
+    public static int[] alternateSort2(int[] nums) {
+        int[] copyNums = Arrays.copyOf(nums, nums.length);
+        Arrays.sort(copyNums);
+        int[] result = new int[(copyNums.length + 1) / 2];
+        for (int i = 0; i < copyNums.length; i++) {
+            if (i % 2 == 0) {
+                result[i / 2] = copyNums[i];
+            }
+        }
+        return result;
     }
 }

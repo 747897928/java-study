@@ -2,48 +2,52 @@ package com.aquarius.wizard.leetcode.shl;
 
 /**
  * Question
- *
+ * <p>
  * You are given a list of integers and an integer K. Write an algorithm to find the number of
  * elements in the list that are strictly less than K.
- *
+ * <p>
  * Input
- *
+ * <p>
  * The first line of the input consists of an integer element_size, representing the number of
  * elements in the list (N).
  * The second line consists of N space-separated integers element[1], element[2], ..., element[N],
  * representing the list of integers.
  * The last line consists of an integer num, representing the integer to be compared (K).
- *
+ * <p>
  * Output
- *
+ * <p>
  * Print a positive integer representing the number of elements in the list that are strictly less
  * than num.
- *
+ * <p>
  * Constraints
- *
+ * <p>
  * -10^9 <= num <= 10^9
  * -10^9 <= element[i] <= 10^9
- *
+ * <p>
  * Example
- *
+ * <p>
  * Input:
  * 7
  * 1 7 4 5 6 3 2
  * 5
- *
+ * <p>
  * Output:
  * 4
- *
+ * <p>
  * Explanation:
  * The numbers that are less than 5 are 1, 2, 3, 4.
- *
+ * <p>
  * 我的备注
- *
+ * <p>
  * 难度：简单。
- *
+ * <p>
  * 考点：线性扫描、基础计数。
  * 校对：题面稳定。
  * 提示：这是最适合练输入输出和边界值的题之一。
+ * <p>
+ * positive integer正整数
+ *
+ * the number of 数量的
  */
 public class CountElementsStrictlyLessThanK {
 
@@ -58,12 +62,23 @@ public class CountElementsStrictlyLessThanK {
 
         CountElementsStrictlyLessThanK solver = new CountElementsStrictlyLessThanK();
         System.out.println(solver.countLessThan(numbers, targetK));
+        System.out.println(solver.countLessThan2(numbers, targetK));
     }
 
     public int countLessThan(int[] nums, int target) {
         int count = 0;
         for (int num : nums) {
             if (num < target) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countLessThan2(int[] nums, int target) {
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (target > nums[i]) {
                 count++;
             }
         }

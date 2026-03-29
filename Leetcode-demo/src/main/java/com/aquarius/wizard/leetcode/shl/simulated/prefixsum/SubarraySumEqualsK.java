@@ -1,10 +1,17 @@
-package com.aquarius.wizard.leetcode.prefixsum;
+package com.aquarius.wizard.leetcode.shl.simulated.prefixsum;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 题目：和为 K 的子数组（LeetCode 560）
+ * Prefix Sum Drill
+ *
+ * Original source style:
+ *
+ * LeetCode 560 - Subarray Sum Equals K
+ *
+ * 这不是原 SHL 题，是我补的前缀和练习题。
  *
  * 给你一个整数数组 nums 和一个整数 k，请你统计和为 k 的连续子数组个数。
  *
@@ -34,6 +41,16 @@ import java.util.Map;
  * 这就是“前缀和 + 哈希表计数”的标准模板。
  */
 public class SubarraySumEqualsK {
+
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 1};
+        int k = 2;
+
+        SubarraySumEqualsK solver = new SubarraySumEqualsK();
+        System.out.println("input  = " + Arrays.toString(nums) + ", k = " + k);
+        System.out.println("brute  = " + solver.subarraySumBruteForce(nums, k));
+        System.out.println("fast   = " + solver.subarraySum(nums, k));
+    }
 
     /**
      * 暴力版：枚举起点，再向右扩展终点。
@@ -73,3 +90,4 @@ public class SubarraySumEqualsK {
         return count;
     }
 }
+

@@ -1,7 +1,15 @@
-package com.aquarius.wizard.leetcode.prefixsum;
+package com.aquarius.wizard.leetcode.shl.simulated.prefixsum;
+
+import java.util.Arrays;
 
 /**
- * 题目：寻找数组的中心下标（LeetCode 724）
+ * Prefix Sum Drill
+ *
+ * Original source style:
+ *
+ * LeetCode 724 - Find Pivot Index
+ *
+ * 这不是原 SHL 题，是我补的前缀和练习题。
  *
  * 给你一个整数数组 nums，请返回数组的中心下标。
  * 中心下标的定义是：下标左侧所有元素之和等于右侧所有元素之和。
@@ -32,6 +40,15 @@ package com.aquarius.wizard.leetcode.prefixsum;
  * 优先想“总和 + 左前缀和”，而不是每次从头累加左右两边。
  */
 public class PivotIndex {
+
+    public static void main(String[] args) {
+        int[] nums = {1, 7, 3, 6, 5, 6};
+
+        PivotIndex solver = new PivotIndex();
+        System.out.println("input  = " + Arrays.toString(nums));
+        System.out.println("brute  = " + solver.pivotIndexBruteForce(nums));
+        System.out.println("fast   = " + solver.pivotIndex(nums));
+    }
 
     /**
      * 暴力版：每个位置都重新计算左右两边的和。
@@ -76,3 +93,4 @@ public class PivotIndex {
         return -1;
     }
 }
+

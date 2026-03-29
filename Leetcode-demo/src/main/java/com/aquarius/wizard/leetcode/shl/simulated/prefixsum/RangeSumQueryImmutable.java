@@ -1,7 +1,13 @@
-package com.aquarius.wizard.leetcode.prefixsum;
+package com.aquarius.wizard.leetcode.shl.simulated.prefixsum;
 
 /**
- * 题目：区域和检索 - 数组不可变（LeetCode 303）
+ * Prefix Sum Drill
+ *
+ * Original source style:
+ *
+ * LeetCode 303 - Range Sum Query - Immutable
+ *
+ * 这不是原 SHL 题，是我补的前缀和练习题。
  *
  * 给定一个数组 nums，多次查询 [left, right] 区间元素和。
  *
@@ -28,6 +34,20 @@ package com.aquarius.wizard.leetcode.prefixsum;
  * 只要是“静态数组 + 多次区间求和”，前缀和几乎就是第一反应。
  */
 public class RangeSumQueryImmutable {
+
+    public static void main(String[] args) {
+        int[] nums = {-2, 0, 3, -5, 2, -1};
+
+        NumArrayBruteForce bruteForce = new NumArrayBruteForce(nums);
+        NumArray prefixSum = new NumArray(nums);
+
+        System.out.println("sumRange(0, 2) brute  = " + bruteForce.sumRange(0, 2));
+        System.out.println("sumRange(0, 2) prefix = " + prefixSum.sumRange(0, 2));
+        System.out.println("sumRange(2, 5) brute  = " + bruteForce.sumRange(2, 5));
+        System.out.println("sumRange(2, 5) prefix = " + prefixSum.sumRange(2, 5));
+        System.out.println("sumRange(0, 5) brute  = " + bruteForce.sumRange(0, 5));
+        System.out.println("sumRange(0, 5) prefix = " + prefixSum.sumRange(0, 5));
+    }
 
     /**
      * 暴力版，用来帮助理解“为什么会超时”。
@@ -66,3 +86,4 @@ public class RangeSumQueryImmutable {
         }
     }
 }
+
