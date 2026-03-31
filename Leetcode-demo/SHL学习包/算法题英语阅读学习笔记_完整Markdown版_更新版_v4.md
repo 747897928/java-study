@@ -2091,3 +2091,982 @@ Output:
 - number of pairs transmitted
 - number of integers remaining
 
+---
+
+# 30. 新增补充：`Could we present it later?`
+
+> 这是你新增的工作场景例句。  
+> 这一节专门解决几个问题：  
+> 1. `present` 在这句话里是什么意思、是什么词性  
+> 2. 为什么它会有那么多词性和意思  
+> 3. 你怎么判断一个多义词在句子里的词性和含义  
+> 4. `-ly / -ed / 原词多词性` 到底怎么理解  
+> 5. 这种词怎么学，才不是死记硬背
+
+## 30.1 句子先做人话版
+
+原句：
+
+```text
+Could we present it later?
+```
+
+最自然的中文通常是：
+
+- 我们可以晚一点再讲这个吗？
+- 我们可以稍后再汇报这个吗？
+- 我们能不能晚点再展示它？
+
+具体翻成“讲 / 汇报 / 展示”，要看工作场景里的 `it` 是什么：
+
+- 如果 `it` 是一个方案、PPT、项目更新，常常是：**汇报 / 讲 / 过**
+- 如果 `it` 是一个产品、demo、设计稿，常常是：**展示 / 演示**
+
+---
+
+## 30.2 这句话里 `present` 是什么词性
+
+在这句话里，`present` 是 **动词原形**。
+
+为什么？
+
+因为句子结构是：
+
+- `Could` = 情态动词
+- `we` = 主语
+- `present` = 动词原形
+- `it` = 宾语
+- `later` = 副词
+
+也就是：
+
+```text
+Could + 主语 + 动词原形 + ...
+```
+
+这是一个非常高频的英语句型。
+
+例如：
+
+- Could we **go** later?
+- Could we **discuss** this tomorrow?
+- Could we **present** it later?
+
+所以这里你不需要先查词典一堆词性。  
+你先看句子骨架，就知道这里 `present` 一定先按**动词**处理。
+
+---
+
+## 30.3 这句话里 `present` 是什么意思
+
+这里最合适的意思不是“礼物”，也不是“目前的”，而是动词：
+
+- 展示
+- 讲解
+- 汇报
+- 呈现
+
+工作语境里最常见是：
+
+- present a plan = 汇报一个方案
+- present a deck = 讲 PPT / 过 deck
+- present the results = 汇报结果
+- present a proposal = 提交并讲解一个提案
+
+所以：
+
+```text
+Could we present it later?
+```
+
+通常就是：
+
+> 我们能晚点再汇报 / 展示这个吗？
+
+---
+
+## 30.4 `present` 为什么会这么多意思
+
+学习多义词时，不要把它想成：
+
+> 一个英文词 = 十几个互不相关的中文意思
+
+更好的想法是：
+
+> 一个英文词通常有一个**核心感觉**，不同场景把这个核心感觉“展开”成不同含义。
+
+### `present` 的核心感觉
+你可以先抓成：
+
+> **把某物带到别人面前 / 放到当前场景里**
+
+有了这个核心感觉，几个常见意思就连起来了：
+
+### A. 动词：展示、呈现、汇报
+- present an idea  
+  把想法拿到别人面前
+- present a report  
+  把报告讲给别人
+
+### B. 名词：礼物
+- a birthday present  
+  一个被“送到别人面前”的东西  
+  中文就变成：礼物
+
+### C. 形容词：在场的；当前的
+- everyone present  
+  每个人都“在场”
+- the present situation  
+  当前情况，也就是“现在眼前这个情况”
+
+所以它看起来像很多意思，其实可以围着一个比较统一的感觉理解。
+
+---
+
+## 30.5 一个特别实用的小点：重音也能帮你分辨
+
+`present` 这个词很实用，因为**重音变化常常和词性有关**：
+
+### 名词 / 形容词
+- **PRE**sent  
+- a present = 礼物
+- the present situation = 当前情况
+- all members are present = 所有人都在场
+
+### 动词
+- pre**SENT**
+- present the report = 汇报报告
+- present the idea = 介绍想法
+
+这个现象不是所有词都这样，但 `present` 正好是一个很好用的例子。
+
+---
+
+## 30.6 这类多义词怎么判断词性
+
+不要先盯词典，先看它**在句子里的位置**。
+
+### 方法一：看前面是什么
+
+#### 1）前面如果是情态动词
+比如：
+- can
+- could
+- may
+- might
+- should
+- would
+- must
+
+那后面通常接**动词原形**
+
+例如：
+- could go
+- should try
+- may happen
+- could present
+
+所以：
+
+```text
+Could we present it later?
+```
+
+这里的 `present` 必然先按动词看。
+
+---
+
+### 方法二：看后面接了什么
+
+`present` 后面接了：
+
+- `it`
+
+这说明它在“对一个东西做动作”：
+
+> present it
+
+这很像动词带宾语。
+
+例如：
+- discuss it
+- explain it
+- show it
+- present it
+
+---
+
+### 方法三：看整个句子槽位
+
+句子是：
+
+- Could / we / present / it / later
+
+你可以把它理解为：
+
+- 情态动词 / 主语 / 动词 / 宾语 / 时间副词
+
+这个槽位本身就决定了 `present` 该是动词。
+
+---
+
+## 30.7 副词不是只修饰形容词
+
+你之前的印象需要纠正一下。
+
+副词经常可以修饰：
+
+1. **动词**
+   - run quickly
+2. **形容词**
+   - very good
+3. **另一个副词**
+   - very quickly
+4. **整个句子**
+   - Fortunately, we finished on time.
+
+所以不是“副词主要修饰形容词”。  
+它能修饰的范围比你原来记的更大。
+
+---
+
+## 30.8 你之前关于 `-ly` 的印象，哪里对，哪里不对
+
+你说你以前以为：
+
+> 后面加 `-ly` 的大概率是副词，去掉 `-ly` 就是形容词
+
+这个想法**只对一半**。
+
+### 对的地方
+很多副词确实长这样：
+
+- quick → quickly
+- slow → slowly
+- careful → carefully
+- usual → usually
+
+---
+
+### 不对的地方 1：不是所有副词都有 `-ly`
+例如：
+
+- fast
+- hard
+- late
+- later
+- early
+
+这些都能作副词，但不一定长得像 `quickly`。
+
+例如：
+- work hard
+- come early
+- talk later
+
+所以你不能看到不是 `-ly` 就觉得它一定不是副词。
+
+---
+
+### 不对的地方 2：不是所有 `-ly` 词都是副词
+例如：
+
+- friendly
+- lovely
+- lively
+- lonely
+
+这些看着像副词，但通常其实是**形容词**。
+
+例如：
+- a friendly person
+- a lovely day
+
+所以：
+
+> `-ly` 是一个很有帮助的线索，但不是万能规则。
+
+---
+
+## 30.9 `later` 在你这个句子里是什么词
+
+在：
+
+```text
+Could we present it later?
+```
+
+里，`later` 是**副词**，表示：
+
+- 稍后
+- 晚一点
+- 之后
+
+它修饰的是整个动作 `present`：
+
+> 晚一点再 present
+
+这里刚好也能顺手帮你纠正一个常见误区：
+
+- `late` 可以作形容词，也可以作副词
+- `later` 是比较级形式，也常当时间副词用，表示“更晚些 / 稍后”
+
+所以这里不要因为它没有 `-ly` 就不敢把它当副词。
+
+---
+
+## 30.10 你之前关于 `-ed` 的印象，怎么纠正
+
+你提到：
+
+> 好像有些动词加 `ed` 变成形容词？好像不对，我一定是记错了
+
+你其实不是完全记错，而是**记了一半**。
+
+### 对的部分
+有很多动词的 `-ed` 形式，确实可以带形容词性质：
+
+- tired
+- interested
+- excited
+- broken
+- closed
+- finished
+
+例如：
+- I am tired.
+- She is interested in math.
+- the broken window
+
+这里它们都带有“状态”或“被……之后的结果”的感觉。
+
+---
+
+### 但别把 `-ed` 简化成“加了就变形容词”
+因为 `-ed` 还可能是：
+
+- 过去式
+- 过去分词
+- 过去分词当形容词
+
+所以你还是要看句子位置。
+
+例如：
+
+#### A. 过去式
+- He closed the door.
+
+#### B. 过去分词，用于被动
+- The door was closed.
+
+#### C. 过去分词当形容词
+- the closed door
+
+所以不是“见到 `-ed` 就知道词性”，而是：
+
+> `-ed` 先提示你：这跟“完成 / 被动 / 结果状态”有关  
+> 具体是动词还是形容词，再看句子槽位。
+
+---
+
+## 30.11 那像 `present` 这种原词就多词性的，怎么学
+
+### 不建议的学法
+看到词典就背：
+
+- present n. 礼物；现在
+- present v. 展示；提交；授予
+- present adj. 当前的；在场的
+
+这样背，短期看很完整，长期很容易崩。
+
+---
+
+### 更好的学法：一词三层
+
+#### 第一层：核心感觉
+`present` 的核心感觉：
+> 把东西带到眼前 / 放到当前场景里
+
+#### 第二层：高频词性
+- v. 展示 / 汇报 / 提出
+- n. 礼物
+- adj. 当前的；在场的
+
+#### 第三层：高频场景例句
+- Could we present it later?  
+  我们能稍后汇报这个吗？
+- I have a present for you.  
+  我有个礼物给你。
+- the present situation  
+  当前情况
+- everyone present  
+  在场的所有人
+
+这样记，既不死，也不散。
+
+---
+
+## 30.12 这类词你怎么“学到就用”
+
+### A. 工作场景里的 `present`
+- Could we present it later?  
+  我们能晚点再汇报这个吗？
+- I will present the findings tomorrow.  
+  我明天汇报这些发现。
+- She presented the roadmap to the team.  
+  她向团队汇报了路线图。
+- We need to present a clearer plan.  
+  我们需要拿出一个更清晰的方案。
+
+### B. 生活场景里的 `present`
+- I bought a present for my friend.  
+  我给朋友买了个礼物。
+
+### C. “当前的 / 在场的”
+- the present situation is difficult  
+  当前情况比较困难
+- All members are present.  
+  所有成员都在场。
+
+---
+
+## 30.13 给你一个“多义词判断模板”
+
+以后你再遇到一个你很怕的词，比如：
+
+- present
+- record
+- report
+- change
+- project
+- file
+
+你先不要慌，也别先翻词典一大片。
+
+按这个顺序看：
+
+### 第一步：看句子骨架
+它现在在句子里处于哪个槽位？
+
+### 第二步：看前面的词
+- 情态动词后？大概率动词原形
+- 冠词后？大概率名词
+- 系动词后？可能形容词/名词/分词
+
+### 第三步：看后面的词
+- 后面接宾语？常是动词
+- 后面接名词？可能是形容词
+- 自己前面有 `a / the`？可能是名词
+
+### 第四步：再从几个常见意思里选最通顺的
+不是“全背”，而是“选最符合当前句子结构和场景的那个”。
+
+---
+
+## 30.14 这句你可以直接收进脑子里的结论
+
+```text
+Could we present it later?
+```
+
+你可以直接记成：
+
+- `present` 在这里是**动词**
+- 因为它在 `could + we + ___ + it` 这个槽位里
+- 意思通常是：**展示 / 汇报 / 讲**
+- 整句通常是：**我们能晚点再汇报这个吗？**
+
+---
+
+## 30.15 这一节和你之前学到的知识，怎么串起来
+
+这节其实把你前面零散问过的很多点串起来了：
+
+- 不靠词典堆义项，而靠**核心感觉**
+- 不先死抠词性，而先看**句子槽位**
+- `-ly` 是线索，不是铁律
+- `-ed` 可能跟完成/被动/状态有关，但不是自动等于“形容词”
+- 很多词会一词多性，不稀奇；关键是看它在当前句子里**扮演什么角色**
+
+所以这次的 `present`，你可以把它当成一个“综合练习题”。
+
+---
+
+# 31. 新增补充：`identical / identified / indicate / for / is transmitting`
+
+> 这一节记录你这次新增的内容，并系统回答下面几个问题：  
+> 1. `identical` 和 `identified` 很像，怎么记，怎么防混  
+> 2. `indicate` 到底有什么用，为什么不用 `give / show / represent / display / point out`  
+> 3. `for` 的本质是什么意思，怎么系统学  
+> 4. `is transmitting` 是不是现在进行时
+
+## 31.1 先把你补充的内容记进笔记
+
+### `identical`
+- 词性：形容词（adj.）
+- 常见意思：
+  - 完全相同的
+  - 一模一样的
+  - 同一的
+  - （双胞胎）同卵的
+  - 恒等的
+
+在算法题里最常见、最该优先记的是：
+
+> **identical = 完全相同的 / 一模一样的**
+
+例如：
+- identical numbers = 相同的数字
+- identical integers = 相同的整数
+
+---
+
+### `identified`
+- 词性：
+  - 过去式 / 过去分词（来自 `identify`）
+  - 有时也带形容词性质
+- 常见意思：
+  - 被识别的
+  - 被确认的
+  - 被找出的
+  - 已确定的
+
+例如：
+- They have identified a procedure.  
+  他们已经确定出一种流程/方法。
+
+这里最自然的理解是：
+
+> **identified = 已经找出来的 / 已经确定下来的**
+
+---
+
+### `indicate`
+- 词性：动词（v.）
+- 常见意思：
+  - 表明
+  - 显示
+  - 暗示
+  - 指出
+  - 标示
+  - （英式）打转向灯
+
+题目原句：
+
+```text
+The procedure will then indicate the number of pairs transmitted and the number of remaining integers.
+```
+
+更自然的读法：
+
+> 然后这个流程会给出两个结果：传输了多少对，以及还剩多少个整数。
+
+这里 `indicate` 不要死翻成“指示”，在题里更接近：
+
+- 给出
+- 表示
+- 告诉你
+- 表明
+
+---
+
+## 31.2 `identical` 和 `identified` 怎么区分，怎么记
+
+这是典型的“长得像，但不是一回事”的词。
+
+### 核心区别先抓住
+
+#### `identical`
+是形容词，核心是：
+
+> **两个东西一模一样**
+
+例如：
+- identical twins  
+  同卵双胞胎
+- identical values  
+  完全相同的值
+
+你可以把它脑补成：
+
+> identity 很像 → 身份/特征完全一样 → identical
+
+---
+
+#### `identified`
+来自动词 `identify`，核心是：
+
+> **把某个东西识别出来、确认出来**
+
+例如：
+- identified issues  
+  已识别出的问题
+- identified procedure  
+  已经确定出来的流程
+
+你可以把它脑补成：
+
+> identify = 识别/确认  
+> identified = 已经被识别/被确认了
+
+---
+
+### 一个特别实用的防混方法：不要只看拼写，要看“句子槽位”
+
+#### 如果它在名词前面，描述“这个东西是不是一样”
+那常常是 `identical`
+
+- identical integers
+- identical items
+- identical results
+
+#### 如果它带有“被找出来 / 被确认出来”的感觉
+那常常是 `identified`
+
+- identified problem
+- identified procedure
+- identified suspect
+
+---
+
+### 最实用的记忆法：记一对“对照例句”
+
+- These two numbers are **identical**.  
+  这两个数完全相同。
+
+- We have **identified** the issue.  
+  我们已经识别出这个问题。
+
+你要记的不是“差几个字母”，而是：
+
+- `identical` = 一样
+- `identified` = 认出来 / 确认出来
+
+---
+
+## 31.3 `indicate` 到底有什么用
+
+你这个问题问得特别好，因为你不是在问词典义项，而是在问：
+
+> **为什么英语已经有 give / show / represent / display / point out 了，还要有 indicate？**
+
+这才是学词最值钱的问法。
+
+### 先给结论
+`indicate` 的核心感觉不是单纯“给你看”，也不是单纯“指出来”，而是：
+
+> **让某个信息显露出来，让你能据此知道某个事实**
+
+你可以先抓成：
+
+> **表明、显示出、暗示出**
+
+它比 `give` 更抽象，比 `display` 更像“信息层面的显示”，比 `point out` 更弱、更书面。
+
+---
+
+### 为什么这里不用 `give`
+
+你写的句子：
+
+```text
+The procedure will then give you the number of pairs transmitted and the number of remaining integers.
+```
+
+语法上不是完全错，别人也能懂。  
+但它更口语、更直白，也更像“流程把数字递给你”。
+
+而 `indicate` 更像：
+
+> 这个流程/结果**会表明**有多少对、剩多少个
+
+所以题面里用 `indicate`，语气更书面、更像说明文。
+
+---
+
+### 为什么这里不用 `represent`
+
+`represent` 的核心感觉更像：
+
+> **A 代表 B / A 表示 B**
+
+例如：
+- N represents the number of elements.
+- This symbol represents speed.
+
+它强调的是：
+
+> 一个东西和另一个意义之间的“对应关系”
+
+而 `indicate` 更像：
+
+> 某种结果、迹象、数据，让你知道某件事
+
+例如：
+- The result indicates a problem.  
+  这个结果表明有问题。
+- The numbers indicate growth.  
+  这些数字表明在增长。
+
+所以：
+
+- `represent` = 代表、对应
+- `indicate` = 表明、显示出、暗示出
+
+两者不一样。
+
+---
+
+### 为什么这里不用 `display`
+
+`display` 更偏：
+
+> 把东西直接展示在表面/屏幕上
+
+例如：
+- The screen displays the result.
+- The chart displays the data.
+
+它更像“视觉展示”。
+
+而 `indicate` 更偏：
+
+> 信息本身在表明什么
+
+例如：
+- The data indicate a trend.  
+  数据表明一种趋势。
+- The symptoms indicate infection.  
+  症状表明感染。
+
+所以：
+
+- `display` = 展示出来
+- `indicate` = 显示出某种信息含义
+
+---
+
+### 为什么这里不用 `point out`
+
+`point out` 更偏：
+
+> 人主动指出来、点出来
+
+例如：
+- He pointed out the mistake.
+- She pointed out an inconsistency.
+
+而 `indicate` 可以不强调“谁主动指”，而是更客观：
+
+- The report indicates that sales are down.  
+  报告表明销售下降。
+
+这就是说明文和正式表达里很爱用 `indicate` 的原因。
+
+---
+
+### 那 `indicate` 最值钱的场景是什么
+
+#### 1）数据 / 结果 / 报告 / 图表
+- The results indicate improvement.
+- The data indicate a problem.
+- The chart indicates a downward trend.
+
+#### 2）信号 / 标志 / 迹象
+- A red light indicates danger.
+- These signs indicate stress.
+
+#### 3）题面 / 说明文 / 正式表达
+- The procedure will indicate ...
+- The output indicates ...
+- The value indicates ...
+
+也就是说：
+
+> `indicate` 很适合“客观地表明某个信息”。
+
+---
+
+### 你能不能硬翻成“指示”
+
+多数时候不建议。
+
+因为中文“指示”很容易让人想到：
+- 上级给下级命令
+- 路牌指示
+- 方向指引
+
+但英文 `indicate` 在大量场景里其实更自然是：
+
+- 表明
+- 显示
+- 说明
+- 暗示
+- 给出
+
+所以不要被词典第一页那个“指示”绑死。
+
+---
+
+## 31.4 `for` 的本质是什么意思
+
+这是个非常大的问题。你这次提得特别好。
+
+### 一个实用版本的结论
+`for` 的核心感觉你可以先抓成：
+
+> **朝向某个对象 / 为了某个对象 / 适用于某个对象**
+
+也就是：
+
+> 某事和“后面那个东西”有目标、用途、对象、对应关系。
+
+---
+
+### 在这题里：`a procedure for transmission`
+
+不要死翻成“为了传输”。
+
+更自然理解是：
+
+> **用于传输的流程**
+> **传输用的流程**
+> **关于传输的流程**
+
+这里的 `for` 更接近：
+
+> **用途 / 对象**
+
+---
+
+### `for` 的高频几类用法
+
+#### 1）目的 / 用途
+- a tool for cutting  
+  用来切东西的工具
+- medicine for pain  
+  止痛药
+- a procedure for transmission  
+  用于传输的流程
+
+#### 2）对象 / 适用对象
+- This gift is for you.  
+  这个礼物是给你的。
+- a room for guests  
+  给客人住的房间
+- software for children  
+  适合儿童的软件
+
+#### 3）原因 / 交换 / 代价
+- Thank you for your help.  
+  因为你的帮助，谢谢你。
+- I bought it for ten dollars.  
+  我花十美元买的。
+- punish someone for lying  
+  因撒谎而惩罚某人
+
+#### 4）时间长度
+- for two hours  
+  持续两小时
+- for a long time  
+  很久
+
+---
+
+### 你问：`for` 前后接名词吗？
+
+可以，完全可以。
+
+例如：
+- a plan for growth
+- a tool for cooking
+- a procedure for transmission
+
+这里都是：
+
+- 名词 + for + 名词/动名词
+
+也可以接代词：
+- for you
+- for me
+
+也可以接动名词：
+- a machine for cutting wood
+
+---
+
+### 一个帮助你理解 `for` 的办法
+
+看到 `for` 时，你先不要急着翻成某一个中文词。  
+先问：
+
+> 后面的东西，是“目的”？“对象”？“用途”？“原因”？“持续时间”？
+
+这样更稳。
+
+---
+
+## 31.5 `is transmitting` 是不是现在进行时
+
+对，是的。
+
+### 结构
+- `is` = be 动词
+- `transmitting` = transmit 的 `-ing` 形式
+
+所以：
+
+```text
+A company is transmitting a message ...
+```
+
+就是：
+
+> 一家公司正在传输一条消息……
+
+这是**现在进行时**。
+
+---
+
+### 为什么这里用现在进行时
+
+因为题面在讲一个“当前设定中的动作/场景”：
+
+> 有一家公司正在做这件事
+
+它在给你搭一个故事场景。
+
+不过在算法题里，这种时态很多时候只是叙述包装。  
+你做题时真正抓的是规则，不是它到底“正在传”还是“一般会传”。
+
+---
+
+## 31.6 这一节最值得你带走的几个结论
+
+### 关于 `identical / identified`
+不要按“只差几个字母”记，要按核心动作区别：
+
+- `identical` = 一模一样
+- `identified` = 被识别出来 / 被确认出来
+
+### 关于 `indicate`
+不要只死记成“指示”。  
+更常用、更值钱的理解是：
+
+- 表明
+- 显示出
+- 说明
+- 给出（在题面语境里）
+
+### 关于 `for`
+先别问它固定翻成什么。  
+先抓核心：
+
+> 朝向某个对象 / 为了某个对象 / 适用于某个对象
+
+然后再按场景落地。
+
+### 关于 `is transmitting`
+是现在进行时。  
+但在算法题里，时态常常只是背景包装，不是解题重点。
