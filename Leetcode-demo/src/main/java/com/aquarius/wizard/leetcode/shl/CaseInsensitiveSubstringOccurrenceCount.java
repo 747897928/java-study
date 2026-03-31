@@ -1,5 +1,7 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -46,6 +48,8 @@ public class CaseInsensitiveSubstringOccurrenceCount {
 
         CaseInsensitiveSubstringOccurrenceCount solver = new CaseInsensitiveSubstringOccurrenceCount();
         System.out.println(solver.countOccurrences(parentString, subString));
+        System.out.println(solver.countOccurrencesByRegionMatches(parentString, subString));
+        System.out.println(solver.countOccurrencesByCharArray(parentString, subString));
     }
 
     public int countOccurrences(String parent, String sub) {
@@ -54,6 +58,57 @@ public class CaseInsensitiveSubstringOccurrenceCount {
         int count = 0;
         for (int i = 0; i + target.length() <= source.length(); i++) {
             if (source.startsWith(target, i)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countOccurrencesByRegionMatches(String parent, String sub) {
+        if (parent == null || sub == null || sub.isEmpty() || parent.length() < sub.length()) {
+            return 0;
+        }
+
+        int count = 0;
+        for (int i = 0; i + sub.length() <= parent.length(); i++) {
+            //regionMatches(true, i, sub, 0, sub.length()) 的意思是：
+            //true：忽略大小写
+            //i：从 parent 的第 i 位开始比
+            //0：从 sub 的第 0 位开始比
+            //sub.length()：比较这么长一段
+            if (parent.regionMatches(true, i, sub, 0, sub.length())) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    public void countOccurrences2() {
+        Scanner scanner = new Scanner(System.in);
+        String parentString = scanner.nextLine();
+        String subString = scanner.nextLine();
+        System.out.println(countOccurrencesByCharArray(parentString, subString));
+    }
+
+    public int countOccurrencesByCharArray(String parent, String sub) {
+        if (parent == null || sub == null || sub.isEmpty() || parent.length() < sub.length()) {
+            return 0;
+        }
+
+        char[] parentChars = parent.toLowerCase().toCharArray();
+        char[] subChars = sub.toLowerCase().toCharArray();
+        int count = 0;
+
+        for (int i = 0; i + subChars.length <= parentChars.length; i++) {
+            boolean matched = true;
+            for (int j = 0; j < subChars.length; j++) {
+                if (parentChars[i + j] != subChars[j]) {
+                    matched = false;
+                    break;
+                }
+            }
+            if (matched) {
                 count++;
             }
         }

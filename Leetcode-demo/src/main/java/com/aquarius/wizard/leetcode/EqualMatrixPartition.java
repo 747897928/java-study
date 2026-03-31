@@ -54,6 +54,12 @@ public class EqualMatrixPartition {
 
         System.out.println((3L & 1L) == 1L); // true，3 是奇数
         System.out.println((4L & 1L) == 1L); // false，4 是偶数
+        System.out.println(5 / 2);//2
+        System.out.println(5 >> 1);//2
+        //5 0101 右移一位 0010 就是 2
+        //2的三次方*0 + 2的二次方*1 + 2的一次方*0 + 2的零次方*1 = 2
+        //5 的二进制表示是 0101。每一位代表一个二的幂次方，从右到左分别是 2^0、2^1、2^2、2^3 等等。对于 5 来说：
+
     }
 
     private static void runExample(String name, int[][] grid) {
@@ -194,6 +200,10 @@ public class EqualMatrixPartition {
      * <p>
      * `(total & 1L) == 1L` 和 `total % 2 != 0` 是一个意思。
      * 只是这里用位运算去看最低位：
+     * 8*1+4*1+2*0+1*1=13
+     * 13 1101  2的三次方*1 + 2的二次方*1 + 2的一次方*0 + 2的零次方*1
+     * 12 1100  2的三次方*1 + 2的二次方*1 + 2的一次方*0 + 2的零次方*0
+     * <p>
      * <p>
      * 最低位是 1 -> 奇数
      * 最低位是 0 -> 偶数
@@ -453,35 +463,35 @@ public class EqualMatrixPartition {
      * “我现在拿了左边一块，又拿了上边一块，左上重叠了，所以减一次，最后补当前格子”
      * <p>
      * 一旦这个画面能脑补出来，公式就不容易忘。
-     *
+     * <p>
      * 这里还有一个边界细节一定要会自己解释：
-     *
+     * <p>
      * for (int cutRow = 1; cutRow < rows; cutRow++)
-     *
+     * <p>
      * 为什么从 1 开始？
-     *
+     * <p>
      * 因为 cutRow 表示“上半部分拿前几行”。
      * 如果 cutRow = 0，就表示上半部分一行都不拿，上半部分为空，不合法。
-     *
+     * <p>
      * 为什么到 cutRow < rows 为止，而不是 <= rows？
-     *
+     * <p>
      * 因为如果 cutRow = rows，就表示前 rows 行全拿走，
      * 也就是下半部分为空，同样不合法。
-     *
+     * <p>
      * 所以合法切线只可能是：
-     *
+     * <p>
      * 1 <= cutRow <= rows - 1
-     *
+     * <p>
      * 写成 for 循环就是：
-     *
+     * <p>
      * cutRow = 1; cutRow < rows; cutRow++
-     *
+     * <p>
      * cutCol 也完全一样：
-     *
+     * <p>
      * 1 <= cutCol <= cols - 1
-     *
+     * <p>
      * 这类边界思考以后要形成固定反应：
-     *
+     * <p>
      * “题目要求切完两边都非空，所以切线只能落在中间，不能贴边。”
      */
     public static boolean canPartitionGridWith2DPrefixSum(int[][] grid) {

@@ -3069,4 +3069,369 @@ A company is transmitting a message ...
 
 ### 关于 `is transmitting`
 是现在进行时。  
-但在算法题里，时态常常只是背景包装，不是解题重点。
+但在算法题里，时态常常只是背景包装，不是解题重点。\n\n---
+
+# 32. 新增补充：`occurrence / letters / disregard / sub`
+
+> 这一节对应新的字符串题，重点解决：  
+> 1. `letters`  
+> 2. `occurrences`  
+> 3. `disregard`  
+> 4. `sub`  
+> 5. 为什么 `occurrence(s) of ...` 很常见，它和 `happen / appear / show up` 这些词有什么区别
+
+## 32.1 去掉注释后的完整题目
+
+### Question
+You are given two strings containing only English letters. Write an algorithm to count the number of occurrences of the second string in the first string. (You may disregard the case of the letters.)
+
+### Input
+The first line of the input consists of a string `parent`, representing the first string.  
+The second line consists of a string `sub`, representing the second string.
+
+### Output
+Print an integer representing the number of occurrences of `sub` in `parent`. If no occurrence of `sub` is found in `parent`, then print `0`.
+
+### Example
+
+**Input**
+```text
+TimisplayinginthehouseofTimwiththetoysofTim
+Tim
+```
+
+**Output**
+```text
+3
+```
+
+**Explanation**
+Tim occurs 3 times in the first string.  
+So, the output is 3.
+
+---
+
+## 32.2 这道题到底在说什么
+
+题目的意思很简单：
+
+- 给你两个字符串
+- 在第一个字符串里找第二个字符串出现了多少次
+- 不区分大小写
+
+例如：
+
+```text
+parent = TimisplayinginthehouseofTimwiththetoysofTim
+sub = Tim
+```
+
+那么 `Tim` 一共出现了 3 次，所以输出：
+
+```text
+3
+```
+
+---
+
+## 32.3 `letters`
+
+### 基本意思
+`letter` 最常见有两个意思：
+
+1. 字母
+2. 信件
+
+在这题里当然是：
+
+> **字母**
+
+所以：
+
+```text
+English letters
+```
+
+就是：
+
+> 英文字母
+
+---
+
+## 32.4 `occurrence / occurrences`
+
+### 基本意思
+`occurrence` 是名词，最核心的意思是：
+
+> **出现这件事 / 发生这件事**
+
+在这道题里最自然的是：
+
+> **出现次数里的“一次出现”**
+> 或
+> **一次匹配**
+
+所以：
+
+```text
+the number of occurrences of the second string in the first string
+```
+
+就是：
+
+> 第二个字符串在第一个字符串中出现的次数
+
+---
+
+### 为什么你会觉得这个词难
+因为中文里“出现”很常见，但英文里你更熟的是动词：
+
+- happen
+- appear
+- occur
+- show up
+
+而 `occurrence` 是把“出现”这件事变成了一个**名词**。
+
+也就是说：
+
+- occur = 出现（动词）
+- occurrence = 一次出现 / 出现这件事（名词）
+
+这就是它的本质。
+
+---
+
+### 最实用的理解
+你在算法题里可以先直接把它收成：
+
+> `occurrence` = 一次出现 / 一次匹配  
+> `occurrences` = 出现次数 / 多次出现
+
+这比背一堆抽象词典义项更有用。
+
+---
+
+### 高频搭配：`occurrence(s) of ...`
+这不是那种必须死背的“固定短语”，但它是一个**非常常见的表达模式**。
+
+结构是：
+
+```text
+occurrence(s) of + 某个东西
+```
+
+意思就是：
+
+> 某个东西的出现（一次或多次）
+
+例如：
+
+- occurrences of a word  
+  一个单词的出现次数
+- occurrences of an error  
+  错误出现的次数
+- occurrences of `sub` in `parent`  
+  `sub` 在 `parent` 里的出现次数
+
+所以它不是“成语型固定搭配”，但它**非常高频，非常值得熟悉**。
+
+---
+
+### 和其他“出现”类词有什么区别
+
+#### 1）`occur`
+这是动词，本身就是“发生 / 出现”
+
+- The error occurred yesterday.  
+  错误昨天发生了。
+- The word occurs three times.  
+  这个单词出现了三次。
+
+#### 2）`occurrence`
+这是名词，强调“一次出现”或“出现这件事”
+
+- the occurrence of an error  
+  一个错误的发生
+- the number of occurrences  
+  出现次数
+
+#### 3）`happen`
+更口语、更常见于一般事件发生
+
+- What happened?  
+  发生了什么？
+
+#### 4）`appear`
+更像“显现出来、出现”
+
+- A pattern appears in the data.  
+  数据中出现了一种模式。
+
+所以：
+
+- `occur` / `occurrence` 更常见于书面、技术、统计、说明文
+- `happen` 更日常
+- `appear` 更偏“显现出来”
+
+---
+
+### 为什么题目爱用 `occurrence`
+因为它很适合这种“统计出现次数”的表达。
+
+例如：
+- count the number of occurrences
+- number of occurrences of a substring
+- if no occurrence is found
+
+这些都是算法题和技术文档里的高频写法。
+
+---
+
+### 你怎么学会用这个词造句
+你不需要一开始就会很多复杂句。  
+先记 5 句最值钱的：
+
+- This word occurs twice.  
+  这个词出现了两次。
+- The number of occurrences is 5.  
+  出现次数是 5。
+- We counted the occurrences of "Tim".  
+  我们统计了 "Tim" 的出现次数。
+- No occurrence was found.  
+  没找到任何一次出现。
+- This error occurs often.  
+  这个错误经常出现。
+
+你真正要掌握的是两个核心模板：
+
+```text
+X occurs N times.
+the number of occurrences of X
+```
+
+---
+
+## 32.5 `disregard`
+
+### 基本意思
+`disregard` = 不理会、忽略、不考虑
+
+在题里：
+
+```text
+You may disregard the case of the letters.
+```
+
+最自然就是：
+
+> 你可以忽略字母的大小写。
+
+这里的 `case` 不是“案例”，而是：
+
+> 大小写
+
+所以整句意思是：
+
+> 可以不区分大小写。
+
+---
+
+### `disregard` 和 `ignore` 的关系
+很多时候它们可以很接近。
+
+- disregard = 不予考虑、忽略
+- ignore = 忽视、不理
+
+在题面里，`disregard` 常常比 `ignore` 更书面一点。
+
+所以这句也可以用人话理解成：
+
+> Ignore uppercase/lowercase differences.
+
+---
+
+## 32.6 `sub`
+
+### 为什么你会觉得这个词奇怪
+因为 `sub` 在这题里不像普通自然英语单词，更像一个**变量名**。
+
+它通常是：
+
+> `substring` 的缩写
+
+也就是：
+
+- parent = 母串 / 主字符串
+- sub = 子串 / 要查找的字符串
+
+所以这里不要把 `sub` 当成普通词汇硬背。  
+它更像题目作者取的一个简写名字。
+
+---
+
+### 你可以这样理解这两个变量
+- `parent`：被搜索的那个大字符串
+- `sub`：要去里面找的小字符串
+
+---
+
+## 32.7 题面里还有个值得顺手记的表达
+
+### `containing only English letters`
+意思是：
+
+> 只包含英文字母
+
+这里：
+- `containing` = 包含着
+- `only` = 只
+- `English letters` = 英文字母
+
+这是算法题高频模板之一。
+
+例如：
+- a string containing only digits  
+  一个只包含数字的字符串
+- a string containing lowercase letters  
+  一个只包含小写字母的字符串
+
+---
+
+## 32.8 这一题里哪里有点不自然
+
+### 1）`sub` 很像程序变量名
+它不是很自然的日常英语，而是题面风格里的缩写变量名。
+
+### 2）`disregard the case of the letters`
+语法没问题，但题面里更常见的人话是：
+
+- case-insensitive
+- ignore the case
+- treat uppercase and lowercase as the same
+
+不过它现在这个写法仍然是能读懂的。
+
+---
+
+## 32.9 这一节最值得你带走的结论
+
+### `letters`
+先优先记：
+> 英文字母
+
+### `occurrence`
+不要抽象背成“发生、出现、存在”。  
+在算法题里优先记：
+> **一次出现 / 一次匹配 / 出现次数**
+
+### `occurrences of ...`
+不是那种死固定短语，但它是很高频的技术表达模式：
+> 某个东西的出现次数
+
+### `disregard`
+在题里通常很实用地理解为：
+> 忽略 / 不考虑
+
+### `sub`
+通常不是普通词，而是 `substring` 的缩写变量名\n
