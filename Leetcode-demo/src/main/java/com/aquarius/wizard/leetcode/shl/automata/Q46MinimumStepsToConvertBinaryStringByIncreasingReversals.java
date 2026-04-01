@@ -1,5 +1,9 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
 /**
  * Question
  *
@@ -21,12 +25,72 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Write an algorithm to help Emerson convert the binary string str1 into str2, in the minimum
  * number of steps.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. sourceBinaryString
+ * 2. targetBinaryString
  *
- * The algorithm implementation still needs to be added.
+ * This version follows the literal step order from the statement:
+ * step 1 must reverse a length-2 substring, step 2 a length-3 substring, and so on.
  */
 public class Q46MinimumStepsToConvertBinaryStringByIncreasingReversals {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String source = scanner.next();
+        String target = scanner.next();
+
+        Q46MinimumStepsToConvertBinaryStringByIncreasingReversals solver =
+            new Q46MinimumStepsToConvertBinaryStringByIncreasingReversals();
+        System.out.println(solver.minimumSteps(source, target));
+    }
+
+    public int minimumSteps(String source, String target) {
+        if (source.length() != target.length()) {
+            return -1;
+        }
+        if (source.equals(target)) {
+            return 0;
+        }
+
+        Set<String> current = new HashSet<>();
+        current.add(source);
+        int n = source.length();
+
+        for (int len = 2; len <= n; len++) {
+            Set<String> next = new HashSet<>();
+            for (String state : current) {
+                for (int start = 0; start + len <= n; start++) {
+                    String reversed = reverseSubstring(state, start, len);
+                    if (!reversed.equals(state)) {
+                        next.add(reversed);
+                    }
+                }
+            }
+            if (next.contains(target)) {
+                return len - 1;
+            }
+            if (next.isEmpty()) {
+                break;
+            }
+            current = next;
+        }
+        return -1;
+    }
+
+    private String reverseSubstring(String value, int start, int length) {
+        char[] chars = value.toCharArray();
+        int left = start;
+        int right = start + length - 1;
+        while (left < right) {
+            char tmp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = tmp;
+            left++;
+            right--;
+        }
+        return new String(chars);
+    }
 }

@@ -63,7 +63,7 @@ public class Q71LexicographicallySortedCommonProductIds {
 
         StringBuilder builder = new StringBuilder();
         for (int value : common) {
-            if (!builder.isEmpty()) {
+            if (builder.length() > 0) {
                 builder.append(' ');
             }
             builder.append(value);

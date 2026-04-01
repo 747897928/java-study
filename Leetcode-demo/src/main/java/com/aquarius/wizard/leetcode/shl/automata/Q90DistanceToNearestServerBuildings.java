@@ -1,5 +1,9 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -19,12 +23,77 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Write an algorithm to find the minimum number of buildings (horizontally and/or vertically)
  * that separate the buildings that need internet connections from buildings that have servers.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. rows cols
+ * 2. rows * cols integers, where 1 means server building and 0 means ordinary building
  *
- * The algorithm implementation still needs to be added.
+ * Output format:
+ * A distance matrix with 0 for server cells.
  */
 public class Q90DistanceToNearestServerBuildings {
+
+    private static final int[] DX = {1, -1, 0, 0};
+    private static final int[] DY = {0, 0, 1, -1};
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int rows = scanner.nextInt();
+        int cols = scanner.nextInt();
+        int[][] grid = new int[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                grid[i][j] = scanner.nextInt();
+            }
+        }
+
+        Q90DistanceToNearestServerBuildings solver = new Q90DistanceToNearestServerBuildings();
+        System.out.print(solver.distanceMatrix(grid));
+    }
+
+    public String distanceMatrix(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int[][] distance = new int[rows][cols];
+        Queue<int[]> queue = new ArrayDeque<>();
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) {
+                    queue.offer(new int[] {i, j});
+                } else {
+                    distance[i][j] = -1;
+                }
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            for (int d = 0; d < 4; d++) {
+                int nx = current[0] + DX[d];
+                int ny = current[1] + DY[d];
+                if (nx < 0 || ny < 0 || nx >= rows || ny >= cols || distance[nx][ny] != -1) {
+                    continue;
+                }
+                distance[nx][ny] = distance[current[0]][current[1]] + 1;
+                queue.offer(new int[] {nx, ny});
+            }
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < rows; i++) {
+            if (i > 0) {
+                builder.append('\n');
+            }
+            for (int j = 0; j < cols; j++) {
+                if (j > 0) {
+                    builder.append(' ');
+                }
+                builder.append(distance[i][j]);
+            }
+        }
+        return builder.toString();
+    }
 }

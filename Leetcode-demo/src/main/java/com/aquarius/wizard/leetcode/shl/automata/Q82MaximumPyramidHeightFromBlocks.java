@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -16,12 +19,46 @@ package com.aquarius.wizard.leetcode.shl.automata;
  *
  * Write an algorithm to find the height of the pyramid that the team can build.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
- *
- * The algorithm implementation still needs to be added.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. blockCount
+ * 2. blockCount widths
  */
 public class Q82MaximumPyramidHeightFromBlocks {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int blockCount = scanner.nextInt();
+        int[] widths = new int[blockCount];
+        for (int i = 0; i < blockCount; i++) {
+            widths[i] = scanner.nextInt();
+        }
+
+        Q82MaximumPyramidHeightFromBlocks solver = new Q82MaximumPyramidHeightFromBlocks();
+        System.out.println(solver.maximumHeight(widths));
+    }
+
+    public int maximumHeight(int[] widths) {
+        Arrays.sort(widths);
+        int height = 0;
+        int previousCount = 0;
+        long previousWidth = 0L;
+        int currentCount = 0;
+        long currentWidth = 0L;
+
+        for (int width : widths) {
+            currentCount++;
+            currentWidth += width;
+            if (currentCount > previousCount && currentWidth > previousWidth) {
+                height++;
+                previousCount = currentCount;
+                previousWidth = currentWidth;
+                currentCount = 0;
+                currentWidth = 0L;
+            }
+        }
+        return height;
+    }
 }

@@ -1,5 +1,7 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -19,12 +21,39 @@ package com.aquarius.wizard.leetcode.shl.automata;
  *
  * Write an algorithm to find the maximum vapor rate obtainable after the experiment.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
- *
- * The algorithm implementation still needs to be added.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. chemicalCount
+ * 2. chemicalCount vapor rates
  */
 public class Q06MaximumVaporRateFromReversedChemicalPairs {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int chemicalCount = scanner.nextInt();
+        int[] vaporRates = new int[chemicalCount];
+        for (int i = 0; i < chemicalCount; i++) {
+            vaporRates[i] = scanner.nextInt();
+        }
+
+        Q06MaximumVaporRateFromReversedChemicalPairs solver =
+            new Q06MaximumVaporRateFromReversedChemicalPairs();
+        System.out.println(solver.maximumVaporRate(vaporRates));
+    }
+
+    public long maximumVaporRate(int[] vaporRates) {
+        long best = 0L;
+        for (int center = 0; center < vaporRates.length - 1; center++) {
+            long sum = 0L;
+            for (int left = center, right = center + 1;
+                 left >= 0 && right < vaporRates.length;
+                 left--, right++) {
+                sum += (long) vaporRates[left] * vaporRates[right];
+                best = Math.max(best, sum);
+            }
+        }
+        return best;
+    }
 }

@@ -1,5 +1,10 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -21,12 +26,63 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Write an algorithm to help the team to determine the minimum number of iterations of data
  * transfer necessary to connect all the satellites.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. satelliteCount
+ * 2. satelliteCount - 1 lines: u v
  *
- * The algorithm implementation still needs to be added.
+ * This version models the communication network as a tree rooted at satellite 0.
+ * In one iteration, an informed satellite may forward data to at most one child satellite.
  */
 public class Q69MinimumSatelliteTransferIterations {
+
+    private List<Integer>[] graph;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int satelliteCount = scanner.nextInt();
+        int[][] links = new int[Math.max(0, satelliteCount - 1)][2];
+        for (int i = 0; i < satelliteCount - 1; i++) {
+            links[i][0] = scanner.nextInt();
+            links[i][1] = scanner.nextInt();
+        }
+
+        Q69MinimumSatelliteTransferIterations solver =
+            new Q69MinimumSatelliteTransferIterations();
+        System.out.println(solver.minimumIterations(satelliteCount, links));
+    }
+
+    public int minimumIterations(int satelliteCount, int[][] links) {
+        if (satelliteCount <= 1) {
+            return 0;
+        }
+        graph = new ArrayList[satelliteCount];
+        for (int i = 0; i < satelliteCount; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        for (int[] link : links) {
+            graph[link[0]].add(link[1]);
+            graph[link[1]].add(link[0]);
+        }
+        return dfs(0, -1);
+    }
+
+    private int dfs(int node, int parent) {
+        List<Integer> childTimes = new ArrayList<>();
+        for (int next : graph[node]) {
+            if (next == parent) {
+                continue;
+            }
+            childTimes.add(dfs(next, node));
+        }
+        Collections.sort(childTimes, Collections.reverseOrder());
+
+        int answer = 0;
+        for (int i = 0; i < childTimes.size(); i++) {
+            answer = Math.max(answer, childTimes.get(i) + i + 1);
+        }
+        return answer;
+    }
 }

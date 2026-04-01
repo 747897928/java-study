@@ -1,5 +1,9 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -18,12 +22,57 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Write an algorithm to help Austin find the minimum strength at which the signal must be sent so
  * that the data will reach everyone.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. engineerCount
+ * 2. engineerCount - 1 lines: u v
  *
- * The algorithm implementation still needs to be added.
+ * This version assumes the data is broadcast from engineer 1, so the required signal strength is
+ * the farthest number of transmissions from engineer 1.
  */
 public class Q16MinimumSignalStrengthInEngineerNetwork {
+
+    private List<Integer>[] graph;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int engineerCount = scanner.nextInt();
+        int[][] edges = new int[Math.max(0, engineerCount - 1)][2];
+        for (int i = 0; i < engineerCount - 1; i++) {
+            edges[i][0] = scanner.nextInt();
+            edges[i][1] = scanner.nextInt();
+        }
+
+        Q16MinimumSignalStrengthInEngineerNetwork solver =
+            new Q16MinimumSignalStrengthInEngineerNetwork();
+        System.out.println(solver.minimumSignalStrength(engineerCount, edges));
+    }
+
+    public int minimumSignalStrength(int engineerCount, int[][] edges) {
+        if (engineerCount <= 1) {
+            return 0;
+        }
+        graph = new ArrayList[engineerCount + 1];
+        for (int i = 1; i <= engineerCount; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        for (int[] edge : edges) {
+            graph[edge[0]].add(edge[1]);
+            graph[edge[1]].add(edge[0]);
+        }
+        return dfs(1, 0);
+    }
+
+    private int dfs(int node, int parent) {
+        int best = 0;
+        for (int next : graph[node]) {
+            if (next == parent) {
+                continue;
+            }
+            best = Math.max(best, 1 + dfs(next, node));
+        }
+        return best;
+    }
 }

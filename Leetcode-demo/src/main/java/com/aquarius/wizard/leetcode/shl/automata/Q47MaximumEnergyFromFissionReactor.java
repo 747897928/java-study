@@ -1,5 +1,7 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -18,12 +20,53 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Write an algorithm that will help Victor get the maximum energy from the reactor without losing
  * his life.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
- *
- * The algorithm implementation still needs to be added.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. vialCount reactorVolume criticalMass
+ * 2. vialCount lines: vialVolume vialMass energyProduced
  */
 public class Q47MaximumEnergyFromFissionReactor {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int vialCount = scanner.nextInt();
+        int reactorVolume = scanner.nextInt();
+        int criticalMass = scanner.nextInt();
+        int[][] vials = new int[vialCount][3];
+        for (int i = 0; i < vialCount; i++) {
+            vials[i][0] = scanner.nextInt();
+            vials[i][1] = scanner.nextInt();
+            vials[i][2] = scanner.nextInt();
+        }
+
+        Q47MaximumEnergyFromFissionReactor solver = new Q47MaximumEnergyFromFissionReactor();
+        System.out.println(solver.maximumEnergy(vials, reactorVolume, criticalMass));
+    }
+
+    public int maximumEnergy(int[][] vials, int reactorVolume, int criticalMass) {
+        int[][] dp = new int[reactorVolume + 1][criticalMass + 1];
+        for (int[] vial : vials) {
+            int volume = vial[0];
+            int mass = vial[1];
+            int energy = vial[2];
+            for (int usedVolume = reactorVolume; usedVolume >= volume; usedVolume--) {
+                for (int usedMass = criticalMass; usedMass >= mass; usedMass--) {
+                    dp[usedVolume][usedMass] = Math.max(
+                        dp[usedVolume][usedMass],
+                        dp[usedVolume - volume][usedMass - mass] + energy
+                    );
+                }
+            }
+        }
+
+        int best = 0;
+        for (int usedVolume = 0; usedVolume <= reactorVolume; usedVolume++) {
+            for (int usedMass = 0; usedMass <= criticalMass; usedMass++) {
+                best = Math.max(best, dp[usedVolume][usedMass]);
+            }
+        }
+        return best;
+    }
 }

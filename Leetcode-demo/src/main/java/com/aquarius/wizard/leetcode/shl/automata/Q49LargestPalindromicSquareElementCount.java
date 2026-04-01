@@ -1,5 +1,7 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -12,12 +14,59 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Given a matrix inputMat[1..N][1..M], find the number of elements in its largest palindromic
  * square sub-matrix.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
- *
- * The algorithm implementation still needs to be added.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. rows cols
+ * 2. rows * cols integers
  */
 public class Q49LargestPalindromicSquareElementCount {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int rows = scanner.nextInt();
+        int cols = scanner.nextInt();
+        int[][] matrix = new int[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = scanner.nextInt();
+            }
+        }
+
+        Q49LargestPalindromicSquareElementCount solver =
+            new Q49LargestPalindromicSquareElementCount();
+        System.out.println(solver.largestPalindromicSquareElementCount(matrix));
+    }
+
+    public int largestPalindromicSquareElementCount(int[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        for (int size = Math.min(rows, cols); size >= 1; size--) {
+            for (int top = 0; top + size <= rows; top++) {
+                for (int left = 0; left + size <= cols; left++) {
+                    if (isPalindromicSquare(matrix, top, left, size)) {
+                        return size * size;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    private boolean isPalindromicSquare(int[][] matrix, int top, int left, int size) {
+        for (int dx = 0; dx < size; dx++) {
+            for (int dy = 0; dy < size; dy++) {
+                int mirrorX = size - 1 - dx;
+                int mirrorY = size - 1 - dy;
+                if (dx > mirrorX || (dx == mirrorX && dy > mirrorY)) {
+                    continue;
+                }
+                if (matrix[top + dx][left + dy] != matrix[top + mirrorX][left + mirrorY]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

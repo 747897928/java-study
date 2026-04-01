@@ -1,5 +1,9 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -20,12 +24,48 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Write an algorithm to help Billy make a list of the first meat based pizza order numbers
  * displayed on the screen each time an order is delivered to a customer.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. orderCount windowSize
+ * 2. orderCount order numbers
  *
- * The algorithm implementation still needs to be added.
+ * If a window has no meat pizza order, this version prints 0 for that window.
  */
 public class Q86FirstMeatPizzaInEveryDisplayWindow {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int orderCount = scanner.nextInt();
+        int windowSize = scanner.nextInt();
+        int[] orders = new int[orderCount];
+        for (int i = 0; i < orderCount; i++) {
+            orders[i] = scanner.nextInt();
+        }
+
+        Q86FirstMeatPizzaInEveryDisplayWindow solver =
+            new Q86FirstMeatPizzaInEveryDisplayWindow();
+        System.out.println(solver.firstMeatOrders(orders, windowSize));
+    }
+
+    public String firstMeatOrders(int[] orders, int windowSize) {
+        Deque<Integer> deque = new ArrayDeque<>();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < orders.length; i++) {
+            while (!deque.isEmpty() && deque.peekFirst() <= i - windowSize) {
+                deque.pollFirst();
+            }
+            if (orders[i] < 0) {
+                deque.offerLast(i);
+            }
+            if (i + 1 >= windowSize) {
+                if (builder.length() > 0) {
+                    builder.append(' ');
+                }
+                builder.append(deque.isEmpty() ? 0 : orders[deque.peekFirst()]);
+            }
+        }
+        return builder.toString();
+    }
 }

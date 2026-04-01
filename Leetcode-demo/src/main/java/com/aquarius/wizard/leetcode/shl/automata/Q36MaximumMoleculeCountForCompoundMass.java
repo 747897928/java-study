@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -19,12 +22,41 @@ package com.aquarius.wizard.leetcode.shl.automata;
  *
  * Write an algorithm to find the maximum number of molecules that can be used to form compound X.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
- *
- * The algorithm implementation still needs to be added.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. atomMassA atomMassB atomMassC atomMassD targetMass
  */
 public class Q36MaximumMoleculeCountForCompoundMass {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int atomMassA = scanner.nextInt();
+        int atomMassB = scanner.nextInt();
+        int atomMassC = scanner.nextInt();
+        int atomMassD = scanner.nextInt();
+        int targetMass = scanner.nextInt();
+
+        Q36MaximumMoleculeCountForCompoundMass solver =
+            new Q36MaximumMoleculeCountForCompoundMass();
+        System.out.println(solver.maximumMoleculeCount(
+            atomMassA, atomMassB, atomMassC, atomMassD, targetMass));
+    }
+
+    public int maximumMoleculeCount(int atomMassA, int atomMassB, int atomMassC, int atomMassD,
+                                    int targetMass) {
+        int[] masses = {atomMassA, atomMassB, atomMassC * 2, atomMassD * 2};
+        int[] dp = new int[targetMass + 1];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        for (int mass = 1; mass <= targetMass; mass++) {
+            for (int moleculeMass : masses) {
+                if (mass >= moleculeMass && dp[mass - moleculeMass] != -1) {
+                    dp[mass] = Math.max(dp[mass], dp[mass - moleculeMass] + 1);
+                }
+            }
+        }
+        return dp[targetMass];
+    }
 }

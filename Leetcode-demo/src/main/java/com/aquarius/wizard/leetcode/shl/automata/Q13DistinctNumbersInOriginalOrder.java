@@ -50,7 +50,7 @@ public class Q13DistinctNumbersInOriginalOrder {
 
         StringBuilder builder = new StringBuilder();
         for (int number : seen) {
-            if (!builder.isEmpty()) {
+            if (builder.length() > 0) {
                 builder.append(' ');
             }
             builder.append(number);

@@ -1,5 +1,12 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -18,12 +25,53 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Given a list of request times and duration times, calculate the average task waiting time when
  * scheduled using the Shortest Job First (SJF) algorithm.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
- *
- * The algorithm implementation still needs to be added.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. taskCount
+ * 2. taskCount lines: requestTime duration
  */
 public class Q39AverageWaitingTimeShortestJobFirst {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int taskCount = scanner.nextInt();
+        int[][] tasks = new int[taskCount][2];
+        for (int i = 0; i < taskCount; i++) {
+            tasks[i][0] = scanner.nextInt();
+            tasks[i][1] = scanner.nextInt();
+        }
+
+        Q39AverageWaitingTimeShortestJobFirst solver =
+            new Q39AverageWaitingTimeShortestJobFirst();
+        System.out.println(solver.averageWaitingTime(tasks));
+    }
+
+    public String averageWaitingTime(int[][] tasks) {
+        Arrays.sort(tasks, Comparator.comparingInt(task -> task[0]));
+        PriorityQueue<int[]> queue = new PriorityQueue<>(
+            (a, b) -> a[1] != b[1] ? Integer.compare(a[1], b[1]) : Integer.compare(a[0], b[0]));
+
+        long currentTime = 0L;
+        long totalWaitingTime = 0L;
+        int index = 0;
+
+        while (index < tasks.length || !queue.isEmpty()) {
+            if (queue.isEmpty() && currentTime < tasks[index][0]) {
+                currentTime = tasks[index][0];
+            }
+            while (index < tasks.length && tasks[index][0] <= currentTime) {
+                queue.offer(tasks[index++]);
+            }
+            int[] task = queue.poll();
+            totalWaitingTime += currentTime - task[0];
+            currentTime += task[1];
+        }
+
+        return BigDecimal.valueOf(totalWaitingTime)
+            .divide(BigDecimal.valueOf(tasks.length), 6, RoundingMode.HALF_UP)
+            .stripTrailingZeros()
+            .toPlainString();
+    }
 }
