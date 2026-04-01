@@ -3,6 +3,7 @@ package com.aquarius.wizard.leetcode.shl.simulated.prefixsum;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Prefix Sum Drill
@@ -43,13 +44,27 @@ import java.util.Map;
 public class SubarraySumEqualsK {
 
     public static void main(String[] args) {
-        int[] nums = {1, 1, 1};
-        int k = 2;
+        Scanner scanner = new Scanner(System.in);
+        int size = scanner.nextInt();
+        int[] nums = new int[size];
+        for (int i = 0; i < size; i++) {
+            nums[i] = scanner.nextInt();
+        }
+        int k = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int[] nums = {1, 1, 1};
+         * int k = 2;
+         */
 
         SubarraySumEqualsK solver = new SubarraySumEqualsK();
-        System.out.println("input  = " + Arrays.toString(nums) + ", k = " + k);
-        System.out.println("brute  = " + solver.subarraySumBruteForce(nums, k));
-        System.out.println("fast   = " + solver.subarraySum(nums, k));
+        System.out.println(solver.subarraySum(nums, k));
+        /*
+         * 如果需要核对另一种写法，可以临时打开下面这行：
+         * System.out.println(solver.subarraySumBruteForce(nums, k));
+         */
     }
 
     /**
@@ -90,4 +105,3 @@ public class SubarraySumEqualsK {
         return count;
     }
 }
-

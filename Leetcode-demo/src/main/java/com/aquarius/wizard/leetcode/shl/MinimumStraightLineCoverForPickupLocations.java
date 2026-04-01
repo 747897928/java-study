@@ -76,10 +76,37 @@ public class MinimumStraightLineCoverForPickupLocations {
         Scanner scanner = new Scanner(System.in);
         int pickupLocationCount = scanner.nextInt();
         int[][] pickupLocations = new int[pickupLocationCount][2];
+        /*
+         * 这里虽然题面写的是：
+         *
+         * The next N lines each consist of two space-separated integers x and y
+         *
+         * 但不表示代码里必须先 nextLine()，再手动 split。
+         *
+         * Scanner.nextInt() 是按“整数 token”读取的，
+         * 它会自动跳过前面的空白字符。
+         *
+         * 这里的空白字符不只是空格，还包括：
+         * 1. 空格
+         * 2. Tab
+         * 3. 换行
+         *
+         * 所以对这种“后面跟着一串纯数字”的题，
+         * 连续写 nextInt() 往往比 nextLine() + split() 更稳。
+         *
+         * 原因主要有三个：
+         *
+         * 1. 不用额外处理上一轮 nextInt() 留下来的换行
+         * 2. 不怕一行里出现多个空格或 Tab
+         * 3. 就算评测端本质上只保证 token 顺序正确，而不是严格按你理解的分行方式给数据，
+         *    nextInt() 也照样能把这 2N 个整数读出来
+         *
+         * 所以这里的写法虽然看起来不像“按行读”，
+         * 但它读到的仍然就是题面里的每一对坐标。
+         */
         for (int i = 0; i < pickupLocationCount; i++) {
-            for (int j = 0; j < 2; j++) {
-                pickupLocations[i][j] = scanner.nextInt();
-            }
+            pickupLocations[i][0] = scanner.nextInt();
+            pickupLocations[i][1] = scanner.nextInt();
         }
 
         /*

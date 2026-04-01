@@ -1,6 +1,7 @@
 package com.aquarius.wizard.leetcode.shl.simulated.prefixsum;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Prefix Sum Drill
@@ -42,12 +43,25 @@ import java.util.Arrays;
 public class PivotIndex {
 
     public static void main(String[] args) {
-        int[] nums = {1, 7, 3, 6, 5, 6};
+        Scanner scanner = new Scanner(System.in);
+        int size = scanner.nextInt();
+        int[] nums = new int[size];
+        for (int i = 0; i < size; i++) {
+            nums[i] = scanner.nextInt();
+        }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int[] nums = {1, 7, 3, 6, 5, 6};
+         */
 
         PivotIndex solver = new PivotIndex();
-        System.out.println("input  = " + Arrays.toString(nums));
-        System.out.println("brute  = " + solver.pivotIndexBruteForce(nums));
-        System.out.println("fast   = " + solver.pivotIndex(nums));
+        System.out.println(solver.pivotIndex(nums));
+        /*
+         * 如果需要核对另一种写法，可以临时打开下面这行：
+         * System.out.println(solver.pivotIndexBruteForce(nums));
+         */
     }
 
     /**
@@ -93,4 +107,3 @@ public class PivotIndex {
         return -1;
     }
 }
-

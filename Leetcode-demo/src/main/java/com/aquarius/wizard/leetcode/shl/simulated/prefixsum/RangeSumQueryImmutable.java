@@ -1,5 +1,7 @@
 package com.aquarius.wizard.leetcode.shl.simulated.prefixsum;
 
+import java.util.Scanner;
+
 /**
  * Prefix Sum Drill
  *
@@ -36,17 +38,32 @@ package com.aquarius.wizard.leetcode.shl.simulated.prefixsum;
 public class RangeSumQueryImmutable {
 
     public static void main(String[] args) {
-        int[] nums = {-2, 0, 3, -5, 2, -1};
+        Scanner scanner = new Scanner(System.in);
+        int size = scanner.nextInt();
+        int[] nums = new int[size];
+        for (int i = 0; i < size; i++) {
+            nums[i] = scanner.nextInt();
+        }
+        int queryCount = scanner.nextInt();
 
-        NumArrayBruteForce bruteForce = new NumArrayBruteForce(nums);
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int[] nums = {-2, 0, 3, -5, 2, -1};
+         * int[][] queries = {{0, 2}, {2, 5}, {0, 5}};
+         */
+
         NumArray prefixSum = new NumArray(nums);
-
-        System.out.println("sumRange(0, 2) brute  = " + bruteForce.sumRange(0, 2));
-        System.out.println("sumRange(0, 2) prefix = " + prefixSum.sumRange(0, 2));
-        System.out.println("sumRange(2, 5) brute  = " + bruteForce.sumRange(2, 5));
-        System.out.println("sumRange(2, 5) prefix = " + prefixSum.sumRange(2, 5));
-        System.out.println("sumRange(0, 5) brute  = " + bruteForce.sumRange(0, 5));
-        System.out.println("sumRange(0, 5) prefix = " + prefixSum.sumRange(0, 5));
+        for (int i = 0; i < queryCount; i++) {
+            int left = scanner.nextInt();
+            int right = scanner.nextInt();
+            System.out.println(prefixSum.sumRange(left, right));
+        }
+        /*
+         * 如果需要核对朴素写法，可以临时打开下面这几行：
+         * NumArrayBruteForce bruteForce = new NumArrayBruteForce(nums);
+         * System.out.println(bruteForce.sumRange(left, right));
+         */
     }
 
     /**
@@ -86,4 +103,3 @@ public class RangeSumQueryImmutable {
         }
     }
 }
-

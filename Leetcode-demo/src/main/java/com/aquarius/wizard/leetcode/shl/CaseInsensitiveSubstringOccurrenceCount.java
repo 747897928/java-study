@@ -43,6 +43,29 @@ import java.util.Scanner;
 public class CaseInsensitiveSubstringOccurrenceCount {
 
     public static void main(String[] args) {
+        /*
+         * 这题输入是字符串，
+         * 而且更自然的理解就是“按整行读 parent，再按整行读 sub”，
+         * 所以这里用 nextLine()。
+         *
+         * 顺手记一个很容易踩坑的点：
+         *
+         * 如果前面刚用过 nextInt() / nextLong() / next()，
+         * 后面马上接 nextLine()，
+         * 那 nextLine() 很可能先读到一个空字符串。
+         *
+         * 原因不是 nextLine() 坏了，
+         * 而是前一个 nextInt() 这类方法通常只把当前 token 读走，
+         * 行尾那个换行符还留在输入流里。
+         *
+         * 所以后面的 nextLine() 会先把那个“剩下的空行”吃掉。
+         *
+         * 简单记法：
+         *
+         * 1. 纯数字数组、矩阵、坐标题，优先 nextInt() / nextLong()
+         * 2. 整行文本题，再用 nextLine()
+         * 3. 如果前面是 nextInt()，后面要切 nextLine()，通常先补一行空的 nextLine()
+         */
         Scanner scanner = new Scanner(System.in);
         String parentString = scanner.nextLine();
         String subString = scanner.nextLine();

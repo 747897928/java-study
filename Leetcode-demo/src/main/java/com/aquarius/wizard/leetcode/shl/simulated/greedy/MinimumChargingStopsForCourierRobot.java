@@ -1,6 +1,7 @@
 package com.aquarius.wizard.leetcode.shl.simulated.greedy;
 
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 /**
  * Simulated Problem
@@ -84,10 +85,25 @@ import java.util.PriorityQueue;
 public class MinimumChargingStopsForCourierRobot {
 
     public static void main(String[] args) {
-        int targetDistance = 100;
-        int initialCharge = 10;
-        int[] stationPosition = {10, 20, 30, 60};
-        int[] stationCharge = {60, 30, 30, 40};
+        Scanner scanner = new Scanner(System.in);
+        int targetDistance = scanner.nextInt();
+        int initialCharge = scanner.nextInt();
+        int stationCount = scanner.nextInt();
+        int[] stationPosition = new int[stationCount];
+        int[] stationCharge = new int[stationCount];
+        for (int i = 0; i < stationCount; i++) {
+            stationPosition[i] = scanner.nextInt();
+            stationCharge[i] = scanner.nextInt();
+        }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int targetDistance = 100;
+         * int initialCharge = 10;
+         * int[] stationPosition = {10, 20, 30, 60};
+         * int[] stationCharge = {60, 30, 30, 40};
+         */
 
         MinimumChargingStopsForCourierRobot solver = new MinimumChargingStopsForCourierRobot();
         System.out.println(solver.minimumStops(targetDistance, initialCharge, stationPosition, stationCharge));
@@ -127,4 +143,3 @@ public class MinimumChargingStopsForCourierRobot {
         return stops;
     }
 }
-

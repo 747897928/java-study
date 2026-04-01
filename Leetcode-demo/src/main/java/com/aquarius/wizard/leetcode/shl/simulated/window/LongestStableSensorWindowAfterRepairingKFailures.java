@@ -1,5 +1,7 @@
 package com.aquarius.wizard.leetcode.shl.simulated.window;
 
+import java.util.Scanner;
+
 /**
  * Simulated Problem
  *
@@ -66,8 +68,16 @@ package com.aquarius.wizard.leetcode.shl.simulated.window;
 public class LongestStableSensorWindowAfterRepairingKFailures {
 
     public static void main(String[] args) {
-        String sensorLog = "1101001110";
-        int maxRepairs = 2;
+        Scanner scanner = new Scanner(System.in);
+        String sensorLog = scanner.next();
+        int maxRepairs = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * String sensorLog = "1101001110";
+         * int maxRepairs = 2;
+         */
 
         LongestStableSensorWindowAfterRepairingKFailures solver =
                 new LongestStableSensorWindowAfterRepairingKFailures();
@@ -107,4 +117,3 @@ public class LongestStableSensorWindowAfterRepairingKFailures {
         return best;
     }
 }
-

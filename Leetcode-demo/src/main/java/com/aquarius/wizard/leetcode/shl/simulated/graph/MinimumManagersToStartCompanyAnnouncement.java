@@ -3,6 +3,7 @@ package com.aquarius.wizard.leetcode.shl.simulated.graph;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Simulated Problem
@@ -66,7 +67,7 @@ import java.util.List;
  *
  * 备注
  *
- * 这是我补的模拟题，不是原 SHL 题。
+ * 模拟题，不是原 SHL 题。
  *
  * 相似题：
  * 1. BestStartingUserForMaximumReach
@@ -83,16 +84,29 @@ import java.util.List;
 public class MinimumManagersToStartCompanyAnnouncement {
 
     public static void main(String[] args) {
-        int managers = 6;
-        int[][] channels = {
-                {0, 1},
-                {1, 0},
-                {1, 2},
-                {2, 3},
-                {3, 4},
-                {4, 3},
-                {5, 4}
-        };
+        Scanner scanner = new Scanner(System.in);
+        int managers = scanner.nextInt();
+        int channelCount = scanner.nextInt();
+        int[][] channels = new int[channelCount][2];
+        for (int i = 0; i < channelCount; i++) {
+            channels[i][0] = scanner.nextInt();
+            channels[i][1] = scanner.nextInt();
+        }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int managers = 6;
+         * int[][] channels = {
+         *         {0, 1},
+         *         {1, 0},
+         *         {1, 2},
+         *         {2, 3},
+         *         {3, 4},
+         *         {4, 3},
+         *         {5, 4}
+         * };
+         */
 
         MinimumManagersToStartCompanyAnnouncement solver =
                 new MinimumManagersToStartCompanyAnnouncement();
