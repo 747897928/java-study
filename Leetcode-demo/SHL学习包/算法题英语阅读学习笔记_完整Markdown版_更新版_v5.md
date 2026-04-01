@@ -1,7 +1,4 @@
-# 算法题英语阅读学习笔记（完整 Markdown 版）
-
-> 整理范围：从本次会话第一句“这里有几个单词障碍我的阅读：alternate，consists，ascending，representing，separated，alternately。”开始，到你提出“需要维护一个学习文档笔记给我”为止。  
-> 额外补充：文末新增了你本轮补问的 `the alternately sorted elements of the given list` 分析。
+# 算法题英语阅读学习笔记
 
 ---
 
@@ -18,10 +15,7 @@
 ---
 
 
-# 2. 原题全文（补录）
-
-> 这一节是补录。你骂得对：前一版笔记少了原题全文，这很不专业。  
-> 做学习笔记时，原题本身必须在笔记里，不然别人一翻笔记，不知道题目原文是什么，也没法对照你后面的讲解。
+# 2. 原题全文
 
 ## 2.1 原题原文
 
@@ -105,7 +99,7 @@ Output:
 
 缺少第 1 层，笔记就容易变成“脱离原文的二次总结”，复盘时不够稳。
 
-# 2. 原题核心意思（先做人话版）
+# 2. 原题核心意思
 
 原题的意思是：
 
@@ -3435,3 +3429,983 @@ You may disregard the case of the letters.
 
 ### `sub`
 通常不是普通词，而是 `substring` 的缩写变量名\n
+
+------
+
+# 33. 新题补充：`vowels / alphabet / eliminate` 这道题
+
+> 这一节对应新的字符串题。
+> 重点解决：
+>
+> 1. `vowels`
+> 2. `alphabet`
+> 3. `eliminate`
+> 4. 顺手补上这题里很值得一起学的结构：`from`、`given string`、`after removing ...`
+
+------
+
+## 33.1 原题去掉包装后的干净版本
+
+```text
+Question
+
+The vowels in the English alphabet are: (a, e, i, o, u, A, E, I, O, U). Write an algorithm to eliminate all vowels from a given string.
+
+Input
+The input consists of the given string.
+
+Output
+Print a string after removing all the vowels from the given string.
+
+Example
+
+Input:
+MynameisAnthony
+
+Output:
+Mynmsnthny
+```
+
+------
+
+## 33.2 这道题的人话版
+
+题目的意思非常直接：
+
+1. 英文字母里的元音包括 `a e i o u` 和它们的大写。
+2. 给你一个字符串。
+3. 把里面所有元音字母删掉。
+4. 输出删掉元音之后的新字符串。
+
+例如：
+
+```text
+MynameisAnthony
+```
+
+去掉：
+
+- `a`
+- `e`
+- `i`
+- `A`
+- `o`
+
+这些元音以后，剩下：
+
+```text
+Mynmsnthny
+```
+
+------
+
+## 33.3 你这次卡住的 3 个词
+
+这次最关键的确实就是：
+
+- `vowels`
+- `alphabet`
+- `eliminate`
+
+下面我不只给中文，还会给你“核心感觉 + 使用场景 + 举一反三”。
+
+------
+
+## 33.4 `vowels`
+
+### 基本形式
+
+- 单数：`vowel`
+- 复数：`vowels`
+
+### 这题里的意思
+
+这题里就是：
+
+> 元音字母
+
+题目已经直接告诉你：
+
+```text
+(a, e, i, o, u, A, E, I, O, U)
+```
+
+所以这里完全不用猜。
+
+------
+
+### 更底层怎么理解
+
+`vowel` 严格说先是“元音”这个概念。
+但在算法题这种题面里，通常直接落到：
+
+> 元音字母
+
+所以你在这类题里可以先稳稳记成：
+
+- `vowel` = 元音字母
+- `vowels` = 元音字母们 / 元音字母（复数）
+
+------
+
+### 反义搭配
+
+你之后很可能还会遇到：
+
+- `consonant` = 辅音字母
+- `consonants` = 辅音字母（复数）
+
+所以以后常见题型会是：
+
+- count vowels
+- count consonants
+- separate vowels and consonants
+
+------
+
+### 高频场景例句
+
+- The string contains only vowels.
+  这个字符串只包含元音字母。
+- Count the number of vowels in the word.
+  统计这个单词中元音字母的个数。
+- Remove all vowels from the sentence.
+  从句子中删除所有元音字母。
+
+------
+
+### 一个很值钱的补充
+
+以后你看到：
+
+```text
+vowel(s) in a string
+```
+
+大概率就是：
+
+> 字符串中的元音字母
+
+而不是很抽象的语言学讨论。
+
+也就是说，在算法题里它通常非常“落地”。
+
+------
+
+## 33.5 `alphabet`
+
+### 基本意思
+
+`alphabet` 最常见就是：
+
+> 字母表
+
+所以：
+
+```text
+the English alphabet
+```
+
+就是：
+
+> 英文字母表
+
+------
+
+### 这题里怎么理解最自然
+
+原句：
+
+```text
+The vowels in the English alphabet are ...
+```
+
+自然中文就是：
+
+> 英文字母表中的元音字母有……
+
+这里的 `alphabet` 不是“字母”本身，而是：
+
+> 整套字母系统 / 整个字母表
+
+------
+
+### `alphabet` 和 `letters` 的区别
+
+这个点很重要。
+
+#### `letters`
+
+更像：
+
+> 一个一个具体的字母
+
+例如：
+
+- lowercase letters = 小写字母
+- English letters = 英文字母
+
+#### `alphabet`
+
+更像：
+
+> 整套字母表
+
+例如：
+
+- learn the alphabet = 学字母表
+- the English alphabet = 英文字母表
+
+所以你可以粗略记成：
+
+- `letters` = 字母（一个个具体单位）
+- `alphabet` = 字母表（整套系统）
+
+------
+
+### 高频扩展
+
+你以后很可能还会见到：
+
+#### `alphabetical order`
+
+> 按字母顺序
+
+例如：
+
+- Sort the words in alphabetical order.
+  把这些单词按字母顺序排序。
+
+#### `alphabetically`
+
+> 按字母顺序地
+
+例如：
+
+- The names are arranged alphabetically.
+  这些名字是按字母顺序排列的。
+
+这个词组很值得顺手记住，因为它在题面、文档、表格场景里都常见。
+
+------
+
+## 33.6 `eliminate`
+
+### 基本意思
+
+`eliminate` 最核心的感觉是：
+
+> 去掉，使它不再留下来
+
+所以它常见可落成：
+
+- 消除
+- 去除
+- 删除
+- 淘汰
+- 排除
+
+------
+
+### 这题里是什么意思
+
+原句：
+
+```text
+Write an algorithm to eliminate all vowels from a given string.
+```
+
+这里最自然绝对不是“消灭元音”那种很硬的翻法，
+而是：
+
+> 写一个算法，从给定字符串中去掉所有元音字母。
+
+也就是：
+
+- `eliminate all vowels` = 去掉所有元音
+- `from a given string` = 从给定字符串中
+
+------
+
+### `eliminate` 的核心感觉
+
+你最好不要把它背成很多中文义项，而是抓这个底层感觉：
+
+> 把某个东西从系统、集合、范围里清出去
+
+然后再按场景落地：
+
+#### 在算法/数据题里
+
+- eliminate duplicates
+  去重 / 去掉重复项
+- eliminate spaces
+  去掉空格
+- eliminate vowels
+  去掉元音
+
+#### 在比赛场景里
+
+- eliminate a team
+  淘汰一支队伍
+
+#### 在抽象表达里
+
+- eliminate risk
+  消除风险
+- eliminate errors
+  消除错误
+- eliminate the possibility
+  排除这种可能性
+
+------
+
+### 和 `remove` 的关系
+
+这题里，`eliminate` 和 `remove` 很接近。
+
+例如：
+
+- eliminate all vowels
+- remove all vowels
+
+都能理解成：
+
+> 去掉所有元音
+
+但语气上通常有一点区别：
+
+#### `remove`
+
+更直接、更日常：
+
+> 拿掉、移除
+
+#### `eliminate`
+
+更书面一点，带一点：
+
+> 清除掉、排除掉、不让它留下来
+
+所以算法题里出题人有时会用 `eliminate`，但你脑中可以先落地成：
+
+> remove
+
+这样更好懂。
+
+------
+
+## 33.7 这题里顺手必须补的 3 个结构
+
+这题真正要读顺，不只是认出三个词，还要顺手把这些结构看懂：
+
+- `from`
+- `given string`
+- `after removing ...`
+
+------
+
+## 33.8 `from`：这题里非常关键
+
+原句：
+
+```text
+eliminate all vowels from a given string
+```
+
+这里 `from` 不能只是机械理解成“来自”。
+
+这里它更接近：
+
+> 从……中拿掉 / 从……里去除
+
+所以：
+
+- remove A from B
+  从 B 中去掉 A
+- eliminate A from B
+  从 B 中消除 A
+- delete A from B
+  从 B 中删除 A
+
+这是一个特别常见的模板。
+
+------
+
+### 很值得你直接记住的模式
+
+```text
+remove X from Y
+eliminate X from Y
+delete X from Y
+```
+
+都可以先理解为：
+
+> 从 Y 里去掉 X
+
+例如：
+
+- Remove all spaces from the string.
+  从字符串中删除所有空格。
+- Eliminate duplicate numbers from the array.
+  从数组中去掉重复数字。
+- Delete invalid characters from the input.
+  从输入中删除无效字符。
+
+------
+
+## 33.9 `given string`
+
+这个你前面已经学过一次，这里刚好复习。
+
+```text
+a given string
+```
+
+意思是：
+
+> 一个给定的字符串
+
+这里的 `given` 不是普通动词原形，而是过去分词，像形容词一样修饰 `string`。
+
+所以：
+
+- given string = 给定字符串
+- given array = 给定数组
+- given number = 给定数字
+
+在算法题里几乎是超高频模板。
+
+------
+
+## 33.10 `after removing ...`
+
+输出部分原句：
+
+```text
+Print a string after removing all the vowels from the given string.
+```
+
+这里最该注意的是：
+
+```text
+after removing ...
+```
+
+这正好和你前面学过的 `after doing` 完全连起来。
+
+------
+
+### 为什么用 `removing`
+
+因为 `after` 后面常常接“事情”。
+
+所以：
+
+- after sorting
+- after reading
+- after removing
+
+都可以理解成：
+
+> 在“做完这件事”之后
+
+也就是：
+
+- after removing all the vowels
+  在去掉所有元音之后
+
+------
+
+### 底层逻辑
+
+你可以这样想：
+
+- `remove` 是动作本身
+- `removing` 是“去掉这件事”
+
+所以：
+
+```text
+after removing all the vowels
+```
+
+就是：
+
+> 在“去掉所有元音这件事”之后
+
+这个理解方式非常稳。
+
+------
+
+## 33.11 重点句子精拆
+
+------
+
+### 句子 1
+
+```text
+The vowels in the English alphabet are: (a, e, i, o, u, A, E, I, O, U).
+```
+
+### 自然中文
+
+英文字母表中的元音字母有：`a, e, i, o, u` 以及它们的大写形式。
+
+### 结构拆解
+
+- `The vowels` = 元音字母
+- `in the English alphabet` = 在英文字母表中 / 英文字母表中的
+- `are` = 是
+- 后面冒号列举具体内容
+
+### 你真正要学会的不是翻译，而是这个结构
+
+以后你会常见：
+
+```text
+The X in Y are ...
+```
+
+它通常就是：
+
+> Y 中的 X 有……
+
+例如：
+
+- The digits in the string are ...
+  字符串中的数字有……
+- The elements in the array are ...
+  数组中的元素有……
+
+------
+
+### 句子 2
+
+```text
+Write an algorithm to eliminate all vowels from a given string.
+```
+
+### 自然中文
+
+写一个算法，从给定字符串中去掉所有元音字母。
+
+### 结构拆解
+
+- `Write an algorithm` = 写一个算法
+- `to eliminate` = 用来去掉 / 去消除
+- `all vowels` = 所有元音字母
+- `from a given string` = 从给定字符串中
+
+### 这里最值钱的点
+
+`to eliminate` 在这里表示“目的”。
+
+也就是：
+
+> 写一个算法，目的是去掉……
+
+这个 `to do` 结构在题面里非常常见。
+
+例如：
+
+- Write an algorithm to find the maximum.
+  写一个算法求最大值。
+- Write an algorithm to reverse the string.
+  写一个算法翻转字符串。
+
+------
+
+### 句子 3
+
+```text
+The input consists of the given string.
+```
+
+### 自然中文
+
+输入就是给定的字符串。
+
+### 为什么不必硬翻成“由……组成”
+
+`consists of` 固然是“由……组成”，
+但在题面里经常可以直接自然化成：
+
+- 输入是……
+- 第一行是……
+- 第二行包含……
+
+所以这里最自然就是：
+
+> 输入 consists of the given string
+> = 输入就是这个给定字符串
+
+------
+
+### 句子 4
+
+```text
+Print a string after removing all the vowels from the given string.
+```
+
+### 自然中文
+
+输出删去所有元音字母之后得到的字符串。
+
+### 这句为什么有点“平台英语味”
+
+因为它写得能懂，但不算特别漂亮。
+
+更自然一点的英语会像：
+
+- Print the string after removing all vowels.
+- Print the resulting string after removing all vowels from the input.
+
+也就是说，原题这种句子你要学会：
+
+> 抓意思，不要要求它每一句都像教材英语那样漂亮。
+
+------
+
+## 33.12 这题真正考你的，不只是单词，而是“压缩理解”
+
+你这次会被卡住，其实很正常。
+因为这题虽然短，但里面有几层压缩：
+
+1. `vowels` 你得知道是“元音字母”
+2. `alphabet` 你得知道是“字母表”
+3. `eliminate ... from ...` 你得知道是“从……中去掉……”
+4. `after removing ...` 你得知道是“去掉……之后”
+
+所以它不是“单词会不会”的问题，而是：
+
+> 你能不能把短句子一口气整体吃下去。
+
+这正是你这份笔记一直在训练的能力。
+
+------
+
+## 33.13 这题的“人话重组”示范
+
+如果你不按英文顺序硬翻，这题最自然可以直接重组为：
+
+> 已知元音字母是 `a e i o u` 和它们的大写。
+> 现在给你一个字符串，请把其中所有元音字母删除，并输出删除后的结果字符串。
+
+这就是你以后要训练的能力：
+
+> 不是逐词贴中文，
+> 而是把英文里的信息重新排成自然中文。
+
+------
+
+## 33.14 这题还可以顺手记住的高频词
+
+这三个之外，我建议你顺手再带走几个很值钱的词：
+
+### `string`
+
+- 字符串
+- 算法题超高频词
+
+### `remove`
+
+- 删除
+- 去掉
+- 移除
+
+### `output`
+
+- 输出
+
+### `input`
+
+- 输入
+
+### `given`
+
+- 给定的
+
+这些词和 `vowels / eliminate / from / after removing` 经常一起出现。
+
+------
+
+## 33.15 举一反三：这类题以后常怎么变形
+
+你学一个词，最好马上扩展到相邻题型。
+
+------
+
+### 变形 1：去掉所有空格
+
+```text
+Remove all spaces from a string.
+```
+
+意思：
+
+> 从字符串中删除所有空格。
+
+这里你复用了：
+
+- remove
+- from
+- string
+
+------
+
+### 变形 2：去掉所有数字
+
+```text
+Eliminate all digits from the input string.
+```
+
+意思：
+
+> 从输入字符串中去掉所有数字。
+
+这里你复用了：
+
+- eliminate
+- digits
+- input string
+
+------
+
+### 变形 3：统计元音个数
+
+```text
+Count the number of vowels in the string.
+```
+
+意思：
+
+> 统计字符串中元音字母的数量。
+
+这里你复用了：
+
+- vowels
+- in the string
+
+------
+
+### 变形 4：只保留元音
+
+```text
+Keep only the vowels in the string.
+```
+
+意思：
+
+> 只保留字符串中的元音字母。
+
+这和“去掉元音”正好相反。
+
+------
+
+### 变形 5：不区分大小写地去掉元音
+
+```text
+Remove all vowels regardless of case.
+```
+
+意思：
+
+> 不区分大小写地删除所有元音字母。
+
+这里你又能连到你之前学过的：
+
+- case
+- disregard
+- ignore case
+
+------
+
+## 33.16 `eliminate / remove / delete / exclude` 怎么区分
+
+这一步是扩展，你学会以后会很有感觉。
+
+### `remove`
+
+最通用、最日常：
+
+> 拿掉、移除
+
+- remove spaces
+- remove vowels
+
+------
+
+### `eliminate`
+
+更像：
+
+> 清除掉、排除掉、不让它留下
+
+- eliminate duplicates
+- eliminate errors
+- eliminate vowels
+
+------
+
+### `delete`
+
+更像：
+
+> 删掉一个已经存在的内容
+
+- delete a file
+- delete a character
+- delete this record
+
+------
+
+### `exclude`
+
+更像：
+
+> 排除在外，不算进去
+
+- exclude invalid values
+  排除无效值
+- exclude the first element
+  不把第一个元素算进去
+
+------
+
+### 你在算法题里先怎么用
+
+最稳的做法是：
+
+- `remove` 先记成最通用
+- `eliminate` 先记成较书面的 remove
+- `delete` 先记成“删除具体对象”
+- `exclude` 先记成“排除在统计或范围之外”
+
+这样不会乱。
+
+------
+
+## 33.17 这题的算法本身其实很简单
+
+如果只讲思路，就是：
+
+1. 遍历字符串里的每个字符。
+2. 判断它是不是元音。
+3. 如果不是元音，就保留下来。
+4. 最后把保留下来的字符拼成新字符串输出。
+
+------
+
+## 33.18 这题最朴素的 Java 写法
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+
+        StringBuilder ans = new StringBuilder();
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if ("aeiouAEIOU".indexOf(c) == -1) {
+                ans.append(c);
+            }
+        }
+
+        System.out.print(ans.toString());
+    }
+}
+```
+
+------
+
+## 33.19 代码里也能顺手学英语
+
+### `indexOf`
+
+表示：
+
+> 查找某个字符/字符串第一次出现的位置
+
+### `append`
+
+表示：
+
+> 追加
+
+所以：
+
+```java
+ans.append(c);
+```
+
+就是：
+
+> 把字符 `c` 追加到答案后面
+
+这两个词以后写字符串题会常见。
+
+------
+
+## 33.20 这题最值得你记住的 8 个结论
+
+### 1.
+
+`vowel` = 元音字母
+`vowels` = 元音字母（复数）
+
+### 2.
+
+`alphabet` = 字母表
+`letters` = 一个个具体字母
+
+### 3.
+
+`eliminate` 的核心感觉不是死记“消灭”，而是：
+
+> 去掉、清除、排除，使它不再留下
+
+### 4.
+
+`eliminate A from B`
+很常见，先稳稳读成：
+
+> 从 B 中去掉 A
+
+### 5.
+
+`given string`
+就是：
+
+> 给定字符串
+
+### 6.
+
+`after removing ...`
+就是：
+
+> 去掉……之后
+> 背后逻辑仍然是你已经学过的 `after doing`
+
+### 7.
+
+题面里的英语不一定都很漂亮，但你要学会抓主干：
+
+- 做什么
+- 对谁做
+- 用什么规则做
+
+### 8.
+
+以后再见到这类题，你可以快速套模板：
+
+- count vowels
+- remove vowels
+- keep vowels
+- ignore case
+- remove X from Y

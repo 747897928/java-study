@@ -1,13 +1,24 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
 /**
+ * Question
+ *
  * Automata Pro Question Bank(1).docx
  * Question 63
  *
- * For multiple [L, R] queries on a string, output the character or characters that occur most
- * frequently within each range.
+ * Mitchell has invented a machine that outputs the most frequently occurring characters in a
+ * string that lie in the range [L, R]. The machine accepts a series of characters and asks the
+ * user to input two numbers, L and R. The machine outputs the characters for all the pairs of [L,
+ * R] values the user provides.
  *
- * 当前状态：题面已整合到仓库，待补完整实现。
+ * Write an algorithm to help Mitchell find the output for all the inputs he provides.
+ *
+ * Status
+ *
+ * This file currently exists to keep the full problem statement inside the shl code tree,
+ * so later review can stay inside code files instead of going back to the docx.
+ *
+ * The algorithm implementation still needs to be added.
  */
 public class Q63MostFrequentCharactersInRanges {
 }
