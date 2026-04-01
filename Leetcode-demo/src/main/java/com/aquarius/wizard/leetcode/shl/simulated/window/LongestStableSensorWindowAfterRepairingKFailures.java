@@ -50,9 +50,9 @@ package com.aquarius.wizard.leetcode.shl.simulated.window;
  * the window can be turned into seven continuous 1s.
  * Hence, the answer is 7.
  *
- * 我的备注
+ * 备注
  *
- * 这是我补的模拟题，不是原 SHL 题。
+ * 模拟题，不是原 SHL 题。
  *
  * 相似题：
  * 1. NumberOfWaysToObtainTheLongestConsecutiveOnes

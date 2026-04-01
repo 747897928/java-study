@@ -2,6 +2,7 @@ package com.aquarius.wizard.leetcode.shl;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -30,7 +31,7 @@ import java.util.Set;
  * Print an integer representing the minimum number of straight-line routes needed from the base to
  * cover all pickup locations.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -39,6 +40,31 @@ import java.util.Set;
  * 提示：如果两个 pickup 点和 base 共线且在同一方向上，它们可以由同一条 route 覆盖。
  */
 public class MinimumStraightLineRoutesFromBaseToPickupLocations {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int pickupLocationCount = scanner.nextInt();
+        int[][] pickupLocations = new int[pickupLocationCount][2];
+        for (int i = 0; i < pickupLocationCount; i++) {
+            pickupLocations[i][0] = scanner.nextInt();
+            pickupLocations[i][1] = scanner.nextInt();
+        }
+        int baseX = scanner.nextInt();
+        int baseY = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int pickupLocationCount = 4;
+         * int[][] pickupLocations = {{1, 1}, {2, 2}, {1, 0}, {2, 0}};
+         * int baseX = 0;
+         * int baseY = 0;
+         */
+
+        MinimumStraightLineRoutesFromBaseToPickupLocations solver =
+                new MinimumStraightLineRoutesFromBaseToPickupLocations();
+        System.out.println(solver.minimumRoutes(pickupLocations, baseX, baseY));
+    }
 
     public int minimumRoutes(int[][] pickupLocations, int baseX, int baseY) {
         Set<Direction> directions = new HashSet<>();

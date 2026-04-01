@@ -9,7 +9,7 @@ import java.util.Arrays;
  *
  * LeetCode 724 - Find Pivot Index
  *
- * 这不是原 SHL 题，是我补的前缀和练习题。
+ * 不是原 SHL 题，是前缀和练习题。
  *
  * 给你一个整数数组 nums，请返回数组的中心下标。
  * 中心下标的定义是：下标左侧所有元素之和等于右侧所有元素之和。

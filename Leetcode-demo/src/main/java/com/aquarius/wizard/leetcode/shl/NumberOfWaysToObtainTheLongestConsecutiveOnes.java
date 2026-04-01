@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -40,7 +43,7 @@ package com.aquarius.wizard.leetcode.shl;
  * There are exactly three substrings of length 3 that contain at most one 0: the three occurrences
  * of 101. Each such substring can be turned into 111 by changing one 0. So, the output is 3.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -66,11 +69,18 @@ package com.aquarius.wizard.leetcode.shl;
 public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
 
     public static void main(String[] args) {
-        String binaryString = "1010101";
-        int changeK = 1;
+        Scanner scanner = new Scanner(System.in);
+        String binaryString = scanner.next();
+        int changeK = scanner.nextInt();
 
-        NumberOfWaysToObtainTheLongestConsecutiveOnes solver =
-                new NumberOfWaysToObtainTheLongestConsecutiveOnes();
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * String binaryString = "1010101";
+         * int changeK = 1;
+         */
+
+        NumberOfWaysToObtainTheLongestConsecutiveOnes solver = new NumberOfWaysToObtainTheLongestConsecutiveOnes();
         System.out.println(solver.countWays(binaryString, changeK));
     }
 

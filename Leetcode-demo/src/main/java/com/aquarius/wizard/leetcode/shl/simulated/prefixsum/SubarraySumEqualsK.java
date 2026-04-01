@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * LeetCode 560 - Subarray Sum Equals K
  *
- * 这不是原 SHL 题，是我补的前缀和练习题。
+ * 不是原 SHL 题，是前缀和练习题。
  *
  * 给你一个整数数组 nums 和一个整数 k，请你统计和为 k 的连续子数组个数。
  *

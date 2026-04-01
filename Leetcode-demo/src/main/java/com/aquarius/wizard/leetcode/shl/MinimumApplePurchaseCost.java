@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -42,7 +45,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Josh can buy five lots from the first shop and one lot from the second shop.
  * So the total price is (5 * 10 + 15) = 65.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -71,11 +74,22 @@ package com.aquarius.wizard.leetcode.shl;
 public class MinimumApplePurchaseCost {
 
     public static void main(String[] args) {
-        int targetApples = 19;
-        int lotSizeA = 3;
-        int priceA = 10;
-        int lotSizeB = 4;
-        int priceB = 15;
+        Scanner scanner = new Scanner(System.in);
+        int targetApples = scanner.nextInt();
+        int lotSizeA = scanner.nextInt();
+        int priceA = scanner.nextInt();
+        int lotSizeB = scanner.nextInt();
+        int priceB = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int targetApples = 19;
+         * int lotSizeA = 3;
+         * int priceA = 10;
+         * int lotSizeB = 4;
+         * int priceB = 15;
+         */
 
         MinimumApplePurchaseCost solver = new MinimumApplePurchaseCost();
         System.out.println(solver.minimumCost(targetApples, lotSizeA, priceA, lotSizeB, priceB));

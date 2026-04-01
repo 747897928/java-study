@@ -2,6 +2,7 @@ package com.aquarius.wizard.leetcode.shl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Question
@@ -35,7 +36,7 @@ import java.util.Map;
  *
  * [The screenshot for the example is missing.]
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -44,6 +45,27 @@ import java.util.Map;
  * 提示：若 K = 0，要统计同价商品之间的组合数；若 K > 0，可以用 freq[x] * freq[x + K]。
  */
 public class ProductPairsWithPriceDifferenceK {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int listSize = scanner.nextInt();
+        int[] prices = new int[listSize];
+        for (int i = 0; i < listSize; i++) {
+            prices[i] = scanner.nextInt();
+        }
+        int difference = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int listSize = 6;
+         * int[] prices = {1, 5, 3, 4, 2, 2};
+         * int difference = 2;
+         */
+
+        ProductPairsWithPriceDifferenceK solver = new ProductPairsWithPriceDifferenceK();
+        System.out.println(solver.countPairs(prices, difference));
+    }
 
     public long countPairs(int[] prices, int difference) {
         if (difference < 0) {

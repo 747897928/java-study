@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -22,7 +25,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * Mynmsnthny
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -33,7 +36,14 @@ package com.aquarius.wizard.leetcode.shl;
 public class RemoveVowelsFromString {
 
     public static void main(String[] args) {
-        String source = "MynameisAnthony";
+        Scanner scanner = new Scanner(System.in);
+        String source = scanner.nextLine();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * String source = "MynameisAnthony";
+         */
 
         RemoveVowelsFromString solver = new RemoveVowelsFromString();
         System.out.println(solver.removeVowels(source));

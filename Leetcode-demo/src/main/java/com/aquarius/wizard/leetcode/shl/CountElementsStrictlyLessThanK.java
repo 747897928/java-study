@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  * <p>
@@ -37,7 +40,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Explanation:
  * The numbers that are less than 5 are 1, 2, 3, 4.
  * <p>
- * 我的备注
+ * 备注
  * <p>
  * 难度：简单。
  * <p>
@@ -52,17 +55,28 @@ package com.aquarius.wizard.leetcode.shl;
 public class CountElementsStrictlyLessThanK {
 
     public static void main(String[] args) {
-        int listSize = 7;
-        int[] numbers = {1, 7, 4, 5, 6, 3, 2};
-        int targetK = 5;
-
-        if (numbers.length != listSize) {
-            throw new IllegalArgumentException("numbers.length must equal listSize");
+        Scanner scanner = new Scanner(System.in);
+        int listSize = scanner.nextInt();
+        int[] numbers = new int[listSize];
+        for (int i = 0; i < listSize; i++) {
+            numbers[i] = scanner.nextInt();
         }
+        int targetK = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int listSize = 7;
+         * int[] numbers = {1, 7, 4, 5, 6, 3, 2};
+         * int targetK = 5;
+         */
 
         CountElementsStrictlyLessThanK solver = new CountElementsStrictlyLessThanK();
         System.out.println(solver.countLessThan(numbers, targetK));
-        System.out.println(solver.countLessThan2(numbers, targetK));
+        /*
+         * 如果需要核对另一种写法，可以临时打开下面这行：
+         * System.out.println(solver.countLessThan2(numbers, targetK));
+         */
     }
 
     public int countLessThan(int[] nums, int target) {

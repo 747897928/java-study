@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +50,7 @@ import java.util.List;
  * Road (2,3) lies between the pairs of cities (1,3), (1,4), (2,3), and (2,4).
  * So, the maximum toll collected by the road connecting cities 2 and 3 is 4.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -85,17 +86,23 @@ import java.util.List;
 public class RoadWithMaximumTollRevenue {
 
     public static void main(String[] args) {
-        int cityCount = 4;
-        int roadCount = 3;
-        int[][] roads = {
-                {1, 2},
-                {2, 3},
-                {3, 4}
-        };
-
-        if (roads.length != roadCount) {
-            throw new IllegalArgumentException("roads.length must equal roadCount");
+        Scanner scanner = new Scanner(System.in);
+        int cityCount = scanner.nextInt();
+        int roadCount = scanner.nextInt();
+        int[][] roads = new int[roadCount][2];
+        for (int i = 0; i < roadCount; i++) {
+            for (int j = 0; j < 2; j++) {
+                roads[i][j] = scanner.nextInt();
+            }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int cityCount = 4;
+         * int roadCount = 3;
+         * int[][] roads = {{1, 2}, {2, 3}, {3, 4}};
+         */
 
         RoadWithMaximumTollRevenue solver = new RoadWithMaximumTollRevenue();
         System.out.println(format(solver.findBestRoad(cityCount, roads)));

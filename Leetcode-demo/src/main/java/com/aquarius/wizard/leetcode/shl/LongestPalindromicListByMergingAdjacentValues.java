@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ import java.util.List;
  * Output:
  * 15 25 34 25 15
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -52,12 +53,19 @@ import java.util.List;
 public class LongestPalindromicListByMergingAdjacentValues {
 
     public static void main(String[] args) {
-        int listSize = 6;
-        int[] salesData = {15, 10, 15, 34, 25, 15};
-
-        if (salesData.length != listSize) {
-            throw new IllegalArgumentException("salesData.length must equal listSize");
+        Scanner scanner = new Scanner(System.in);
+        int listSize = scanner.nextInt();
+        int[] salesData = new int[listSize];
+        for (int i = 0; i < listSize; i++) {
+            salesData[i] = scanner.nextInt();
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int listSize = 6;
+         * int[] salesData = {15, 10, 15, 34, 25, 15};
+         */
 
         LongestPalindromicListByMergingAdjacentValues solver = new LongestPalindromicListByMergingAdjacentValues();
         System.out.println(format(solver.longestPalindromicList(salesData)));

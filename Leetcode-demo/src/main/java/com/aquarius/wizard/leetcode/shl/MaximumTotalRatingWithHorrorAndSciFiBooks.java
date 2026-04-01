@@ -1,6 +1,7 @@
 package com.aquarius.wizard.leetcode.shl;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Question
@@ -54,7 +55,7 @@ import java.util.Arrays;
  * 6 30
  * 2 10
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -65,6 +66,42 @@ import java.util.Arrays;
 public class MaximumTotalRatingWithHorrorAndSciFiBooks {
 
     private static final long NEGATIVE_INF = Long.MIN_VALUE / 4;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int amount = scanner.nextInt();
+        int horrorBookCount = scanner.nextInt();
+        int horrorValueCount = scanner.nextInt();
+        int[][] horrorBooks = new int[horrorBookCount][horrorValueCount];
+        for (int i = 0; i < horrorBookCount; i++) {
+            for (int j = 0; j < horrorValueCount; j++) {
+                horrorBooks[i][j] = scanner.nextInt();
+            }
+        }
+        int sciFiBookCount = scanner.nextInt();
+        int sciFiValueCount = scanner.nextInt();
+        int[][] sciFiBooks = new int[sciFiBookCount][sciFiValueCount];
+        for (int i = 0; i < sciFiBookCount; i++) {
+            for (int j = 0; j < sciFiValueCount; j++) {
+                sciFiBooks[i][j] = scanner.nextInt();
+            }
+        }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int amount = 20;
+         * int horrorBookCount = 2;
+         * int horrorValueCount = 2;
+         * int[][] horrorBooks = {{5, 6}, {7, 10}};
+         * int sciFiBookCount = 2;
+         * int sciFiValueCount = 2;
+         * int[][] sciFiBooks = {{4, 5}, {8, 12}};
+         */
+
+        MaximumTotalRatingWithHorrorAndSciFiBooks solver = new MaximumTotalRatingWithHorrorAndSciFiBooks();
+        System.out.println(solver.maximumRating(amount, horrorBooks, sciFiBooks));
+    }
 
     public long maximumRating(int amount, int[][] horrorBooks, int[][] sciFiBooks) {
         long[][] dp = new long[4][amount + 1];

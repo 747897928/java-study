@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -31,7 +34,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 2
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -42,12 +45,19 @@ package com.aquarius.wizard.leetcode.shl;
 public class PerfectSquareBillCount {
 
     public static void main(String[] args) {
-        int customerCount = 6;
-        int[] billAmounts = {25, 77, 54, 81, 48, 34};
-
-        if (billAmounts.length != customerCount) {
-            throw new IllegalArgumentException("billAmounts.length must equal customerCount");
+        Scanner scanner = new Scanner(System.in);
+        int customerCount = scanner.nextInt();
+        int[] billAmounts = new int[customerCount];
+        for (int i = 0; i < customerCount; i++) {
+            billAmounts[i] = scanner.nextInt();
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int customerCount = 6;
+         * int[] billAmounts = {25, 77, 54, 81, 48, 34};
+         */
 
         PerfectSquareBillCount solver = new PerfectSquareBillCount();
         System.out.println(solver.countPerfectSquares(billAmounts));

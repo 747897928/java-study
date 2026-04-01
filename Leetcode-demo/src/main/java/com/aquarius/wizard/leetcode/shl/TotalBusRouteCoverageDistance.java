@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.Arrays;
 
 /**
@@ -37,7 +38,7 @@ import java.util.Arrays;
  * Explanation:
  * Their union on the road is [2,5] and [6,7], so the total covered distance is 3 + 1 = 4.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -48,22 +49,23 @@ import java.util.Arrays;
 public class TotalBusRouteCoverageDistance {
 
     public static void main(String[] args) {
-        int busCount = 3;
-        int routeWidth = 2;
-        int[][] busRoutes = {
-                {2, 4},
-                {3, 5},
-                {6, 7}
-        };
-
-        if (busRoutes.length != busCount) {
-            throw new IllegalArgumentException("busRoutes.length must equal busCount");
-        }
-        for (int[] busRoute : busRoutes) {
-            if (busRoute.length != routeWidth) {
-                throw new IllegalArgumentException("Each route must contain exactly two station IDs");
+        Scanner scanner = new Scanner(System.in);
+        int busCount = scanner.nextInt();
+        int routeWidth = scanner.nextInt();
+        int[][] busRoutes = new int[busCount][routeWidth];
+        for (int i = 0; i < busCount; i++) {
+            for (int j = 0; j < routeWidth; j++) {
+                busRoutes[i][j] = scanner.nextInt();
             }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int busCount = 3;
+         * int routeWidth = 2;
+         * int[][] busRoutes = {{2, 4}, {3, 5}, {6, 7}};
+         */
 
         TotalBusRouteCoverageDistance solver = new TotalBusRouteCoverageDistance();
         System.out.println(solver.totalDistance(busRoutes));

@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import java.util.List;
  * Explanation:
  * For the given number, the list of special numbers is [2, 3, 5, 7, 11].
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -43,7 +44,14 @@ import java.util.List;
 public class PrintAllPrimesFrom2ToN {
 
     public static void main(String[] args) {
-        int limit = 11;
+        Scanner scanner = new Scanner(System.in);
+        int limit = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int limit = 11;
+         */
 
         PrintAllPrimesFrom2ToN solver = new PrintAllPrimesFrom2ToN();
         System.out.println(format(solver.listPrimes(limit)));

@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +48,7 @@ import java.util.Queue;
  * 4th likes the person with ID 1
  * A maximum of 4 alumni can be seated around the circular table in the following manner: 1-2-3-4
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -88,12 +89,19 @@ import java.util.Queue;
 public class CircularDinnerMaximumAttendees {
 
     public static void main(String[] args) {
-        int alumniCount = 4;
-        int[] likesOneBased = {2, 3, 4, 1};
-
-        if (likesOneBased.length != alumniCount) {
-            throw new IllegalArgumentException("likesOneBased.length must equal alumniCount");
+        Scanner scanner = new Scanner(System.in);
+        int alumniCount = scanner.nextInt();
+        int[] likesOneBased = new int[alumniCount];
+        for (int i = 0; i < alumniCount; i++) {
+            likesOneBased[i] = scanner.nextInt();
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int alumniCount = 4;
+         * int[] likesOneBased = {2, 3, 4, 1};
+         */
 
         CircularDinnerMaximumAttendees solver = new CircularDinnerMaximumAttendees();
         System.out.println(solver.maxAttendees(likesOneBased));

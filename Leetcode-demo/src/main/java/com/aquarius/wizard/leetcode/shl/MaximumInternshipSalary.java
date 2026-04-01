@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -46,7 +49,7 @@ package com.aquarius.wizard.leetcode.shl;
  * To earn the maximum salary, select the difficult task (10) from the 2nd row and the difficult
  * task (23) from the 4th row. The maximum salary earned = 10 + 23 = 33.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -57,23 +60,23 @@ package com.aquarius.wizard.leetcode.shl;
 public class MaximumInternshipSalary {
 
     public static void main(String[] args) {
-        int internshipDays = 4;
-        int taskTypeCount = 2;
-        int[][] payByDay = {
-                {1, 2},
-                {4, 10},
-                {20, 21},
-                {2, 23}
-        };
-
-        if (payByDay.length != internshipDays) {
-            throw new IllegalArgumentException("payByDay.length must equal internshipDays");
-        }
-        for (int[] dayPay : payByDay) {
-            if (dayPay.length != taskTypeCount) {
-                throw new IllegalArgumentException("Each day must contain easy and hard pay");
+        Scanner scanner = new Scanner(System.in);
+        int internshipDays = scanner.nextInt();
+        int taskTypeCount = scanner.nextInt();
+        int[][] payByDay = new int[internshipDays][taskTypeCount];
+        for (int i = 0; i < internshipDays; i++) {
+            for (int j = 0; j < taskTypeCount; j++) {
+                payByDay[i][j] = scanner.nextInt();
             }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int internshipDays = 4;
+         * int taskTypeCount = 2;
+         * int[][] payByDay = {{1, 2}, {4, 10}, {20, 21}, {2, 23}};
+         */
 
         MaximumInternshipSalary solver = new MaximumInternshipSalary();
         System.out.println(solver.maxSalary(payByDay));

@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.Arrays;
 
 /**
@@ -31,7 +32,7 @@ import java.util.Arrays;
  * Output:
  * 5 7 11 46 23 16 10 8
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -42,16 +43,23 @@ import java.util.Arrays;
 public class PartialSortWithAscendingPrefixAndDescendingSuffix {
 
     public static void main(String[] args) {
-        int listSize = 8;
-        int[] numbers = {11, 7, 5, 10, 46, 23, 16, 8};
-        int prefixLength = 3;
-
-        if (numbers.length != listSize) {
-            throw new IllegalArgumentException("numbers.length must equal listSize");
+        Scanner scanner = new Scanner(System.in);
+        int listSize = scanner.nextInt();
+        int[] numbers = new int[listSize];
+        for (int i = 0; i < listSize; i++) {
+            numbers[i] = scanner.nextInt();
         }
+        int prefixLength = scanner.nextInt();
 
-        PartialSortWithAscendingPrefixAndDescendingSuffix solver =
-                new PartialSortWithAscendingPrefixAndDescendingSuffix();
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int listSize = 8;
+         * int[] numbers = {11, 7, 5, 10, 46, 23, 16, 8};
+         * int prefixLength = 3;
+         */
+
+        PartialSortWithAscendingPrefixAndDescendingSuffix solver = new PartialSortWithAscendingPrefixAndDescendingSuffix();
         System.out.println(format(solver.partialSort(numbers, prefixLength)));
     }
 

@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Queue;
@@ -41,7 +42,7 @@ import java.util.Set;
  * Output:
  * 5
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -52,13 +53,21 @@ import java.util.Set;
 public class FifoCacheMissCounter {
 
     public static void main(String[] args) {
-        int requestCount = 6;
-        int[] pageRequests = {1, 2, 1, 3, 1, 2};
-        int cacheSize = 2;
-
-        if (pageRequests.length != requestCount) {
-            throw new IllegalArgumentException("pageRequests.length must equal requestCount");
+        Scanner scanner = new Scanner(System.in);
+        int requestCount = scanner.nextInt();
+        int[] pageRequests = new int[requestCount];
+        for (int i = 0; i < requestCount; i++) {
+            pageRequests[i] = scanner.nextInt();
         }
+        int cacheSize = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int requestCount = 6;
+         * int[] pageRequests = {1, 2, 1, 3, 1, 2};
+         * int cacheSize = 2;
+         */
 
         FifoCacheMissCounter solver = new FifoCacheMissCounter();
         System.out.println(solver.countMisses(pageRequests, cacheSize));

@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ import java.util.Set;
  * Explanation:
  * The numbers that are not common to both lists are [1, 1, 2, 3, 9, 10, 11, 12, 13, 18, 19, 20].
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -50,14 +51,26 @@ import java.util.Set;
 public class CountElementsNotCommonToBothLists {
 
     public static void main(String[] args) {
-        int firstListSize = 11;
-        int[] firstList = {1, 1, 2, 3, 4, 5, 5, 7, 6, 9, 10};
-        int secondListSize = 10;
-        int[] secondList = {11, 12, 13, 4, 5, 6, 7, 18, 19, 20};
-
-        if (firstList.length != firstListSize || secondList.length != secondListSize) {
-            throw new IllegalArgumentException("Input array length does not match the declared size");
+        Scanner scanner = new Scanner(System.in);
+        int firstListSize = scanner.nextInt();
+        int[] firstList = new int[firstListSize];
+        for (int i = 0; i < firstListSize; i++) {
+            firstList[i] = scanner.nextInt();
         }
+        int secondListSize = scanner.nextInt();
+        int[] secondList = new int[secondListSize];
+        for (int i = 0; i < secondListSize; i++) {
+            secondList[i] = scanner.nextInt();
+        }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int firstListSize = 11;
+         * int[] firstList = {1, 1, 2, 3, 4, 5, 5, 7, 6, 9, 10};
+         * int secondListSize = 10;
+         * int[] secondList = {11, 12, 13, 4, 5, 6, 7, 18, 19, 20};
+         */
 
         CountElementsNotCommonToBothLists solver = new CountElementsNotCommonToBothLists();
         System.out.println(solver.countNotCommon(firstList, secondList));

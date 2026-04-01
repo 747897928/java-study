@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -40,7 +43,7 @@ package com.aquarius.wizard.leetcode.shl;
  * first, second, first, third, first, second, first, third, first, third, first.
  * So, the maximum number of days during which a salesman can sell is 11.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -51,12 +54,19 @@ package com.aquarius.wizard.leetcode.shl;
 public class TravelingSalesmanMaximumWorkingDays {
 
     public static void main(String[] args) {
-        int townCount = 3;
-        int[] townVisitLimits = {7, 2, 3};
-
-        if (townVisitLimits.length != townCount) {
-            throw new IllegalArgumentException("townVisitLimits.length must equal townCount");
+        Scanner scanner = new Scanner(System.in);
+        int townCount = scanner.nextInt();
+        int[] townVisitLimits = new int[townCount];
+        for (int i = 0; i < townCount; i++) {
+            townVisitLimits[i] = scanner.nextInt();
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int townCount = 3;
+         * int[] townVisitLimits = {7, 2, 3};
+         */
 
         TravelingSalesmanMaximumWorkingDays solver = new TravelingSalesmanMaximumWorkingDays();
         System.out.println(solver.maxWorkingDays(townVisitLimits));

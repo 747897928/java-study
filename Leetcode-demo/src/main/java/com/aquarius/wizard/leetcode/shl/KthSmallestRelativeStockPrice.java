@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.Arrays;
 
 /**
@@ -44,7 +45,7 @@ import java.util.Arrays;
  * The sorted relative stock prices are [5, 7, 10, 19, 88].
  * So, the 3rd smallest stock price is 10.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -55,13 +56,21 @@ import java.util.Arrays;
 public class KthSmallestRelativeStockPrice {
 
     public static void main(String[] args) {
-        int stockCount = 5;
-        int[] stockPrices = {10, 5, 7, 88, 19};
-        int targetRank = 3;
-
-        if (stockPrices.length != stockCount) {
-            throw new IllegalArgumentException("stockPrices.length must equal stockCount");
+        Scanner scanner = new Scanner(System.in);
+        int stockCount = scanner.nextInt();
+        int[] stockPrices = new int[stockCount];
+        for (int i = 0; i < stockCount; i++) {
+            stockPrices[i] = scanner.nextInt();
         }
+        int targetRank = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int stockCount = 5;
+         * int[] stockPrices = {10, 5, 7, 88, 19};
+         * int targetRank = 3;
+         */
 
         KthSmallestRelativeStockPrice solver = new KthSmallestRelativeStockPrice();
         System.out.println(solver.kthSmallest(stockPrices, targetRank));

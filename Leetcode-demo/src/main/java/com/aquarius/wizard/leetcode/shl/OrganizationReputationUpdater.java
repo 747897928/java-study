@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
@@ -60,7 +61,7 @@ import java.util.PriorityQueue;
  * Output:
  * 7 5
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -71,28 +72,37 @@ import java.util.PriorityQueue;
 public class OrganizationReputationUpdater {
 
     public static void main(String[] args) {
-        int employeeCount = 5;
-        int[] efficiencies = {1, 2, 3, 4, 5};
-        int teamIdCount = 5;
-        int[] teamIds = {1, 2, 1, 1, 2};
-        int dayCount = 2;
-        int actionWidth = 2;
-        int[][] dailyActions = {
-                {3, 2},
-                {2, 0}
-        };
-
-        if (efficiencies.length != employeeCount || teamIds.length != teamIdCount) {
-            throw new IllegalArgumentException("Input array length does not match the declared size");
+        Scanner scanner = new Scanner(System.in);
+        int employeeCount = scanner.nextInt();
+        int[] efficiencies = new int[employeeCount];
+        for (int i = 0; i < employeeCount; i++) {
+            efficiencies[i] = scanner.nextInt();
         }
-        if (dailyActions.length != dayCount) {
-            throw new IllegalArgumentException("dailyActions.length must equal dayCount");
+        int teamIdCount = scanner.nextInt();
+        int[] teamIds = new int[teamIdCount];
+        for (int i = 0; i < teamIdCount; i++) {
+            teamIds[i] = scanner.nextInt();
         }
-        for (int[] action : dailyActions) {
-            if (action.length != actionWidth) {
-                throw new IllegalArgumentException("Each action row must contain firedId and resignCount");
+        int dayCount = scanner.nextInt();
+        int actionWidth = scanner.nextInt();
+        int[][] dailyActions = new int[dayCount][actionWidth];
+        for (int i = 0; i < dayCount; i++) {
+            for (int j = 0; j < actionWidth; j++) {
+                dailyActions[i][j] = scanner.nextInt();
             }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int employeeCount = 5;
+         * int[] efficiencies = {1, 2, 3, 4, 5};
+         * int teamIdCount = 5;
+         * int[] teamIds = {1, 2, 1, 1, 2};
+         * int dayCount = 2;
+         * int actionWidth = 2;
+         * int[][] dailyActions = {{3, 2}, {2, 0}};
+         */
 
         OrganizationReputationUpdater solver = new OrganizationReputationUpdater();
         System.out.println(format(solver.updateReputation(efficiencies, teamIds, dailyActions)));

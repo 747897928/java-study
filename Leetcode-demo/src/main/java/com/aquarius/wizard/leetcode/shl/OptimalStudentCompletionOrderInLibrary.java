@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.Arrays;
 
 /**
@@ -77,7 +78,7 @@ import java.util.Arrays;
  * current stock. After completion, student 2 returns [0, 1, 3]. Then students 0 and 1 can finish,
  * and the smallest feasible ID is always chosen first, so the order is [2, 0, 1].
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -88,39 +89,41 @@ import java.util.Arrays;
 public class OptimalStudentCompletionOrderInLibrary {
 
     public static void main(String[] args) {
-        int subjectCount = 3;
-        int[] availableBooks = {2, 2, 3};
-        int studentCount = 3;
-        int booksPerStudent = 3;
-        int[][] issuedBooks = {
-                {2, 4, 0},
-                {0, 0, 1},
-                {0, 1, 3}
-        };
-        int studentsIssuedBooks = 3;
-        int issuedBookTypeCount = 3;
-        int[][] requiredBooks = {
-                {3, 5, 4},
-                {1, 3, 4},
-                {2, 3, 5}
-        };
+        Scanner scanner = new Scanner(System.in);
+        int subjectCount = scanner.nextInt();
+        int[] availableBooks = new int[subjectCount];
+        for (int i = 0; i < subjectCount; i++) {
+            availableBooks[i] = scanner.nextInt();
+        }
+        int studentCount = scanner.nextInt();
+        int booksPerStudent = scanner.nextInt();
+        int[][] issuedBooks = new int[studentCount][booksPerStudent];
+        for (int i = 0; i < studentCount; i++) {
+            for (int j = 0; j < booksPerStudent; j++) {
+                issuedBooks[i][j] = scanner.nextInt();
+            }
+        }
+        int studentsIssuedBooks = scanner.nextInt();
+        int issuedBookTypeCount = scanner.nextInt();
+        int[][] requiredBooks = new int[studentsIssuedBooks][issuedBookTypeCount];
+        for (int i = 0; i < studentsIssuedBooks; i++) {
+            for (int j = 0; j < issuedBookTypeCount; j++) {
+                requiredBooks[i][j] = scanner.nextInt();
+            }
+        }
 
-        if (availableBooks.length != subjectCount) {
-            throw new IllegalArgumentException("availableBooks.length must equal subjectCount");
-        }
-        if (issuedBooks.length != studentCount || requiredBooks.length != studentsIssuedBooks) {
-            throw new IllegalArgumentException("Student matrix row count does not match the declared size");
-        }
-        for (int[] row : issuedBooks) {
-            if (row.length != booksPerStudent) {
-                throw new IllegalArgumentException("Each issuedBooks row must have booksPerStudent values");
-            }
-        }
-        for (int[] row : requiredBooks) {
-            if (row.length != issuedBookTypeCount) {
-                throw new IllegalArgumentException("Each requiredBooks row must have issuedBookTypeCount values");
-            }
-        }
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int subjectCount = 3;
+         * int[] availableBooks = {2, 2, 3};
+         * int studentCount = 3;
+         * int booksPerStudent = 3;
+         * int[][] issuedBooks = {{2, 4, 0}, {0, 0, 1}, {0, 1, 3}};
+         * int studentsIssuedBooks = 3;
+         * int issuedBookTypeCount = 3;
+         * int[][] requiredBooks = {{3, 5, 4}, {1, 3, 4}, {2, 3, 5}};
+         */
 
         OptimalStudentCompletionOrderInLibrary solver = new OptimalStudentCompletionOrderInLibrary();
         System.out.println(format(solver.findOptimalOrder(availableBooks, issuedBooks, requiredBooks)));

@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -34,7 +37,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 10 98 12 22 3 33 21 11
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -45,12 +48,19 @@ package com.aquarius.wizard.leetcode.shl;
 public class StableEvenOddPartition {
 
     public static void main(String[] args) {
-        int listSize = 8;
-        int[] numbers = {10, 98, 3, 33, 12, 22, 21, 11};
-
-        if (numbers.length != listSize) {
-            throw new IllegalArgumentException("numbers.length must equal listSize");
+        Scanner scanner = new Scanner(System.in);
+        int listSize = scanner.nextInt();
+        int[] numbers = new int[listSize];
+        for (int i = 0; i < listSize; i++) {
+            numbers[i] = scanner.nextInt();
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int listSize = 8;
+         * int[] numbers = {10, 98, 3, 33, 12, 22, 21, 11};
+         */
 
         StableEvenOddPartition solver = new StableEvenOddPartition();
         System.out.println(format(solver.rearrange(numbers)));

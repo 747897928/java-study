@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -35,7 +38,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 3
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -50,24 +53,23 @@ public class LargestHouseAreaInGrid {
     };
 
     public static void main(String[] args) {
-        int rowCount = 5;
-        int columnCount = 5;
-        int[][] grid = {
-                {0, 0, 0, 0, 0},
-                {0, 1, 1, 0, 0},
-                {0, 0, 0, 0, 0},
-                {0, 0, 1, 1, 0},
-                {0, 0, 1, 0, 0}
-        };
-
-        if (grid.length != rowCount) {
-            throw new IllegalArgumentException("grid.length must equal rowCount");
-        }
-        for (int[] row : grid) {
-            if (row.length != columnCount) {
-                throw new IllegalArgumentException("Each row length must equal columnCount");
+        Scanner scanner = new Scanner(System.in);
+        int rowCount = scanner.nextInt();
+        int columnCount = scanner.nextInt();
+        int[][] grid = new int[rowCount][columnCount];
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                grid[i][j] = scanner.nextInt();
             }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int rowCount = 5;
+         * int columnCount = 5;
+         * int[][] grid = {{0, 0, 0, 0, 0}, {0, 1, 1, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 1, 1, 0}, {0, 0, 1, 0, 0}};
+         */
 
         LargestHouseAreaInGrid solver = new LargestHouseAreaInGrid();
         System.out.println(solver.largestArea(grid));

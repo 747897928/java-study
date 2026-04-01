@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  * <p>
@@ -42,7 +45,7 @@ package com.aquarius.wizard.leetcode.shl;
  * After the change, the elements are:
  * arr[0]=2, arr[1]=3, arr[2]=1 and arr[3]=0
  * <p>
- * 我的备注
+ * 备注
  * <p>
  * 难度：简单。
  * <p>
@@ -53,12 +56,19 @@ package com.aquarius.wizard.leetcode.shl;
 public class ReplaceValuesWithTheirIndexPositions {
 
     public static void main(String[] args) {
-        int listSize = 4;
-        int[] numbers = {3, 2, 0, 1};
-
-        if (numbers.length != listSize) {
-            throw new IllegalArgumentException("numbers.length must equal listSize");
+        Scanner scanner = new Scanner(System.in);
+        int listSize = scanner.nextInt();
+        int[] numbers = new int[listSize];
+        for (int i = 0; i < listSize; i++) {
+            numbers[i] = scanner.nextInt();
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int listSize = 4;
+         * int[] numbers = {3, 2, 0, 1};
+         */
 
         ReplaceValuesWithTheirIndexPositions solver = new ReplaceValuesWithTheirIndexPositions();
         System.out.println(format(solver.replaceWithIndices(numbers)));

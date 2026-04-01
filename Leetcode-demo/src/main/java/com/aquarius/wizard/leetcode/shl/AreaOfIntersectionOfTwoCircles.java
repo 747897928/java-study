@@ -2,6 +2,7 @@ package com.aquarius.wizard.leetcode.shl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Scanner;
 
 /**
  * Question
@@ -28,7 +29,7 @@ import java.math.RoundingMode;
  *
  * 0 < r1, r2 < 10^4
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -37,6 +38,31 @@ import java.math.RoundingMode;
  * 提示：要先分清三类情况：相离、包含、普通相交。
  */
 public class AreaOfIntersectionOfTwoCircles {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double x1 = scanner.nextDouble();
+        double y1 = scanner.nextDouble();
+        double r1 = scanner.nextDouble();
+        double x2 = scanner.nextDouble();
+        double y2 = scanner.nextDouble();
+        double r2 = scanner.nextDouble();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * double x1 = 0.0;
+         * double y1 = 0.0;
+         * double r1 = 2.0;
+         * double x2 = 1.0;
+         * double y2 = 0.0;
+         * double r2 = 1.0;
+         */
+
+        AreaOfIntersectionOfTwoCircles solver = new AreaOfIntersectionOfTwoCircles();
+        double area = solver.intersectionArea(x1, y1, r1, x2, y2, r2);
+        System.out.println(solver.formatArea(area));
+    }
 
     public double intersectionArea(double x1, double y1, double r1, double x2, double y2, double r2) {
         double distance = Math.hypot(x1 - x2, y1 - y2);

@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -48,7 +51,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 3
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -59,14 +62,23 @@ package com.aquarius.wizard.leetcode.shl;
 public class MinimumProjectsToZeroErrorScores {
 
     public static void main(String[] args) {
-        int teamMemberCount = 3;
-        long[] errorScores = {6L, 4L, 1L};
-        long projectDecrease = 4L;
-        long otherDecrease = 1L;
-
-        if (errorScores.length != teamMemberCount) {
-            throw new IllegalArgumentException("errorScores.length must equal teamMemberCount");
+        Scanner scanner = new Scanner(System.in);
+        int teamMemberCount = scanner.nextInt();
+        long[] errorScores = new long[teamMemberCount];
+        for (int i = 0; i < teamMemberCount; i++) {
+            errorScores[i] = scanner.nextLong();
         }
+        long projectDecrease = scanner.nextLong();
+        long otherDecrease = scanner.nextLong();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int teamMemberCount = 3;
+         * long[] errorScores = {6L, 4L, 1L};
+         * long projectDecrease = 4L;
+         * long otherDecrease = 1L;
+         */
 
         MinimumProjectsToZeroErrorScores solver = new MinimumProjectsToZeroErrorScores();
         System.out.println(solver.minimumProjects(errorScores, projectDecrease, otherDecrease));

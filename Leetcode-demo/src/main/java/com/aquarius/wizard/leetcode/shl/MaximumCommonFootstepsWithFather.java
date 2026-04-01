@@ -1,5 +1,7 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -40,7 +42,7 @@ package com.aquarius.wizard.leetcode.shl;
  *
  * [The screenshot for the example is missing.]
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -49,6 +51,27 @@ package com.aquarius.wizard.leetcode.shl;
  * 提示：先枚举 Martin 第一步对应父亲的第 t 个脚印，此时 V2 就唯一确定；之后公共脚印会按固定步长继续出现。
  */
 public class MaximumCommonFootstepsWithFather {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long fatherPos = scanner.nextLong();
+        long martinPos = scanner.nextLong();
+        long fatherVelocity = scanner.nextLong();
+        long steps = scanner.nextLong();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * long fatherPos = 4L;
+         * long martinPos = 0L;
+         * long fatherVelocity = 2L;
+         * long steps = 6L;
+         */
+
+        MaximumCommonFootstepsWithFather solver = new MaximumCommonFootstepsWithFather();
+        long[] answer = solver.maximizeCommonSteps(fatherPos, martinPos, fatherVelocity, steps);
+        System.out.println(answer[0] + " " + answer[1]);
+    }
 
     public long[] maximizeCommonSteps(long fatherPos, long martinPos, long fatherVelocity, long steps) {
         long delta = fatherPos - martinPos;

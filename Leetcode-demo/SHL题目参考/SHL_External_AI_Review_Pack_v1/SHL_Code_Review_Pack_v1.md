@@ -96,7 +96,7 @@ import java.util.Arrays;
  * After sorting, the list is [1, 2, 3, 5, 5, 6, 9, 10].
  * So, the alternate elements of the sorted list are [1, 3, 5, 9].
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -153,7 +153,7 @@ import java.math.RoundingMode;
  *
  * 0 < r1, r2 < 10^4
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -264,7 +264,7 @@ import java.util.List;
  * The order in which the message is posted by users is given as follows:
  * 0 -> 1 -> 2.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -359,7 +359,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Tim occurs 3 times in the first string.
  * So, the output is 3.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -437,7 +437,7 @@ import java.util.Queue;
  * 4th likes the person with ID 1
  * A maximum of 4 alumni can be seated around the circular table in the following manner: 1-2-3-4
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -540,7 +540,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Explanation:
  * needle 2 occurs 3 times in the haystack.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -613,7 +613,7 @@ import java.util.Set;
  * Explanation:
  * The numbers that are not common to both lists are [1, 1, 2, 3, 9, 10, 11, 12, 13, 18, 19, 20].
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -692,7 +692,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Explanation:
  * The numbers that are less than 5 are 1, 2, 3, 4.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -762,7 +762,7 @@ import java.util.Set;
  * Output:
  * 5
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -837,7 +837,7 @@ import java.util.Map;
  * Output:
  * 5 5 5 5 3 3 3 6 6 6 2 2 4 4 1 7 8 9 10
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -923,7 +923,7 @@ import java.util.Arrays;
  * The sorted relative stock prices are [5, 7, 10, 19, 88].
  * So, the 3rd smallest stock price is 10.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -983,7 +983,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 3
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -1082,7 +1082,7 @@ import java.util.Arrays;
  * Output:
  * 4 5
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -1173,7 +1173,7 @@ import java.util.Queue;
  * The fourth alumnus likes the person whose ID is 1.
  * A maximum of 4 alumni can be seated around the circular table in the following manner: 1-2-3-4.
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -1353,7 +1353,7 @@ import java.util.List;
  * Output:
  * 15 25 34 25 15
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -1445,7 +1445,7 @@ package com.aquarius.wizard.leetcode.shl;
  *
  * [The screenshot for the example is missing.]
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -1532,7 +1532,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 6
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -1613,7 +1613,7 @@ package com.aquarius.wizard.leetcode.shl;
  * To earn the maximum salary, select the difficult task (10) from the 2nd row and the difficult
  * task (23) from the 4th row. The maximum salary earned = 10 + 23 = 33.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -1701,7 +1701,7 @@ import java.util.Arrays;
  * 6 30
  * 2 10
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -1797,7 +1797,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Josh can buy five lots from the first shop and one lot from the second shop.
  * So the total price is (5 * 10 + 15) = 65.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -1870,7 +1870,7 @@ import java.util.PriorityQueue;
  * Output:
  * 3
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -1950,7 +1950,7 @@ import java.util.Arrays;
  *
  * 1 <= K <= N + 1
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -2104,7 +2104,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 3
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -2222,7 +2222,7 @@ import java.util.Set;
  * The points (2, 1), (3, 2), (4, 3), (5, 4) lie on one straight line.
  * The points (1, 4), (2, 3), (3, 2), (4, 1), (5, 0) lie on another straight line.
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -2384,7 +2384,7 @@ import java.util.Set;
  * Print an integer representing the minimum number of straight-line routes needed from the base to
  * cover all pickup locations.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -2520,7 +2520,7 @@ import java.util.List;
  * boxes instantly. He then produces the remaining 15 boxes using the new machine in 15 * 4 = 60
  * units of time. So the minimum time is 60.
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -2617,7 +2617,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Explanation:
  * The character j at the end of the sent string was lost in the network during transmission.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -2687,7 +2687,7 @@ package com.aquarius.wizard.leetcode.shl;
  * There are exactly three substrings of length 3 that contain at most one 0: the three occurrences
  * of 101. Each such substring can be turned into 111 by changing one 0. So, the output is 3.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -2823,7 +2823,7 @@ import java.util.Arrays;
  * current stock. After completion, student 2 returns [0, 1, 3]. Then students 0 and 1 can finish,
  * and the smallest feasible ID is always chosen first, so the order is [2, 0, 1].
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -2945,7 +2945,7 @@ import java.util.PriorityQueue;
  * Output:
  * 7 5
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -3053,7 +3053,7 @@ import java.util.Arrays;
  * Output:
  * 5 7 11 46 23 16 10 8
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -3121,7 +3121,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 2
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -3190,7 +3190,7 @@ package com.aquarius.wizard.leetcode.shl;
  * S = 2, N = 3, M = 4
  * (((2^3 % 10)^4) % 1000000007) = 4096
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -3262,7 +3262,7 @@ import java.util.List;
  * Explanation:
  * For the given number, the list of special numbers is [2, 3, 5, 7, 11].
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -3365,7 +3365,7 @@ import java.util.Map;
  *
  * [The screenshot for the example is missing.]
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -3431,7 +3431,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * Mynmsnthny
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -3521,7 +3521,7 @@ package com.aquarius.wizard.leetcode.shl;
  * After the change, the elements are:
  * arr[0]=2, arr[1]=3, arr[2]=1 and arr[3]=0
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -3577,7 +3577,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 1
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -3653,7 +3653,7 @@ import java.util.List;
  * Road (2,3) lies between the pairs of cities (1,3), (1,4), (2,3), and (2,4).
  * So, the maximum toll collected by the road connecting cities 2 and 3 is 4.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -4576,7 +4576,7 @@ import java.util.PriorityQueue;
  * There are two possible routes between 0 and 3: 0->1->2->3 and 0->4->3. After reducing the
  * distance of edge 4->3 to zero, the second route becomes optimal and the minimum distance is 1.
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -4693,7 +4693,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 10 98 12 22 3 33 21 11
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -4775,7 +4775,7 @@ import java.util.Map;
  * Output:
  * 0 0 0 0 0 1 1 0
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -4880,7 +4880,7 @@ import java.util.Arrays;
  * Explanation:
  * Their union on the road is [2,5] and [6,7], so the total covered distance is 3 + 1 = 4.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -4974,7 +4974,7 @@ package com.aquarius.wizard.leetcode.shl;
  * first, second, first, third, first, second, first, third, first, third, first.
  * So, the maximum number of days during which a salesman can sell is 11.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *

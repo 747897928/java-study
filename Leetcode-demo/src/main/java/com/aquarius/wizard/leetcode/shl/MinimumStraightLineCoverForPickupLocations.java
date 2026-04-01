@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -59,7 +60,7 @@ import java.util.Set;
  * The points (2, 1), (3, 2), (4, 3), (5, 4) lie on one straight line.
  * The points (1, 4), (2, 3), (3, 2), (4, 1), (5, 0) lie on another straight line.
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -72,21 +73,21 @@ public class MinimumStraightLineCoverForPickupLocations {
     private static final int MAX_REFERENCE_POINTS = 20;
 
     public static void main(String[] args) {
-        int pickupLocationCount = 8;
-        int[][] pickupLocations = {
-                {1, 4},
-                {2, 3},
-                {2, 1},
-                {3, 2},
-                {4, 1},
-                {5, 0},
-                {4, 3},
-                {5, 4}
-        };
-
-        if (pickupLocations.length != pickupLocationCount) {
-            throw new IllegalArgumentException("pickupLocations.length must equal pickupLocationCount");
+        Scanner scanner = new Scanner(System.in);
+        int pickupLocationCount = scanner.nextInt();
+        int[][] pickupLocations = new int[pickupLocationCount][2];
+        for (int i = 0; i < pickupLocationCount; i++) {
+            for (int j = 0; j < 2; j++) {
+                pickupLocations[i][j] = scanner.nextInt();
+            }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int pickupLocationCount = 8;
+         * int[][] pickupLocations = {{1, 4}, {2, 3}, {2, 1}, {3, 2}, {4, 1}, {5, 0}, {4, 3}, {5, 4}};
+         */
 
         MinimumStraightLineCoverForPickupLocations solver = new MinimumStraightLineCoverForPickupLocations();
         System.out.println(solver.minimumRoutes(pickupLocations));

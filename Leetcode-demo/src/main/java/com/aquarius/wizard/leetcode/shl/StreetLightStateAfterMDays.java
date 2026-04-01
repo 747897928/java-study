@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ import java.util.Map;
  * Output:
  * 0 0 0 0 0 1 1 0
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -58,13 +59,21 @@ import java.util.Map;
 public class StreetLightStateAfterMDays {
 
     public static void main(String[] args) {
-        int lightCount = 8;
-        int[] currentState = {1, 1, 1, 0, 1, 1, 1, 1};
-        int dayCount = 2;
-
-        if (currentState.length != lightCount) {
-            throw new IllegalArgumentException("currentState.length must equal lightCount");
+        Scanner scanner = new Scanner(System.in);
+        int lightCount = scanner.nextInt();
+        int[] currentState = new int[lightCount];
+        for (int i = 0; i < lightCount; i++) {
+            currentState[i] = scanner.nextInt();
         }
+        int dayCount = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int lightCount = 8;
+         * int[] currentState = {1, 1, 1, 0, 1, 1, 1, 1};
+         * int dayCount = 2;
+         */
 
         StreetLightStateAfterMDays solver = new StreetLightStateAfterMDays();
         System.out.println(format(solver.stateAfterDays(currentState, dayCount)));

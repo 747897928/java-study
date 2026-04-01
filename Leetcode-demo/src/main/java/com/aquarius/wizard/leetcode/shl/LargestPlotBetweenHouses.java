@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.Arrays;
 
 /**
@@ -45,7 +46,7 @@ import java.util.Arrays;
  * Output:
  * 4 5
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -56,24 +57,23 @@ import java.util.Arrays;
 public class LargestPlotBetweenHouses {
 
     public static void main(String[] args) {
-        int houseCount = 5;
-        int houseValueCount = 2;
-        int[][] houses = {
-                {3, 7},
-                {1, 9},
-                {2, 0},
-                {5, 15},
-                {4, 30}
-        };
-
-        if (houses.length != houseCount) {
-            throw new IllegalArgumentException("houses.length must equal houseCount");
-        }
-        for (int[] house : houses) {
-            if (house.length != houseValueCount) {
-                throw new IllegalArgumentException("Each house row must contain house number and position");
+        Scanner scanner = new Scanner(System.in);
+        int houseCount = scanner.nextInt();
+        int houseValueCount = scanner.nextInt();
+        int[][] houses = new int[houseCount][houseValueCount];
+        for (int i = 0; i < houseCount; i++) {
+            for (int j = 0; j < houseValueCount; j++) {
+                houses[i][j] = scanner.nextInt();
             }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int houseCount = 5;
+         * int houseValueCount = 2;
+         * int[][] houses = {{3, 7}, {1, 9}, {2, 0}, {5, 15}, {4, 30}};
+         */
 
         LargestPlotBetweenHouses solver = new LargestPlotBetweenHouses();
         System.out.println(format(solver.findHouseNumbers(houses)));

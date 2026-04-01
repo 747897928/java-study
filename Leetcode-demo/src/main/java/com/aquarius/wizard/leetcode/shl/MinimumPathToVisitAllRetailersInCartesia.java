@@ -1,6 +1,9 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Question
@@ -36,7 +39,7 @@ import java.util.Arrays;
  *
  * 1 <= K <= N + 1
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -46,6 +49,32 @@ import java.util.Arrays;
  * 提示：这个实现已经用小规模暴力枚举做过对拍，但仍建议后续继续复核题面。
  */
 public class MinimumPathToVisitAllRetailersInCartesia {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int retailerCount = scanner.nextInt();
+        int startRetailerPosition = scanner.nextInt();
+        long[] retailerX = new long[retailerCount];
+        for (int i = 0; i < retailerCount; i++) {
+            retailerX[i] = scanner.nextLong();
+        }
+        long headX = scanner.nextLong();
+        long headY = scanner.nextLong();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int retailerCount = 2;
+         * int startRetailerPosition = 3;
+         * long[] retailerX = {0L, 10L};
+         * long headX = 5L;
+         * long headY = 4L;
+         */
+
+        MinimumPathToVisitAllRetailersInCartesia solver = new MinimumPathToVisitAllRetailersInCartesia();
+        double answer = solver.minimumDistance(retailerX, headX, headY, startRetailerPosition);
+        System.out.println(solver.formatDistance(answer));
+    }
 
     public double minimumDistance(long[] retailerX, long headX, long headY, int startRetailerPosition) {
         if (retailerX.length == 0) {
@@ -131,5 +160,9 @@ public class MinimumPathToVisitAllRetailersInCartesia {
 
     private double distance(long headX, long headY, long axisX) {
         return Math.hypot(headX - axisX, headY);
+    }
+
+    public String formatDistance(double distance) {
+        return BigDecimal.valueOf(distance).setScale(6, RoundingMode.HALF_UP).toPlainString();
     }
 }

@@ -64,7 +64,7 @@ import java.util.List;
  * The announcement must start from one manager in the group {0,1} and also from manager 5.
  * Therefore, the minimum number of initial calls is 2.
  *
- * 我的备注
+ * 备注
  *
  * 这是我补的模拟题，不是原 SHL 题。
  *

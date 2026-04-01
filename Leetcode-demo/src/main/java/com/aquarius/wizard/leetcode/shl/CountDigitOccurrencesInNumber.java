@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -32,7 +35,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Explanation:
  * needle 2 occurs 3 times in the haystack.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -43,8 +46,16 @@ package com.aquarius.wizard.leetcode.shl;
 public class CountDigitOccurrencesInNumber {
 
     public static void main(String[] args) {
-        int targetDigit = 2;
-        int sourceNumber = 123228;
+        Scanner scanner = new Scanner(System.in);
+        int targetDigit = scanner.nextInt();
+        int sourceNumber = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int targetDigit = 2;
+         * int sourceNumber = 123228;
+         */
 
         CountDigitOccurrencesInNumber solver = new CountDigitOccurrencesInNumber();
         System.out.println(solver.countOccurrences(targetDigit, sourceNumber));

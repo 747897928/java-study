@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -41,7 +44,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Explanation:
  * The character j at the end of the sent string was lost in the network during transmission.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -52,8 +55,16 @@ package com.aquarius.wizard.leetcode.shl;
 public class MissingCharacterDuringTransmission {
 
     public static void main(String[] args) {
-        String sentString = "abcdfigerj";
-        String receivedString = "abcdfiger";
+        Scanner scanner = new Scanner(System.in);
+        String sentString = scanner.nextLine();
+        String receivedString = scanner.nextLine();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * String sentString = "abcdfigerj";
+         * String receivedString = "abcdfiger";
+         */
 
         MissingCharacterDuringTransmission solver = new MissingCharacterDuringTransmission();
         System.out.println(solver.findMissingCharacter(sentString, receivedString));

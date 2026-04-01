@@ -7,7 +7,7 @@ package com.aquarius.wizard.leetcode.shl.simulated.prefixsum;
  *
  * LeetCode 303 - Range Sum Query - Immutable
  *
- * 这不是原 SHL 题，是我补的前缀和练习题。
+ * 不是原 SHL 题，是前缀和练习题。
  *
  * 给定一个数组 nums，多次查询 [left, right] 区间元素和。
  *

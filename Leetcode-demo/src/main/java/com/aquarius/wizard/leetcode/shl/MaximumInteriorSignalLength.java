@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -37,7 +40,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 6
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -48,12 +51,16 @@ package com.aquarius.wizard.leetcode.shl;
 public class MaximumInteriorSignalLength {
 
     public static void main(String[] args) {
-        int stringLength = 6;
-        String signal = "101000";
+        Scanner scanner = new Scanner(System.in);
+        int stringLength = scanner.nextInt();
+        String signal = scanner.next();
 
-        if (signal.length() != stringLength) {
-            throw new IllegalArgumentException("signal.length() must equal stringLength");
-        }
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int stringLength = 6;
+         * String signal = "101000";
+         */
 
         MaximumInteriorSignalLength solver = new MaximumInteriorSignalLength();
         System.out.println(solver.maximumLength(signal));

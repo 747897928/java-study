@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.Arrays;
 
 /**
@@ -39,7 +40,7 @@ import java.util.Arrays;
  * After sorting, the list is [1, 2, 3, 5, 5, 6, 9, 10].
  * So, the alternate elements of the sorted list are [1, 3, 5, 9].
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -68,15 +69,25 @@ import java.util.Arrays;
 public class AlternateSortedElements {
 
     public static void main(String[] args) {
-        int listSize = 8;
-        int[] numbers = {3, 5, 1, 5, 9, 10, 2, 6};
-
-        if (numbers.length != listSize) {
-            throw new IllegalArgumentException("numbers.length must equal listSize");
+        Scanner scanner = new Scanner(System.in);
+        int listSize = scanner.nextInt();
+        int[] numbers = new int[listSize];
+        for (int i = 0; i < listSize; i++) {
+            numbers[i] = scanner.nextInt();
         }
 
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int listSize = 8;
+         * int[] numbers = {3, 5, 1, 5, 9, 10, 2, 6};
+         */
+
         System.out.println(format(alternateSort(numbers)));
-        System.out.println(format(alternateSort2(numbers)));
+        /*
+         * 如果需要核对另一种写法，可以临时打开下面这行：
+         * System.out.println(format(alternateSort2(numbers)));
+         */
     }
 
     private static String format(int[] nums) {

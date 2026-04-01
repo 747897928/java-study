@@ -66,9 +66,9 @@ import java.util.PriorityQueue;
  * Later, it reaches the station at distance 60 and takes 40 units of charge.
  * Thus, the robot reaches the destination with a minimum of 2 charging stops.
  *
- * 我的备注
+ * 备注
  *
- * 这是我补的模拟题，不是原 SHL 题。
+ * 模拟题，不是原 SHL 题。
  *
  * 相似题：
  * 1. MinimumJuiceStallStops

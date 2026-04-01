@@ -32,7 +32,7 @@ import java.util.Scanner;
  * Tim occurs 3 times in the first string.
  * So, the output is 3.
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -43,13 +43,24 @@ import java.util.Scanner;
 public class CaseInsensitiveSubstringOccurrenceCount {
 
     public static void main(String[] args) {
-        String parentString = "TimisplayinginthehouseofTimwiththetoysofTim";
-        String subString = "Tim";
+        Scanner scanner = new Scanner(System.in);
+        String parentString = scanner.nextLine();
+        String subString = scanner.nextLine();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * String parentString = "TimisplayinginthehouseofTimwiththetoysofTim";
+         * String subString = "Tim";
+         */
 
         CaseInsensitiveSubstringOccurrenceCount solver = new CaseInsensitiveSubstringOccurrenceCount();
         System.out.println(solver.countOccurrences(parentString, subString));
-        System.out.println(solver.countOccurrencesByRegionMatches(parentString, subString));
-        System.out.println(solver.countOccurrencesByCharArray(parentString, subString));
+        /*
+         * 如果需要核对其他写法，可以临时打开下面这几行：
+         * System.out.println(solver.countOccurrencesByRegionMatches(parentString, subString));
+         * System.out.println(solver.countOccurrencesByCharArray(parentString, subString));
+         */
     }
 
     public int countOccurrences(String parent, String sub) {

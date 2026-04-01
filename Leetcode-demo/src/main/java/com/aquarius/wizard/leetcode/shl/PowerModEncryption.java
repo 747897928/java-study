@@ -1,5 +1,7 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -39,7 +41,7 @@ package com.aquarius.wizard.leetcode.shl;
  * S = 2, N = 3, M = 4
  * (((2^3 % 10)^4) % 1000000007) = 4096
  *
- * 我的备注
+ * 笔记
  *
  * 难度：简单。
  *
@@ -48,7 +50,7 @@ package com.aquarius.wizard.leetcode.shl;
  * 易错点：不是直接算 S^(N*M)，而是先算 S^N % 10，再对这个结果做 M 次幂。
  * 相似题：任何 a^b mod m 的题都和这里同型，例如 LeetCode 50 / 372。
  *
- * 学习这题时，你要真的建立下面这个反应：
+ * 做这题时，我希望自己形成下面这个反应：
  *
  * 1. 看到大指数，不要想着真的把幂算出来。
  * 2. 先看题目是不是允许你一边乘一边取模。
@@ -83,19 +85,31 @@ public class PowerModEncryption {
     private static final long MOD = 1_000_000_007L;
 
     public static void main(String[] args) {
-        long secretCode = 2L;
-        long firstKey = 3L;
-        long secondKey = 4L;
+        Scanner scanner = new Scanner(System.in);
+        long secretCode = scanner.nextLong();
+        long firstKey = scanner.nextLong();
+        long secondKey = scanner.nextLong();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * long secretCode = 2L;
+         * long firstKey = 3L;
+         * long secondKey = 4L;
+         */
 
         PowerModEncryption solver = new PowerModEncryption();
         System.out.println(solver.encryptCode(secretCode, firstKey, secondKey));
-        System.out.println(solver.encryptCode2(secretCode, firstKey, secondKey));
+        /*
+         * 如果需要核对朴素写法，可以临时打开下面这行：
+         * System.out.println(solver.encryptCode2(secretCode, firstKey, secondKey));
+         */
     }
 
     /**
      * 这一层只做“按题目括号顺序拆表达式”。
      *
-     * 你可以把它读成：
+     * 可以把它读成：
      *
      * 1. 先做第一段加密，得到一个 0..9 之间的结果
      * 2. 再拿这个小结果去做第二段加密
@@ -123,7 +137,7 @@ public class PowerModEncryption {
      * 2. 二进制快速幂
      * 3. Exponentiation by Squaring（平方求幂）
      *
-     * 你问的这个公式是对的：
+     * 这里顺手记一下这个拆分为什么成立：
      *
      * base^13 = base^8 * base^4 * base^1
      *
@@ -148,7 +162,7 @@ public class PowerModEncryption {
      * 然后根据 exponent 的二进制位，
      * 决定哪些块要乘进结果里。
      *
-     * 你现在先记住这一句就够了：
+     * 先记住这一句就够了：
      *
      * “把 exponent 写成若干个 2 的幂之和，
      * 然后把对应的 base^(2^k) 乘起来”
@@ -262,8 +276,8 @@ public class PowerModEncryption {
         /*
          * remainingExponent 表示“还没处理完的指数”。
          *
-         * 这里开始会用到一点二进制，
-         * 但你先不用把它想复杂。
+     * 这里开始会用到一点二进制，
+     * 先别把它想复杂。
          *
          * 例如 exponent = 13：
          *
@@ -405,7 +419,7 @@ public class PowerModEncryption {
             /*
              * remainingExponent /= 2
              *
-             * 这里我不用位运算写了，直接写除以 2。
+     * 这里我先不用位运算写，直接写除以 2。
              * 这样更容易和“13 = 8 + 4 + 1”这个拆分联系起来。
              *
              * 为什么是“向下取整”？

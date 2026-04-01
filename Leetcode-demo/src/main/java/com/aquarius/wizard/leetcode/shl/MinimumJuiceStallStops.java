@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.Collections;
 import java.util.PriorityQueue;
 
@@ -42,7 +43,7 @@ import java.util.PriorityQueue;
  * Output:
  * 3
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -81,15 +82,28 @@ import java.util.PriorityQueue;
 public class MinimumJuiceStallStops {
 
     public static void main(String[] args) {
-        int stallCount = 4;
-        int[] stallDistances = {5, 7, 8, 10};
-        int[] juiceLiters = {2, 3, 1, 5};
-        int destinationDistance = 15;
-        int initialEnergy = 5;
-
-        if (stallDistances.length != stallCount || juiceLiters.length != stallCount) {
-            throw new IllegalArgumentException("Input array length does not match stallCount");
+        Scanner scanner = new Scanner(System.in);
+        int stallCount = scanner.nextInt();
+        int[] stallDistances = new int[stallCount];
+        for (int i = 0; i < stallCount; i++) {
+            stallDistances[i] = scanner.nextInt();
         }
+        int[] juiceLiters = new int[stallCount];
+        for (int i = 0; i < stallCount; i++) {
+            juiceLiters[i] = scanner.nextInt();
+        }
+        int destinationDistance = scanner.nextInt();
+        int initialEnergy = scanner.nextInt();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int stallCount = 4;
+         * int[] stallDistances = {5, 7, 8, 10};
+         * int[] juiceLiters = {2, 3, 1, 5};
+         * int destinationDistance = 15;
+         * int initialEnergy = 5;
+         */
 
         MinimumJuiceStallStops solver = new MinimumJuiceStallStops();
         System.out.println(solver.minStops(stallDistances, juiceLiters, destinationDistance, initialEnergy));

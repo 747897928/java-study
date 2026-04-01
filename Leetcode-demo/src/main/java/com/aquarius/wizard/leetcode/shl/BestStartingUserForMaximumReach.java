@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ import java.util.List;
  * The order in which the message is posted by users is given as follows:
  * 0 -> 1 -> 2.
  *
- * 我的备注
+ * 备注
  *
  * 难度：中等。
  *
@@ -75,18 +76,23 @@ import java.util.List;
 public class BestStartingUserForMaximumReach {
 
     public static void main(String[] args) {
-        int userCount = 5;
-        int friendshipPairCount = 4;
-        int[][] friendships = {
-                {0, 1},
-                {3, 4},
-                {1, 2},
-                {2, 1}
-        };
-
-        if (friendships.length != friendshipPairCount) {
-            throw new IllegalArgumentException("friendships.length must equal friendshipPairCount");
+        Scanner scanner = new Scanner(System.in);
+        int userCount = scanner.nextInt();
+        int friendshipPairCount = scanner.nextInt();
+        int[][] friendships = new int[friendshipPairCount][2];
+        for (int i = 0; i < friendshipPairCount; i++) {
+            for (int j = 0; j < 2; j++) {
+                friendships[i][j] = scanner.nextInt();
+            }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int userCount = 5;
+         * int friendshipPairCount = 4;
+         * int[][] friendships = {{0, 1}, {3, 4}, {1, 2}, {2, 1}};
+         */
 
         BestStartingUserForMaximumReach solver = new BestStartingUserForMaximumReach();
         System.out.println(solver.bestUserId(userCount, friendships));

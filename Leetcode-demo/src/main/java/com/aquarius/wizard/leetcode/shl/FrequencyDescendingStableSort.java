@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ import java.util.Map;
  * Output:
  * 5 5 5 5 3 3 3 6 6 6 2 2 4 4 1 7 8 9 10
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -44,12 +45,19 @@ import java.util.Map;
 public class FrequencyDescendingStableSort {
 
     public static void main(String[] args) {
-        int listSize = 19;
-        int[] numbers = {1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 5, 6, 6, 6, 7, 8, 9, 10};
-
-        if (numbers.length != listSize) {
-            throw new IllegalArgumentException("numbers.length must equal listSize");
+        Scanner scanner = new Scanner(System.in);
+        int listSize = scanner.nextInt();
+        int[] numbers = new int[listSize];
+        for (int i = 0; i < listSize; i++) {
+            numbers[i] = scanner.nextInt();
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int listSize = 19;
+         * int[] numbers = {1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 5, 6, 6, 6, 7, 8, 9, 10};
+         */
 
         FrequencyDescendingStableSort solver = new FrequencyDescendingStableSort();
         System.out.println(format(solver.sortByFrequency(numbers)));

@@ -1,5 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
+
+
 /**
  * Question
  *
@@ -29,7 +32,7 @@ package com.aquarius.wizard.leetcode.shl;
  * Output:
  * 1
  *
- * 我的备注
+ * 备注
  *
  * 难度：简单。
  *
@@ -40,8 +43,16 @@ package com.aquarius.wizard.leetcode.shl;
 public class RightRotationStringCheck {
 
     public static void main(String[] args) {
-        String word1 = "sample";
-        String word2 = "plesam";
+        Scanner scanner = new Scanner(System.in);
+        String word1 = scanner.nextLine();
+        String word2 = scanner.nextLine();
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * String word1 = "sample";
+         * String word2 = "plesam";
+         */
 
         RightRotationStringCheck solver = new RightRotationStringCheck();
         System.out.println(solver.isRightRotation(word1, word2));

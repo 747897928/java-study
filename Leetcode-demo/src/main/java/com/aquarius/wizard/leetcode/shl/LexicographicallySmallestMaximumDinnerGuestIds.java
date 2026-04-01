@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +53,7 @@ import java.util.Queue;
  * The fourth alumnus likes the person whose ID is 1.
  * A maximum of 4 alumni can be seated around the circular table in the following manner: 1-2-3-4.
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -63,15 +64,21 @@ import java.util.Queue;
 public class LexicographicallySmallestMaximumDinnerGuestIds {
 
     public static void main(String[] args) {
-        int alumniCount = 4;
-        int[] likesOneBased = {2, 3, 4, 1};
-
-        if (likesOneBased.length != alumniCount) {
-            throw new IllegalArgumentException("likesOneBased.length must equal alumniCount");
+        Scanner scanner = new Scanner(System.in);
+        int alumniCount = scanner.nextInt();
+        int[] likesOneBased = new int[alumniCount];
+        for (int i = 0; i < alumniCount; i++) {
+            likesOneBased[i] = scanner.nextInt();
         }
 
-        LexicographicallySmallestMaximumDinnerGuestIds solver =
-                new LexicographicallySmallestMaximumDinnerGuestIds();
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int alumniCount = 4;
+         * int[] likesOneBased = {2, 3, 4, 1};
+         */
+
+        LexicographicallySmallestMaximumDinnerGuestIds solver = new LexicographicallySmallestMaximumDinnerGuestIds();
         int[] guestIds = solver.findGuestIds(likesOneBased);
         System.out.println(joinSpaceSeparated(guestIds));
     }

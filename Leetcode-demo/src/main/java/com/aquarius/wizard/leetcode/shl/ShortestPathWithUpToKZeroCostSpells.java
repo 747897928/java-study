@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -56,7 +57,7 @@ import java.util.PriorityQueue;
  * There are two possible routes between 0 and 3: 0->1->2->3 and 0->4->3. After reducing the
  * distance of edge 4->3 to zero, the second route becomes optimal and the minimum distance is 1.
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -69,22 +70,29 @@ public class ShortestPathWithUpToKZeroCostSpells {
     private static final long INF = Long.MAX_VALUE / 4;
 
     public static void main(String[] args) {
-        int cityCount = 5;
-        int roadCount = 5;
-        int sourceCity = 0;
-        int targetCity = 3;
-        int maxSpellCount = 1;
-        int[][] roads = {
-                {0, 1, 1},
-                {0, 4, 1},
-                {1, 2, 2},
-                {2, 3, 4},
-                {4, 3, 7}
-        };
-
-        if (roads.length != roadCount) {
-            throw new IllegalArgumentException("roads.length must equal roadCount");
+        Scanner scanner = new Scanner(System.in);
+        int cityCount = scanner.nextInt();
+        int roadCount = scanner.nextInt();
+        int sourceCity = scanner.nextInt();
+        int targetCity = scanner.nextInt();
+        int maxSpellCount = scanner.nextInt();
+        int[][] roads = new int[roadCount][3];
+        for (int i = 0; i < roadCount; i++) {
+            for (int j = 0; j < 3; j++) {
+                roads[i][j] = scanner.nextInt();
+            }
         }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int cityCount = 5;
+         * int roadCount = 5;
+         * int sourceCity = 0;
+         * int targetCity = 3;
+         * int maxSpellCount = 1;
+         * int[][] roads = {{0, 1, 1}, {0, 4, 1}, {1, 2, 2}, {2, 3, 4}, {4, 3, 7}};
+         */
 
         ShortestPathWithUpToKZeroCostSpells solver = new ShortestPathWithUpToKZeroCostSpells();
         System.out.println(solver.shortestPath(cityCount, roads, sourceCity, targetCity, maxSpellCount));

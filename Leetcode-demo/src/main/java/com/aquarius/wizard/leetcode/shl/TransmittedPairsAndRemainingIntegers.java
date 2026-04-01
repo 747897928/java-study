@@ -1,6 +1,5 @@
 package com.aquarius.wizard.leetcode.shl;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -67,11 +66,11 @@ import java.util.Set;
  * Total transmitted pairs = 2.
  * Remaining integers count = 1 + 0 + 1 + 1 + 1 = 4.
  * <p>
- * 我的备注
+ * 备注
  * <p>
  * 这是你刚刷到的模拟题，不是原 SHL 题。
  * <p>
- * 你刚才怀疑得对：
+ * 这里顺手记一下：
  * 如果题目解释还想写“剩余数组具体是什么”，原截图里的解释很可能写错了，或者至少不严谨。
  * <p>
  * 为什么？
@@ -112,29 +111,36 @@ import java.util.Set;
 public class TransmittedPairsAndRemainingIntegers {
 
     public static void main(String[] args) {
-        // 如果你想模拟平台提交时的 stdin 输入，调试时可以临时打开这两行：
-        // new TransmittedPairsAndRemainingIntegers().runWithScannerInput();
-        // return;
+        Scanner scanner = new Scanner(System.in);
+        int messageSize = scanner.nextInt();
+        int[] message = new int[messageSize];
+        for (int i = 0; i < messageSize; i++) {
+            message[i] = scanner.nextInt();
+        }
 
-        int messageSize = 8;
-        int[] message = {12, 10, 6, 12, 10, 12, 1, 21};
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int messageSize = 8;
+         * int[] message = {12, 10, 6, 12, 10, 12, 1, 21};
+         */
 
         TransmittedPairsAndRemainingIntegers solver = new TransmittedPairsAndRemainingIntegers();
         int[] answer = solver.countPairsAndRemaining(message);
-
-        System.out.println("messageSize = " + messageSize);
-        System.out.println("message     = " + Arrays.toString(message));
-        System.out.println("answer      = " + answer[0] + " " + answer[1]);
-        System.out.println("answer2     = " + solver.countPairsAndRemaining2(message));
-        System.out.println("answer3     = " + solver.countPairsAndRemaining3(message));
-        System.out.println("answer4     = " + solver.countPairsAndRemaining4(message));
+        System.out.println(answer[0] + " " + answer[1]);
+        /*
+         * 如果需要核对其他写法，可以临时打开下面这几行：
+         * System.out.println(solver.countPairsAndRemaining2(message));
+         * System.out.println(solver.countPairsAndRemaining3(message));
+         * System.out.println(solver.countPairsAndRemaining4(message));
+         */
     }
 
     /**
      * 平台/OA 风格输入版本。
      * <p>
-     * 你刚才提醒得对，截图里给的模板是 Scanner。
-     * 所以这里单独准备一个 Scanner 版本，方便你以后临时切到“提交模式”调试。
+     * 题目模板就是 Scanner。
+     * 所以这里单独留了一个 Scanner 版本，临时切回提交模式时也能直接用。
      * <p>
      * 输入格式：
      * 第一行：messageSize

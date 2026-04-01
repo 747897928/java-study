@@ -1,5 +1,6 @@
 package com.aquarius.wizard.leetcode.shl;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +68,7 @@ import java.util.List;
  * boxes instantly. He then produces the remaining 15 boxes using the new machine in 15 * 4 = 60
  * units of time. So the minimum time is 60.
  *
- * 我的备注
+ * 备注
  *
  * 难度：困难。
  *
@@ -78,24 +79,36 @@ import java.util.List;
 public class MinimumSweetBoxDeliveryTime {
 
     public static void main(String[] args) {
-        int boxCount = 20;
-        int oldMachineTime = 10;
-        int budget = 20;
-        int machineOptionCount = 3;
-        int shopOfferCount = 2;
-        int[][] machineOptions = {
-                {2, 30},
-                {3, 25},
-                {4, 10}
-        };
-        int[][] shopOffers = {
-                {5, 10},
-                {15, 80}
-        };
-
-        if (machineOptions.length != machineOptionCount || shopOffers.length != shopOfferCount) {
-            throw new IllegalArgumentException("Matrix row count does not match the declared input size");
+        Scanner scanner = new Scanner(System.in);
+        int boxCount = scanner.nextInt();
+        int oldMachineTime = scanner.nextInt();
+        int budget = scanner.nextInt();
+        int machineOptionCount = scanner.nextInt();
+        int shopOfferCount = scanner.nextInt();
+        int[][] machineOptions = new int[machineOptionCount][2];
+        for (int i = 0; i < machineOptionCount; i++) {
+            for (int j = 0; j < 2; j++) {
+                machineOptions[i][j] = scanner.nextInt();
+            }
         }
+        int[][] shopOffers = new int[shopOfferCount][2];
+        for (int i = 0; i < shopOfferCount; i++) {
+            for (int j = 0; j < 2; j++) {
+                shopOffers[i][j] = scanner.nextInt();
+            }
+        }
+
+        /*
+         * 本地自测时直接打开这一段，改上面的 Scanner 就行。
+         *
+         * int boxCount = 20;
+         * int oldMachineTime = 10;
+         * int budget = 20;
+         * int machineOptionCount = 3;
+         * int shopOfferCount = 2;
+         * int[][] machineOptions = {{2, 30}, {3, 25}, {4, 10}};
+         * int[][] shopOffers = {{5, 10}, {15, 80}};
+         */
 
         MinimumSweetBoxDeliveryTime solver = new MinimumSweetBoxDeliveryTime();
         System.out.println(solver.minimumTime(boxCount, oldMachineTime, budget, machineOptions, shopOffers));
