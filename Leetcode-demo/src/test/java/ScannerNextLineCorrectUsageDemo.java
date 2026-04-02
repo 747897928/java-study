@@ -10,6 +10,13 @@ import java.util.Scanner;
  * 后面又想按整行读取，
  * 往往先补一行 scanner.nextLine() 把残留换行吃掉。
  *
+ * 这里要特别记住：
+ *
+ * - nextInt() 读的是“下一个整数”
+ * - nextLine() 读的是“当前位置到本行结束”
+ *
+ * 所以混用时，必须先把它们的读取边界对齐。
+ *
  * 这个类建议和 ScannerNextLinePitfallDemo 对着看。
  * 两个类一起跑，差别会非常直观。
  */
@@ -24,6 +31,23 @@ public class ScannerNextLineCorrectUsageDemo {
         // 和上一个 demo 的区别，不在输入，
         // 而在于这里中间多补了一句 scanner.nextLine()。
         // 所以两个 demo 最适合连着跑，对比看。
+        //
+        // 指针走位图如下：
+        //
+        // 初始：
+        // [3]\n
+        //  hello world\n
+        //
+        // nextInt() 之后：
+        // 3[\n]
+        //  hello world\n
+        //
+        // 补一行 nextLine() 之后：
+        // 3\n
+        // [h]ello world\n
+        //
+        // 再 nextLine()：
+        // 读到的才是 hello world。
 
         String input = "3\nhello world\n";
         Scanner scanner = new Scanner(

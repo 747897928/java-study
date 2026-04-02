@@ -41,6 +41,17 @@ public class ScannerNextVsNextLineDemo {
         System.out.println("next() 第三次读到：" + tokenScanner.next());
         System.out.println("next() 第四次读到：" + tokenScanner.next());
 
+        //next() 是按空白分词的，所以它会把空格、换行、Tab 都当成分隔符，
+        String input2 = "hello  world\njava\tstudy";
+
+        Scanner tokenScanner2 = new Scanner(
+                new ByteArrayInputStream(input2.getBytes(StandardCharsets.UTF_8))
+        );
+        System.out.println("next() 第五次读到：" + tokenScanner2.next());
+        System.out.println("next() 第六次读到：" + tokenScanner2.next());
+        System.out.println("next() 第七次读到：" + tokenScanner2.next());
+        System.out.println("next() 第八次读到：" + tokenScanner2.next());
+
         System.out.println();
 
         Scanner lineScanner = new Scanner(

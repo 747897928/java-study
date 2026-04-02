@@ -1,5 +1,13 @@
 package com.aquarius.wizard.leetcode.shl.automata;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
 /**
  * Question
  *
@@ -25,12 +33,120 @@ package com.aquarius.wizard.leetcode.shl.automata;
  * Write an algorithm to help Allie calculate the maximum number of applications that are executed
  * successfully by the system.
  *
- * Status
+ * Notes
  *
- * This file currently exists to keep the full problem statement inside the shl code tree,
- * so later review can stay inside code files instead of going back to the docx.
+ * The docx only keeps the statement and does not spell out a standard input format.
+ * This learning version uses:
+ * 1. applicationCount resourceTypeCount
+ * 2. applicationCount lines: requestTime endTime resourceId
  *
- * The algorithm implementation still needs to be added.
+ * About the ambiguous sentence:
+ *
+ * The original wording says requests with the same request time cannot all be approved, but the
+ * commonly circulated sample explanation for this OA groups requests by resource type and solves
+ * each resource independently with interval scheduling. This implementation follows that sample
+ * behavior:
+ *
+ * 1. applications using different resource types can run in parallel
+ * 2. for the same resource type, choose a maximum set of non-overlapping intervals
+ * 3. when two applications for the same resource overlap, prefer the one that finishes earlier
+ *
+ * In other words, this is the classic "interval scheduling per resource, then sum the answers"
+ * version.
  */
 public class Q29MaximumExecutedApplicationsByResource {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int applicationCount = scanner.nextInt();
+        int resourceTypeCount = scanner.nextInt();
+        int[][] applications = new int[applicationCount][3];
+        for (int i = 0; i < applicationCount; i++) {
+            applications[i][0] = scanner.nextInt();
+            applications[i][1] = scanner.nextInt();
+            applications[i][2] = scanner.nextInt();
+        }
+
+        /*
+         * Local practice input:
+         *
+         * 6 3
+         * 1210 1300 1
+         * 1215 1240 1
+         * 1230 1315 1
+         * 1250 1330 2
+         * 1330 1340 2
+         * 1340 1345 2
+         *
+         * Explanation under this interpretation:
+         * resource 1 -> take [1215,1240]
+         * resource 2 -> take [1250,1330], [1330,1340], [1340,1345]
+         * total = 4
+         */
+
+        Q29MaximumExecutedApplicationsByResource solver =
+            new Q29MaximumExecutedApplicationsByResource();
+        System.out.println(solver.maximumExecutedApplications(resourceTypeCount, applications));
+    }
+
+    public int maximumExecutedApplications(int resourceTypeCount, int[][] applications) {
+        Map<Integer, List<Application>> groupedByResource = new HashMap<>();
+        for (int resourceId = 1; resourceId <= resourceTypeCount; resourceId++) {
+            groupedByResource.put(resourceId, new ArrayList<Application>());
+        }
+        for (int[] application : applications) {
+            int resourceId = application[2];
+            if (!groupedByResource.containsKey(resourceId)) {
+                groupedByResource.put(resourceId, new ArrayList<Application>());
+            }
+            groupedByResource.get(resourceId).add(new Application(
+                toSeconds(application[0]),
+                toSeconds(application[1]),
+                resourceId
+            ));
+        }
+
+        int totalExecuted = 0;
+        for (List<Application> resourceApplications : groupedByResource.values()) {
+            totalExecuted += maxNonOverlappingCount(resourceApplications);
+        }
+        return totalExecuted;
+    }
+
+    private int maxNonOverlappingCount(List<Application> resourceApplications) {
+        if (resourceApplications.isEmpty()) {
+            return 0;
+        }
+        Collections.sort(resourceApplications, Comparator
+            .comparingInt((Application app) -> app.endTime)
+            .thenComparingInt(app -> app.startTime));
+
+        int count = 0;
+        int lastEndTime = -1;
+        for (Application application : resourceApplications) {
+            if (application.startTime >= lastEndTime) {
+                count++;
+                lastEndTime = application.endTime;
+            }
+        }
+        return count;
+    }
+
+    private int toSeconds(int mmss) {
+        int minutes = mmss / 100;
+        int seconds = mmss % 100;
+        return minutes * 60 + seconds;
+    }
+
+    private static class Application {
+        private final int startTime;
+        private final int endTime;
+        private final int resourceId;
+
+        private Application(int startTime, int endTime, int resourceId) {
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.resourceId = resourceId;
+        }
+    }
 }

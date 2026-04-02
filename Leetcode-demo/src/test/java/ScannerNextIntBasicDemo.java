@@ -70,6 +70,14 @@ public class ScannerNextIntBasicDemo {
         // third = 5
         // fourth = 10
 
+        //3 5
+        //first = 3
+        //second = 5
+        //5  10
+        //third = 5
+        //fourth = 10
+        //第一个3和5我没用空格，使用了换行符，第二个5和10之间我又使用了多个空格，
+        // 结果 nextInt() 仍然能正确把它们当成四个整数读出来。
         int first = scanner.nextInt();
         System.out.println("first = " + first);
 
