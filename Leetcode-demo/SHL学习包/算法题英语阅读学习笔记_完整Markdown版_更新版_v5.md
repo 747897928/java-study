@@ -2805,7 +2805,8 @@ The procedure will then give you the number of pairs transmitted and the number 
 
 所以：
 
-- `represent` = 代表、对应
+- `represent` = 代表、对应、代表；为……代言（辩护）；代表（选区、政党、群体）任国会议员（或其他立法机构议员）；代表（国家、学校、城镇等参加比赛）；作为某人的代表（尤指在正式场合或仪式中）；等于，相当于；（符号或象征）代表，表示；象征，体现；展示，描绘；（尤指不真实地）描述，描写；扮演；<正式>明确讲述，清楚说明；声称；正式提出（意见、抗议等）
+- representing *v.*代表；为……代言（辩护）；等于，相当于；（符号或象征）代表，表示（represent 的现在分词）
 - `indicate` = 表明、显示出、暗示出
 
 两者不一样。
@@ -4224,3 +4225,983 @@ Remove all vowels regardless of case.
   排除无效值
 - exclude the first element
   不把第一个元素算进去
+
+我继续按你这份笔记的风格来讲：先把题目重组成“人话”，再把关键词拆成“核心感觉 + 这题里的落地意思 + 高频用法”。你原来的笔记就是这种路线，这次我也按这个方式续写。
+
+下面这段你基本可以直接收进笔记。
+
+------
+
+# 34. 新题补充：`misses / journey / energy / decreases / juice stalls / figure out / respectively` 这道题
+
+> 这一节对应新的“走路 + 补充能量”题。
+> 重点解决：
+>
+> 1. `misses`
+> 2. `journey`
+> 3. `energy`
+> 4. `decreases`
+> 5. `juice` / `stalls` / `juice stalls`
+> 6. `specific` / `amount of` / `liters`
+> 7. `figure out` / `reach` / `respectively`
+> 8. 顺手补上这题最重要的阅读骨架
+
+------
+
+## 34.1 去掉包装后的干净题目
+
+```text
+Question
+
+John misses his bus and has to walk all his way from home to school. The distance between his school and home is D units. He starts his journey with an initial energy of K units. His energy decreases by 1 unit for every unit of distance walked. On his way to school, there are N juice stalls. Each stall has a specific amount of juice in liters. His energy increases by 1 unit for every liter of juice he consumes. Note that in order to keep him walking he should have non-zero energy.
+
+Write an algorithm to help John figure out the minimum number of juice stalls at which he should stop to successfully reach the school. In case he can't reach the school, the output will be -1.
+
+Input
+
+The first line of the input consists of an integer N, representing the number of juice stalls.
+The second line consists of N space-separated integers - dist1, dist2, ..., distn representing the distance of the i-th stall from John's home.
+The third line consists of N space-separated integers - lit1, lit2, ..., litn representing the liters of juice available at the i-th stall.
+The last line consists of two space-separated integers - D and K representing the distance of the school from John's home and his initial energy, respectively.
+
+Output
+
+Print an integer representing the minimum number of juice stalls at which John should stop to reach the school successfully.
+```
+
+------
+
+## 34.2 这题的人话版
+
+这题真正的意思其实不复杂：
+
+1. John 没赶上公交，只能从家走到学校。
+2. 家到学校总距离是 `D`。
+3. 他一开始有 `K` 点能量。
+4. 每走 1 单位距离，能量减 1。
+5. 路上有 `N` 个果汁摊。
+6. 每个果汁摊有一定升数的果汁。
+7. 他每喝 1 升果汁，能量加 1。
+8. 过程中他必须始终保持能量不是 0，否则就走不动。
+9. 问：最少需要停几个果汁摊，才能成功到学校。
+10. 如果怎么都到不了，输出 `-1`。
+
+------
+
+## 34.3 这题真正要先抓住的，不是单词，而是“能量模型”
+
+你这次说得特别对：
+
+> `energy` 出现频率很高，这一个词直接影响了我整个阅读。
+
+这就是关键。
+
+因为这题虽然讲的是“果汁摊”，但本质不是饮料题，而是：
+
+> 一个“能量消耗 / 能量补充”的模型题。
+
+所以只要你把 `energy` 读顺了，后面整段题意会一下子清楚很多。
+
+------
+
+## 34.4 `energy`
+
+### 基本意思
+
+`energy` 最常见是：
+
+- 能量
+
+- 精力。
+
+  勿庸置疑，一个人的**精力**(Energy)是有限的，把自己的时间和**精力**充分地转移到有益的事情上去，有空时给自己点一袭喜欢的香薰，让香味充盈房间。愉悦。
+
+  There is no doubt that a person's Energy is limited. It is important to fully transfer your time and energy to beneficial things. When you have free time, light a favorite scented candle for yourself and let the fragrance fill the room. Pleasure.
+
+- 活力
+
+- *n.*能力，力气；精力，活力；能源；能，能量
+
+there's no doubt that. 毫无疑问：用于表达对某事的肯定和确定。
+
+doubt 
+
+- *v.*怀疑，不确定；不信任
+- *n.*怀疑，不确定
+
+------
+
+### 这题里最自然的意思
+
+这题里不是“精神状态很好”的那种活力，
+也不是物理学里特别严谨的能量定义。
+
+这题里最自然就是：
+
+> 体力 / 行走所需的能量值
+
+你可以先把它理解成：
+
+> “还能继续走的电量条”
+
+这个脑补特别有用。
+
+------
+
+### 为什么这个词会影响整题阅读
+
+因为题目所有规则都围着它转：
+
+- initial energy
+- energy decreases
+- energy increases
+- non-zero energy
+
+也就是说，这题的逻辑骨架其实就是：
+
+> 初始有多少 energy
+> 走路会掉多少 energy
+> 喝果汁会补多少 energy
+> 最后能不能撑到学校
+
+所以你一旦把 `energy` 错读得很抽象，整题就会飘。
+
+------
+
+### 这题里怎么记最稳
+
+你可以直接记成：
+
+> `energy` = 体力值 / 能量值 / 剩余可走能力
+
+在算法题里，中文最顺的通常是：
+
+- 能量
+- 体力
+
+------
+
+### 高频搭配
+
+这题里值得一起记：
+
+- initial energy = 初始能量
+
+initial *adj.*开始的，最初的；（字母）位于词首的
+
+- 复数
+
+  initials
+
+- 第三人称单数
+
+  initials
+
+- 现在分词
+
+  initialling或initialing
+
+- 过去式
+
+  initialled或initialed
+
+- 过去分词
+
+  initialled或initialed
+
+- current energy = 当前能量
+- remaining energy = 剩余能量
+- energy decreases = 能量减少
+- energy increases = 能量增加
+- non-zero energy = 非零能量 / 能量不能为 0
+
+------
+
+### 扩展例句
+
+- He has enough energy to continue.
+  他有足够的体力继续。
+
+enough
+
+- *adj.*充足的，足够的
+
+- *pron.*足够，充分
+
+- *adv.*充分地，足够地；相当，很；说来奇怪，说起来有趣（strangely/interestingly enough）
+
+- *n.*足够的（数目或数量），充分
+
+- *int.*够了，别再说了
+
+  
+
+- The robot's energy decreases over time.
+  机器人的能量会随时间下降。
+- Drinking juice increases his energy.
+  喝果汁会提高他的能量。
+
+------
+
+## 34.5 `misses`
+
+这个词非常值得讲，因为它特别容易误读。
+
+### 你最容易想到的意思
+
+很多人先想到：
+
+> miss = 想念
+
+比如：
+
+- I miss you.
+
+但这题里不是这个意思。
+
+------
+
+### 这题里的意思
+
+原句：
+
+```text
+John misses his bus
+```
+
+这里是：
+
+> John 没赶上公交车
+
+也就是：
+
+- 错过
+- 没赶上
+
+------
+
+### 为什么不是“想念公交车”
+
+因为句子场景不对。
+
+- miss a bus = 错过公交
+- miss a train = 错过火车
+- miss a chance = 错过机会
+- miss a class = 错过一节课 / 没去上课
+
+这里你要学会：
+
+> `miss` 是典型多义词，不能只背“想念”。
+
+------
+
+### 高频用法
+
+- miss the bus = 没赶上公交
+- miss the train = 没赶上火车
+- miss the deadline = 错过截止日期
+- miss the point = 没抓住重点
+
+这个词以后在阅读里很高频，特别值钱。
+
+------
+
+## 34.6 `journey`
+
+### 基本意思
+
+`journey` 最常见是：
+
+- 旅行
+- 行程
+- 路程
+- 旅程
+
+------
+
+### 这题里是什么意思
+
+原句：
+
+```text
+He starts his journey with an initial energy of K units.
+```
+
+这里不是“旅游”，而是：
+
+> 他开始这段从家到学校的路程时，有 K 点初始能量。
+
+所以在这题里最自然是：
+
+- 行程
+- 路程
+- 这段路
+
+------
+
+### 和 `trip / travel` 的区别，先粗略记
+
+你现在不需要背太细，先这样抓就够了：
+
+- `journey`：一段从 A 到 B 的路程
+- `trip`：一次出行、一趟
+- `travel`：旅行这件事，更抽象
+
+算法题里如果出现 `journey`，你大多可以先落成：
+
+> 这段行程 / 这段路
+
+------
+
+## 34.7 `decreases`
+
+### 来自动词
+
+`decrease` = 减少，下降
+
+### 这题里是什么意思
+
+原句：
+
+```text
+His energy decreases by 1 unit for every unit of distance walked.
+```
+
+意思是：
+
+> 他每走 1 个距离单位，能量就减少 1 个单位。
+
+------
+
+### 核心感觉
+
+`decrease` 的底层感觉就是：
+
+> 变少
+
+所以它和：
+
+- increase = 增加
+- decrease = 减少
+
+是一组很值得牢牢记住的高频反义词。
+
+------
+
+### 高频模板
+
+- decrease by 1 = 减少 1
+- increase by 1 = 增加 1
+- decreases over time = 随时间减少
+- the value decreases = 数值下降
+
+------
+
+### 特别重要：`by`
+
+这里的 `by 1 unit` 不是“在旁边”。
+
+这里是：
+
+> 减少了多少幅度
+
+所以：
+
+- increase by 2 = 增加 2
+- decrease by 3 = 减少 3
+
+这个结构在题面里非常高频。
+
+------
+
+## 34.8 `juice`
+
+### 基本意思
+
+`juice` = 果汁
+
+这题里就是字面意思，没陷阱。
+
+但你要注意：
+
+> 题目的重点不在果汁本身，而在“果汁能补充 energy”。
+
+所以 `juice` 在这题里更像：
+
+> 补能量的资源
+
+------
+
+## 34.9 `stalls`
+
+### 基本意思
+
+`stall` 在这里是：
+
+- 小摊
+- 摊位
+- 售卖摊点
+
+所以：
+
+```text
+juice stalls
+```
+
+就是：
+
+> 果汁摊
+> 卖果汁的小摊
+
+------
+
+### 为什么不要误会成别的意思
+
+`stall` 在别的语境里还能表示：
+
+- 使停住
+- 拖延
+- 熄火
+
+但这题里是名词，不是动词。
+
+你判断的方法很简单：
+
+- there are N juice stalls
+  这里 clearly 是“有 N 个什么东西”
+- 所以它一定是名词
+
+------
+
+### 高频扩展
+
+- food stall = 食物摊
+- street stall = 街边摊
+- market stall = 市场摊位
+
+------
+
+## 34.10 `specific`
+
+### 基本意思
+
+`specific` = 特定的，具体的
+
+### 这题里怎么理解
+
+原句：
+
+```text
+Each stall has a specific amount of juice in liters.
+```
+
+这里最自然是：
+
+> 每个摊位都有一个具体的果汁量。
+
+也就是：
+
+- 每个摊位不是“随便多少”
+- 而是“各自有固定的量”
+
+------
+
+### 你可以怎么记
+
+在算法题里，`specific` 经常不用翻得太重。
+很多时候直接理解成：
+
+- 具体的
+- 特定的
+- 各自确定的
+
+就够了。
+
+------
+
+## 34.11 `amount of`
+
+这个特别值得学，因为它很高频。
+
+### 基本意思
+
+`amount of` = ……的数量 / ……的总量
+
+但它通常更偏：
+
+> 不可数东西的量
+
+例如：
+
+- amount of water
+- amount of juice
+- amount of money
+
+------
+
+### 这题里是什么意思
+
+```text
+a specific amount of juice
+```
+
+就是：
+
+> 一定量的果汁
+> 某个具体数量的果汁
+
+------
+
+### 和 `number of` 的区别
+
+这是一个特别值钱的点。
+
+#### `number of`
+
+更常接可数名词复数：
+
+- number of stalls
+- number of students
+- number of pairs
+
+#### `amount of`
+
+更常接不可数名词：
+
+- amount of juice
+- amount of water
+- amount of energy
+
+所以这题里：
+
+- number of juice stalls
+  果汁摊的数量
+- amount of juice
+  果汁的量
+
+这个对比很适合你顺手记住。
+
+------
+
+## 34.12 `liters`
+
+### 基本意思
+
+`liter` / `litre` = 升
+`liters` = 升（复数）
+
+这题里：
+
+```text
+in liters
+```
+
+就是：
+
+> 以升为单位
+
+或者：
+
+> 用升来表示
+
+------
+
+### 高频结构
+
+- measured in liters = 以升计量
+- available in liters = 以升数表示可用量
+- 3 liters of juice = 3 升果汁
+
+------
+
+### 这题里怎么理解最自然
+
+不是让你去学单位换算，
+只是告诉你：
+
+> 每个摊位提供多少“升”的果汁，而每升果汁能补 1 点能量。
+
+所以 `liters` 在这里和 `energy` 是直接挂钩的。
+
+------
+
+## 34.13 `figure out`
+
+这个词组非常实用，值得重点记。
+
+### 基本意思
+
+`figure out` = 弄明白，想出，算出，找出
+
+------
+
+### 这题里是什么意思
+
+原句：
+
+```text
+help John figure out the minimum number of juice stalls
+```
+
+这里最自然不是“想明白人生”，而是：
+
+> 帮 John 算出 / 找出 最少需要停几个果汁摊
+
+所以在算法题里，`figure out` 很多时候可以落成：
+
+- 求出
+- 算出
+- 找出
+- 弄清楚
+
+------
+
+### 和 `find` 的关系
+
+在算法题里它和 `find` 很接近。
+
+- find the answer
+- figure out the answer
+
+都可以理解成“求出答案”。
+
+但 `figure out` 多一点：
+
+> 通过思考、推导，把它弄出来
+
+------
+
+### 高频扩展
+
+- figure out the solution = 想出解法
+- figure out the problem = 弄清楚问题
+- figure out how to do it = 弄明白怎么做
+
+这是一个工作、学习、生活都很常见的短语。
+
+------
+
+## 34.14 `reach`
+
+### 基本意思
+
+`reach` = 到达
+
+### 这题里是什么意思
+
+- reach the school = 到达学校
+- can't reach the school = 到不了学校
+
+这个词在题面里非常高频，而且特别实用。
+
+------
+
+### 高频搭配
+
+- reach the destination = 到达目的地
+- reach the end = 到达终点
+- reach the target = 达到目标
+- reach home = 到家
+
+------
+
+### 注意
+
+`reach` 很多时候后面直接接地点，不一定要加 `to`。
+
+例如：
+
+- reach school
+- reach home
+- reach the station
+
+这个点你顺手知道就行。
+
+------
+
+## 34.15 `respectively`
+
+这是题面超高频词，值得单独拿下。
+
+### 基本意思
+
+`respectively` = *adv.*分别地，依次地
+
+### 这题里是什么意思
+
+原句：
+
+```text
+D and K representing the distance of the school from John's home and his initial energy, respectively
+```
+
+意思是：
+
+> `D` 和 `K` 分别表示学校到家的距离，以及他的初始能量。
+
+------
+
+### 为什么这个词容易卡
+
+因为它经常出现在一句话最后，前面还列了两组东西：
+
+- A and B
+- X and Y
+- respectively
+
+它的作用就是告诉你：
+
+> A 对应 X，B 对应 Y
+
+------
+
+### 高频模板
+
+- X and Y represent A and B, respectively.
+  X 和 Y 分别表示 A 和 B。
+- dist and fuel denote distance and energy, respectively.
+  dist 和 fuel 分别表示距离和能量。
+
+你以后看到 `respectively`，脑中直接弹出：
+
+> 前后按顺序一一对应
+
+就够了。
+
+------
+
+## 34.16 这题几个关键句精拆
+
+------
+
+### 句子 1
+
+```text
+John misses his bus and has to walk all his way from home to school.
+```
+
+### 自然中文
+
+John 没赶上公交车，只能一路从家走到学校。
+
+### 关键点
+
+- `misses his bus` = 没赶上公交
+
+- `has to` = 不得不
+
+- `walk all his way` 这里有点平台英语味，更自然可理解为：
+
+  > 一路步行过去
+
+------
+
+### 句子 2
+
+```text
+He starts his journey with an initial energy of K units.
+```
+
+### 自然中文
+
+他开始这段路程时，初始能量是 K 单位。
+
+### 关键点
+
+- `starts his journey` = 开始这段路程
+- `initial energy` = 初始能量
+- `of K units` = K 个单位
+
+------
+
+### 句子 3
+
+```text
+His energy decreases by 1 unit for every unit of distance walked.
+```
+
+### 自然中文
+
+他每走 1 个距离单位，能量就减少 1 个单位。
+
+### 关键点
+
+- `decreases by 1 unit` = 减少 1 单位
+- `for every unit of distance walked` = 每走 1 单位距离
+
+这句本质就是在定义：
+
+> 走路消耗规则
+
+------
+
+### 句子 4
+
+```text
+Each stall has a specific amount of juice in liters.
+```
+
+### 自然中文
+
+每个摊位都有一定量的果汁，用升来表示。
+
+### 关键点
+
+- `specific amount of juice` = 具体的果汁量
+- `in liters` = 以升为单位
+
+------
+
+### 句子 5
+
+```text
+His energy increases by 1 unit for every liter of juice he consumes.
+```
+
+### 自然中文
+
+他每喝 1 升果汁，能量就增加 1 个单位。
+
+### 关键点
+
+- `increases by 1 unit` = 增加 1 单位
+- `for every liter of juice` = 每升果汁
+- `consumes` = 消耗 / 喝掉 / 摄入
+
+这里最自然可以理解成“喝掉”。
+
+------
+
+### 句子 6
+
+```text
+Note that in order to keep him walking he should have non-zero energy.
+```
+
+### 自然中文
+
+注意：为了让他能继续走下去，他的能量必须始终不是 0。
+
+### 关键点
+
+这是整题特别重要的一句规则。
+
+- `in order to keep him walking` = 为了让他持续能走
+- `non-zero energy` = 非零能量，不能为 0
+
+这句实际上是在说：
+
+> 途中任何时刻都不能把能量耗到 0 再走下一步。
+
+------
+
+### 句子 7
+
+```text
+Write an algorithm to help John figure out the minimum number of juice stalls at which he should stop to successfully reach the school.
+```
+
+### 自然中文
+
+写一个算法，帮助 John 求出他最少需要停几个果汁摊，才能成功到达学校。
+
+### 关键点
+
+- `figure out` = 求出
+- `minimum number` = 最小数量
+- `at which he should stop` = 他应该停下来的那些摊位
+- `successfully reach the school` = 成功到达学校
+
+------
+
+## 34.17 这题最该先抓的阅读骨架
+
+以后你读这种题，不要被长句吓到，先抓 4 个问题：
+
+### 1. 初始资源是什么
+
+- initial energy = `K`
+
+### 2. 消耗规则是什么
+
+- 每走 1 距离，energy -1
+
+### 3. 补充规则是什么
+
+- 每喝 1 升果汁，energy +1
+
+### 4. 目标是什么
+
+- 用最少的摊位数到学校
+- 到不了输出 `-1`
+
+你只要先抓住这 4 个点，题意就已经通了 80%。
+
+------
+
+## 34.18 这题哪里有点“平台英语味”
+
+这点你也值得知道，因为你以后会越来越敏感。
+
+### 1. `walk all his way`
+
+更自然通常是：
+
+- walk all the way
+- walk from home to school
+
+原题这个写法能懂，但不算很地道。
+
+### 2. `to keep him walking`
+
+意思能懂，但有点绕。
+更自然可能会写：
+
+- he must always have positive energy to continue walking
+
+### 3. `juice stalls`
+
+完全能懂，但带一点题面/故事包装感。
+本质只是：
+
+> 路上的补给点
+
+所以你以后读题时要学会区分：
+
+- 故事外壳
+- 真正规则
+
+------
+
+## 34.19 这题最值得你带走的词汇总结
+
+### 核心模型词
+
+- `energy` = 能量，体力值。复数 energies
+- `initial energy` = 初始能量
+- `non-zero energy` = 非零能量
+
+### 动作规则词
+
+- `decrease` = 减少
+- `increase` = 增加
+- `consume` = 消耗，喝掉
+
+### 场景词
+
+- `miss the bus` = 没赶上公交
+- `journey` = 路程，行程
+- `stall` = 摊位
+- `juice stall` = 果汁摊
+
+### 数量表达词
+
+- `amount of` = ……的量
+- `liters` = 升
+- `minimum number` = 最少数量
+
+### 解题目标词
+
+- `figure out` = 求出，找出
+- `reach` = 到达
+- `respectively` = 分别地
