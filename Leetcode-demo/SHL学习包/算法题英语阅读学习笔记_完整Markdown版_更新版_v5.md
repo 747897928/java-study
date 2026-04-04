@@ -5205,3 +5205,837 @@ Write an algorithm to help John figure out the minimum number of juice stalls at
 - `figure out` = 求出，找出
 - `reach` = 到达
 - `respectively` = 分别地
+
+## Question
+
+The manager of a supermarket wishes to hold an event at which he will distribute gift baskets to lucky customers. Each gift basket contains a pair of products. Each basket contains different product pairs, but the overall value of the baskets may be the same. There are N types of products and each product has a price. The gift baskets will be awarded to the customers that pick a product pair that has a difference in price equal to the given integer value K.
+
+Write an algorithm to help the manager find the total numbers of lucky customers who will win a gift basket.
+
+## Input
+
+The first line of the input consists of an integer `list_input_size`, representing the types of products (`N`).
+
+The second line consists of `N` space-separated integers `list_input[0], list_input[1], ..., list_input[N-1]`, representing the price of the products.
+
+The last line consists of an integer `K_input`, representing the given value `K`.
+
+## Output
+
+Print an integer representing the total number of lucky customers who will win a gift basket.
+
+## Constraints
+
+The screenshot for constraints is missing.
+
+## Example
+
+The screenshot for the example is missing.
+
+---
+
+# 二、这题去掉故事包装后，真正想说什么
+
+这题的“人话版”其实是：
+
+> 给你一组商品价格。
+> 找出有多少组商品对，它们的价格差等于 `K`。
+> 这个数量，就是所谓“幸运顾客”的数量。
+
+真正核心其实就是：
+
+> **统计价格差为 `K` 的商品配对数量**
+
+---
+
+# 三、你卡住的单词，一个个讲
+
+---
+
+## 1. `distribute`
+
+### 基本意思
+
+`distribute` = 分发、发放、派发
+
+所以：
+
+```text id="dnlu83"
+distribute gift baskets to lucky customers
+```
+
+最自然就是：
+
+> 给幸运顾客发放礼品篮
+
+你理解成“分发礼物”是对的。
+
+---
+
+## 2. `baskets`
+
+### `basket`
+
+最基本意思：
+
+> 篮子 / 篮筐 *n.*篮子；一篮的量；（篮球运动的）篮；投篮得分
+
+### `gift basket`
+
+这是一整个常见搭配：
+
+> 礼品篮 / 礼物篮 / 礼包篮
+
+---
+
+## 3. `lucky`
+
+对，`lucky` 就是：
+
+> 幸运的 *adj.*幸运的，走运的；吉祥的
+
+- 比较级
+
+  luckier
+
+- 最高级
+
+  luckiest
+
+所以：
+
+* lucky customers = 幸运顾客 / 中奖顾客
+
+Good 好的
+
+better 更好的
+
+best 最好的
+
+---
+
+## 4. `overall`
+
+这个词很值钱，很多题和工作表达都会用。
+
+### 基本意思
+
+`overall` = 总体的、整体上的、总的来说
+
+- *adj.*总的，全面的；所有的，包括一切的
+- *adv.*全部，总共； 总的说来，大体上
+- *n.*<英>（工作时穿的）罩衣；<英>（上下连身的）工作服，防护服（overalls）；<美>背带工装裤（overalls）；<英>骑马裤，紧身制服裤（overalls）
+
+复数
+
+overalls
+
+题里这句：
+
+```text id="hnmiwl"
+the overall value of the baskets may be the same
+```
+
+而是：
+
+> 这些礼品篮的**总价值**可能一样
+
+也就是：
+
+* 配对可以不同
+* 但两个篮子的总价有可能刚好一样
+
+所以这里的 `overall` 更像：
+
+> 整体上的 / 总体的
+
+---
+
+## 5. `awarded`
+
+它来自动词：
+
+> award
+>
+> - *n.*奖，奖品；（收入的）增加；（赔偿）裁定额；（毕业证书等的）授予；奖学金
+> - *v.*授予，颁发；判给，裁定`
+
+### 基本意思
+
+作动词时：
+
+> 授予、颁给、给予（奖品、奖项）
+
+所以：
+
+```text id="g9u0jt"
+The gift baskets will be awarded to the customers
+```
+
+最自然就是：
+
+> 礼品篮会被发给这些顾客
+> 礼品篮会授予这些顾客
+
+这里是被动语态：
+
+* will be awarded
+* 将被授予 / 将被发给
+
+在“奖品、奖励、活动”语境里，它比 `give` 更正式。
+
+---
+
+# 四、你最卡的长句，怎么拆
+
+原句：
+
+```text id="hva5h9"
+The gift baskets will be awarded to the customers that pick a product pair that has a difference in price equal to the given integer value K.
+```
+
+你会晕，是因为里面连续挂了两个 `that`。
+
+我们按层拆。
+
+---
+
+## 第一步：抓主干
+
+主干是：
+
+```text id="sdjxtf"
+The gift baskets will be awarded to the customers
+```
+
+意思：
+
+> 礼品篮会被发给这些顾客
+
+---
+
+## 第二步：看第一个 `that`
+
+```text id="a9bxdc"
+that pick a product pair
+```
+
+这个 `that` 修饰的是 `customers`
+
+pick
+
+- *v.*采，摘（花、果）；（用手指）弄掉；找茬；捡，抱起；选择；弹，拨（弦）；撬开（锁），扒窃……中的东西；小心走路（~ one's way）；（反复地）拔，拉，撕，扯；没胃口地吃；（高尔夫）拾球（尤指认输的拾球）（~ up）；采，摘（花、果等）
+- *n.*精华（the pick of）；选择，选择权；被选中的人（或事物）；鹤嘴锄；（吉他的）拨子；（尖状的）挖撬工具；（篮球）掩护
+
+意思：
+
+> 那些选中一个商品对的顾客
+
+所以现在变成：
+
+> 礼品篮会被发给那些选中了一个商品对的顾客
+
+---
+
+## 第三步：看第二个 `that`
+
+```text id="4af87l"
+that has a difference in price equal to the given integer value K
+```
+
+这个 `that` 修饰的是前面的 `a product pair`
+
+意思：
+
+> 这个商品对的价格差等于给定整数 `K`
+
+所以整句重组后是：
+
+> 礼品篮会发给那些选中的商品对满足“价格差等于 K”的顾客。
+
+更自然点说：
+
+> 只要顾客选中的那一对商品价格差等于 `K`，他就能获得礼品篮。
+
+---
+
+# 五、`has a difference in price equal to the given integer value K` 到底是什么鬼
+
+你问得特别好，这种结构最容易把人读晕。
+
+我们机械拆一下：
+
+* `has` = 有
+* `a difference in price` = 价格差
+* `equal to K` = 等于 K
+
+所以字面上是：
+
+> 有一个价格差，这个价格差等于 K
+
+中文别这么翻，太硬。
+
+你直接重组成：
+
+> **价格差等于 K**
+
+就够了。
+
+原题前半段：
+
+```text id="l7gr0j"
+The manager of a supermarket wishes to hold an event at which he will distribute gift baskets to lucky customers.
+```
+
+自然中文：
+
+> 一家超市的经理想举办一个活动，在这个活动中，他会给幸运顾客发放礼品篮。
+
+---
+
+接下来：
+
+```text id="2vtfyg"
+Each gift basket contains a pair of products.
+```
+
+自然中文：
+
+> 每个礼品篮里都包含一对商品。
+
+---
+
+再下一句：
+
+```text id="jx1q8q"
+Each basket contains different product pairs, but the overall value of the baskets may be the same.
+```
+
+自然中文：
+
+> 每个礼品篮中的商品配对可以不同，但这些礼品篮的总价值可能是一样的。
+
+注意这里：
+
+* `different product pairs` = 不同的商品配对
+* 不是“不同价格相同的产品”
+* 也不是“key 不同 value 相同”
+
+它就是：
+
+> 组成篮子的两件商品组合不同
+
+---
+
+再下一句：
+
+```text id="ogv3a0"
+There are N types of products and each product has a price.
+```
+
+自然中文：
+
+> 有 N 种商品，每种商品都有一个价格。
+
+---
+
+再下一句：
+
+```text id="o9ljub"
+The gift baskets will be awarded to the customers that pick a product pair that has a difference in price equal to the given integer value K.
+```
+
+自然中文：
+
+> 礼品篮会发给那些选中的商品对满足“价格差等于给定整数 K”的顾客。
+
+### 第一行
+
+`list_input_size`
+表示：
+
+> 商品数量 / 产品类型数 N
+
+### 第二行
+
+`list_input[...]`
+表示：
+
+> 每种商品的价格列表
+
+### 最后一行
+
+`K_input`
+表示：
+
+> 给定的差值 K
+
+------
+
+# 一、`pick` 为什么你会想到“捡起”，但这里不是那个意思
+
+你想到“捡起”，很正常，因为：
+
+- pick up = 捡起
+
+这是你最熟的场景。
+
+但 `pick` 本身的核心不只是“捡”，它更常见的感觉其实是：
+
+> **从多个东西里选一个 / 挑一个 / 挑出来**
+
+所以它会落成很多意思：
+
+- pick a color = 选一个颜色
+- pick a card = 抽一张牌
+- pick a winner = 选一个赢家
+- pick a product pair = 选一对商品
+
+所以这题里：
+
+```text
+pick a product pair
+```
+
+最自然不是：
+
+> 捡起一对商品
+
+而是：
+
+> 选中一对商品 / 挑出一对商品
+
+------
+
+# 二、`difference` 为什么这里不是“不同”
+
+你这个点非常典型，因为你脑子里更熟的是：
+
+- `different` = 不同的
+
+但这里出现的是：
+
+- `difference`
+
+这两个不是一个词性。
+
+------
+
+## `different`
+
+这是形容词：
+
+- different products
+  不同的商品
+
+------
+
+## `difference`
+
+这是名词：
+
+- the difference between A and B
+  A 和 B 的差异 / 差 / 差值 / 差额
+
+所以这里：
+
+```text
+difference
+```
+
+不是“不同的”，而是：
+
+> 差异、差值、差额
+
+尤其在数学、算法、价格这种场景里，非常常见地表示：
+
+> **差**
+> **差值**
+
+比如：
+
+- the difference between 10 and 7 is 3
+  10 和 7 的差是 3
+
+所以题里：
+
+```text
+a difference in price equal to K
+```
+
+最自然就是：
+
+> 价格差等于 K
+
+不是：
+
+> 价格里的不同等于 K
+
+------
+
+# 三、`in price` 是固定搭配吗？`in` 为什么不是“在里面”
+
+你被卡住，是因为你脑子里现在对 `in` 的默认印象还是：
+
+> 在……里面
+
+比如：
+
+- in the room
+- in the box
+
+但英语里的 `in` 不只有空间意思。
+
+------
+
+## 这里的 `in` 更像什么
+
+这里的 `in` 表示：
+
+> 在……方面
+> 在……这个维度上
+> 就……而言
+
+所以：
+
+- differ in size
+  在大小上不同
+- vary in color
+  在颜色上变化
+- a difference in price
+  在价格上的差异 / 价格差
+
+所以：
+
+```text
+difference in price
+```
+
+不要翻成：
+
+> 在价格里面的差异
+
+而要翻成：
+
+> 价格差
+> 价格上的差异
+
+------
+
+## 这算不算固定搭配
+
+它不是那种“成语型固定搭配”，但它是很自然、很高频的模式：
+
+```text
+difference in + 某个方面
+```
+
+例如：
+
+- difference in size
+  大小差异
+- difference in age
+  年龄差
+- difference in quality
+  质量差异
+- difference in price
+  价格差
+
+所以你可以把它记成一个**高频表达模型**。
+
+------
+
+# 四、这句的主语是不是 `The gift baskets`
+
+原句：
+
+```text
+The gift baskets will be awarded to the customers that pick a product pair that has a difference in price equal to the given integer value K.
+```
+
+对，主语就是：
+
+```text
+The gift baskets
+```
+
+谓语是：
+
+```text
+will be awarded
+```
+
+所以主干确实是：
+
+> The gift baskets will be awarded to the customers.
+
+也就是：
+
+> 礼品篮会被发给这些顾客。
+
+这是一个被动句。
+你这个判断是对的。
+
+------
+
+# 五、第一个 `that` 修饰谁
+
+第一个 `that` 在这里：
+
+```text
+the customers that pick a product pair
+```
+
+它修饰的是：
+
+> ```
+> customers
+> ```
+
+意思：
+
+> 那些选中一对商品的顾客
+
+------
+
+## 为什么不是修饰 `The gift baskets`
+
+因为语义上根本不通：
+
+- customers pick a product pair ✅
+- gift baskets pick a product pair ❌
+
+所以这个 `that` 从句一定是修饰 `customers`。
+
+你以后判断这种东西，一个特别实用的方法就是：
+
+> 看“从句里的动作”，前面的哪个名词最适合做这个动作
+
+这里 `pick` 这个动作，明显是 `customers` 做，不是 `gift baskets` 做。
+
+------
+
+# 六、第二个 `that` 修饰谁
+
+第二个 `that` 在这里：
+
+```text
+a product pair that has a difference in price equal to the given integer value K
+```
+
+它修饰的是：
+
+> ```
+> a product pair
+> ```
+
+意思：
+
+> 这对商品的价格差等于 K
+
+------
+
+## 为什么不是修饰 `pick a product pair`
+
+因为 `that` 定语从句通常是修饰前面的**名词**，不是修饰前面的整个“动词短语”。
+
+这里最近、最合理的名词就是：
+
+> a product pair
+
+所以第二个 `that` 一定是修饰它。
+
+------
+
+# 七、这句你应该怎么切
+
+你可以把它切成 3 层：
+
+### 第 1 层：主干
+
+```text
+The gift baskets will be awarded to the customers
+```
+
+### 第 2 层：修饰 customers
+
+```text
+that pick a product pair
+```
+
+### 第 3 层：修饰 a product pair
+
+```text
+that has a difference in price equal to the given integer value K
+```
+
+所以整句结构是：
+
+```text
+[The gift baskets] 
+[will be awarded] 
+[to the customers 
+    [that pick a product pair 
+        [that has a difference in price equal to K]]]
+```
+
+------
+
+# 八、整句重组成你能直接读懂的人话
+
+最自然可以读成：
+
+> 礼品篮会发给那些选中的商品对满足“价格差等于 K”的顾客。
+
+再顺一点就是：
+
+> 只要顾客选中的那一对商品价格差等于 `K`，他就能得到礼品篮。
+
+## 这里的 `in` 更像什么？
+
+在：
+
+```text
+difference in price
+```
+
+里，`in` 更像：
+
+- **在……方面**
+- **在……这一项上**
+- **就……而言**
+- **……上的**
+
+所以：
+
+- difference in price
+  = 在价格上的差异
+  = 价格差
+
+不是：
+
+- 在价格里面的差异
+
+------
+
+# 为什么会这样？
+
+因为这里不是在说“空间位置”，而是在说：
+
+> **你拿哪一项来比较两个东西**
+
+比如两个商品，你可以比：
+
+- 价格
+- 大小
+- 颜色
+- 质量
+
+如果现在比的是**价格**，英语就会说：
+
+- difference in price
+
+也就是：
+
+> 差异体现在价格这一项上
+
+------
+
+# 你可以把它脑补成这句话
+
+```
+difference in price
+```
+
+≈
+
+> difference **when we look at price**
+> 当我们看价格时的差异
+
+或者更简单：
+
+> 在价格这一项上的差异
+
+------
+
+# 所以我前面那些例子，其实都在表达这个意思
+
+比如：
+
+- difference in size
+  在大小上的差异
+- difference in age
+  在年龄上的差异
+- difference in quality
+  在质量上的差异
+
+这些都不是“在里面”，而是：
+
+> **差异体现在哪一项**
+
+------
+
+# 再和 `of` 对比一下，你就更清楚了
+
+### `the price of the product`
+
+这里的 `of` 是：
+
+> 产品的价格
+
+是“谁的什么”。
+
+------
+
+### `difference in price`
+
+这里的 `in` 是：
+
+> 价格上的差异
+
+是“差异发生在哪一项”。
+
+所以：
+
+- `of`：所属、关联
+- `in`：方面、项目、角度
+
+------
+
+# 最实用的机械理解法
+
+以后你看到：
+
+```text
+difference in + 名词
+```
+
+你先直接机械翻成：
+
+> 在……上的差异
+
+比如：
+
+- difference in price
+  在价格上的差异
+- difference in size
+  在大小上的差异
+- difference in opinion
+  在观点上的差异
+
+然后再压缩成人话：
+
+- 价格差
+- 大小差异
+- 观点分歧
+
+------
+
+# 你这次最该记住的一句
+
+`difference in price` 里的 `in`，你先不要想成“在里面”，直接想成：
+
+> **在价格这一项上**
+> **就价格而言**
+> **价格上的**
+
