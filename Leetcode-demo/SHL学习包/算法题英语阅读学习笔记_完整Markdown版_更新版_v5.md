@@ -1,16 +1,10 @@
 # 算法题英语阅读学习笔记
 
----
+建立一种**读算法题英语题面的方式**：
 
-# 1. 这份笔记的目标
-
-这份笔记不是单纯记“中文翻译”，而是帮你建立一种**读算法题英语题面的方式**：
-
-1. 不再逐词硬翻。  
-2. 先看句子骨架，再看修饰。  
-3. 遇到多义词，先抓“核心感觉”，再落到具体语境。  
-4. 遇到 `of / in / after / representing / given / sorted` 这类高频结构时，知道它们在句子里扮演什么角色。  
-5. 能把英文题面“重组”为自然中文，而不是照着英文顺序硬贴中文。
+1. 不要逐词硬翻。先看句子骨架，再看修饰。  
+2. 遇到多义词，先抓“核心感觉”，再看具体语境。  
+3. 遇到 `of / in / after / representing / given / sorted` 这类高频结构时，知道它们在句子里扮演什么角色。  
 
 ---
 
@@ -6039,3 +6033,2271 @@ difference in + 名词
 > **就价格而言**
 > **价格上的**
 
+
+
+
+
+```
+Input
+
+The first line of the input consists of the string S.
+The second line consists of an integer changeK, representing the maximum number of zeros that can
+be changed (K).
+
+Output
+
+Print an integer representing the number of substrings whose length is equal to the maximum
+achievable value L and that contain at most K zeros.
+
+Constraints
+
+1 <= size of string <= 2*10^5
+0 <= changeK <= size
+
+Example
+
+Input:
+1010101
+1
+
+Output:
+3
+
+Explanation:
+The maximum achievable length is 3.
+There are exactly three substrings of length 3 that contain at most one 0: the three occurrences
+of 101. Each such substring can be turned into 111 by changing one 0. So, the output is 3.
+
+```
+
+
+
+给你一个只包含字符 `0` 和 `1` 的字符串 `S`。你可以在某个子串中，最多把 `K` 个 `0` 改成 `1`。设 `L` 是这样能得到的“全是 `1` 的子串”的最大可能长度。现在要你求：长度恰好等于 `L`，并且本身至多包含 `K` 个 `0` 的子串，一共有多少个。
+
+你这次卡住的点，我一条条讲。
+
+## 1. `binary string S consisting only of 0s and 1s` 到底是什么意思
+
+### `binary string`
+
+这里不是“字节字符串”。
+
+* `binary` = 二进制的
+* `byte` = 字节
+
+所以：
+
+* `binary string` = 二进制字符串
+* 在算法题里更自然常说：`01串`
+
+也就是：
+
+> 这个字符串里每个字符只能是 `0` 或 `1`
+
+不是“0秒和1秒”。
+
+### `0s and 1s` 为什么有个 `s`
+
+这里的 `s` 不是“seconds”的缩写。
+
+这里是复数词尾，意思是：
+
+* `0s` = 多个 `0`
+* `1s` = 多个 `1`
+
+英语里数字、字母、符号在这种语境下都能加复数：
+
+* `As and Bs`
+* `0s and 1s`
+* `x`s（有时也会写带撇号）
+
+所以这里就是：
+
+> 只由很多个 `0` 和 `1` 组成
+
+### `consisting only of ...` 是什么
+
+这是：
+
+> `consist of` = 由……组成
+
+所以：
+
+* `consists of` = 由……组成
+* `consisting of` = 正在句子里当修饰块用的“由……组成的”
+
+这里整块：
+
+```text
+a binary string S consisting only of 0s and 1s
+```
+
+你可以直接等价看成：
+
+```text
+a binary string S that consists only of 0s and 1s
+```
+
+也就是：
+
+> 一个只由 `0` 和 `1` 组成的二进制字符串 `S`
+
+### 为什么这里是 `consisting`，不是 `consists`
+
+因为这里它不是整句的主要动词，而是在修饰前面的 `string S`。
+
+整句骨架其实是：
+
+```text
+Given a binary string S consisting only of 0s and 1s, you may change ...
+```
+
+主干是后面的：
+
+```text
+you may change ...
+```
+
+前面的：
+
+```text
+consisting only of 0s and 1s
+```
+
+只是补充说明 `S` 是什么样的。
+
+所以这里用 `consisting`，相当于“压缩过的修饰成分”。
+
+你可以把它理解成：
+
+* 展开版：`S that consists only of 0s and 1s`
+* 压缩版：`S consisting only of 0s and 1s`
+
+这和你笔记里那个：
+
+* `N, representing ...`
+* `starting from ...`
+
+是同一路东西：主句已经有骨架了，后面再挂一个非谓语说明块。
+
+## 2. `Given ...` 是什么结构
+
+句子开头这个：
+
+```text
+Given a binary string S ...
+```
+
+在题面里很常见，通常就是：
+
+> 给定一个字符串 `S`
+> 已知一个字符串 `S`
+
+别硬想成日常口语里的“given”。在算法题里它基本就是题目背景起手式。
+
+---
+
+## 3. `you may change at most K zeros inside a substring into ones`
+
+这句你问了很多点，我拆开讲。
+
+### `may`
+
+这里不是“可能会”的那种不确定。
+
+在题面里它更像：
+
+> 可以
+
+所以：
+
+* `you may change ...` = 你可以改……
+
+---
+
+### `at most`
+
+这个一定别记反：
+
+* `at most` = 最多，至多，`<=`
+* `at least` = 至少，`>=`
+* `exactly` = 恰好，`=`
+
+所以这里：
+
+```text
+at most K zeros
+```
+
+就是：
+
+> 最多 `K` 个 `0`
+
+不是至少。
+
+---
+
+### `K zeros`
+
+对，就是：
+
+> `K` 个 `0`
+
+这里 `zero` 是可数的，因为它表示“字符 `0` / 元素 `0`”。
+
+就像：
+
+* `3 apples` = 3个苹果
+* `5 nodes` = 5个节点
+* `K zeros` = K个0
+
+你说的 `the number of zero k` 不是这个结构。
+
+* `K zeros` 是“多少个0”
+* `the number of zeros` 是“0的数量”
+
+两者不一样。
+
+---
+
+### `inside a substring`
+
+这里就是：
+
+> 在某个子串里面
+> 在某个子串中
+
+`inside` 和 `in` 很接近，但 `inside` 更强调“在这个边界范围之内”。
+
+这里意思就是：
+
+> 你先选一个子串，然后只能在这个选中的子串里改 `0`
+
+它跟后面的 `into` 不是固定搭配。
+
+---
+
+### `into ones`
+
+这里最该记的是这个模式：
+
+* `change A into B`
+* `turn A into B`
+
+意思都是：
+
+> 把 A 变成 B
+
+所以：
+
+```text
+change ... zeros ... into ones
+```
+
+就是：
+
+> 把那些 `0` 改成 `1`
+
+这里的 `ones` 不是“某些人/某些东西”那个代词 `ones`，而是技术语境里把数字当名词：
+
+* `zeros` = 0
+* `ones` = 1
+
+所以别拆成 `inside into`，真正的搭配是：
+
+> `change zeros into ones`
+
+---
+
+## 4. 第一句整句怎么读最顺
+
+原句：
+
+```text
+Given a binary string S consisting only of 0s and 1s, you may change at most K zeros inside a substring into ones.
+```
+
+最自然中文：
+
+> 给定一个只包含 `0` 和 `1` 的二进制字符串 `S`。你可以在某个子串中，最多把 `K` 个 `0` 改成 `1`。
+
+或者更人话一点：
+
+> 给你一个 01 串 `S`。你可以选一个子串，并在这个子串里最多把 `K` 个 `0` 变成 `1`。
+
+---
+
+## 5. `Let L be ...` 是什么鬼
+
+原句：
+
+```text
+Let L be the maximum possible length ...
+```
+
+这里是数学/算法英语超高频句型：
+
+> `Let X be ...` = 设 X 为……
+
+所以：
+
+* `Let L be ...` = 设 `L` 为……
+
+这里的 `L` 只是题目作者取的一个变量名。
+
+### 为什么是 `be`
+
+因为这个句型就是：
+
+* `let + 宾语 + 动词原形`
+
+例如：
+
+* `Let x be 5.` = 设 `x = 5`
+* `Let n denote the size.` = 设 `n` 表示大小
+* `Let L be ...` = 设 `L` 为……
+
+所以这里的 `be` 不奇怪，就是这个句型自带的原形动词。
+
+---
+
+## 6. `the maximum possible length` 怎么看
+
+这里：
+
+* `maximum` = 最大的
+* `possible` = 可能的 / 可达到的
+* `length` = 长度
+
+所以：
+
+```text
+the maximum possible length
+```
+
+就是：
+
+> 最大可能长度
+> 能达到的最大长度
+
+### `maximum` 是什么词
+
+这里它最直接可以当形容词看，修饰 `length`：
+
+> 最大的长度
+
+在别的句子里它也可以当名词：
+
+* `find the maximum` = 求最大值
+
+所以它既能当名词，也能当形容词；这句里先当“修饰 length 的词”理解最稳。
+
+---
+
+## 7. `that can be turned into all ones in this way` 是什么意思
+
+先看核心搭配：
+
+* `turn A into B` = 把 A 变成 B
+* `be turned into B` = 被变成 B / 能变成 B
+
+所以：
+
+```text
+can be turned into all ones
+```
+
+就是：
+
+> 能被变成全是 `1`
+> 能变成全 `1`
+
+### `all ones`
+
+这里不要硬译成“所有的一们”。
+
+它整体就是：
+
+> 全部都是 `1`
+> 全是 `1`
+
+在算法题里很常见：
+
+* `all zeros` = 全是0
+* `all ones` = 全是1
+
+所以：
+
+```text
+a substring that can be turned into all ones
+```
+
+就是：
+
+> 一个能被变成全 `1` 的子串
+
+### `in this way`
+
+这个就是：
+
+> 用这种方式
+> 通过前面说的这种操作
+
+也就是：
+
+> 通过“最多改 `K` 个 `0` 成 `1`”这种方式
+
+---
+
+## 8. 第二句整句怎么重组
+
+原句：
+
+```text
+Let L be the maximum possible length of a substring that can be turned into all ones in this way.
+```
+
+最自然中文：
+
+> 设 `L` 为通过这种方法能够变成全 `1` 的子串的最大可能长度。
+
+更顺一点可以说：
+
+> 设 `L` 是这样一个最大长度：存在某个子串，最多把其中 `K` 个 `0` 改成 `1` 后，它就能变成全 `1`，而这个子串的长度就是 `L`。
+
+---
+
+## 9. `exactly` 是什么
+
+这个你问得很直接：
+
+* `exactly` = 恰好，正好，精确地
+
+所以：
+
+* `exactly L` = 恰好等于 `L`
+* `exactly three` = 恰好三个
+
+你可以跟前面的量词一起记：
+
+* `at most` = 最多
+* `at least` = 至少
+* `exactly` = 恰好
+
+---
+
+## 10. `Write an algorithm to find the number of substrings whose length is exactly L and that contain at most K zeros.`
+
+这句我先给你人话版：
+
+> 写一个算法，求长度恰好为 `L` 且至多包含 `K` 个 `0` 的子串个数。
+
+---
+
+## 11. `whose` 不是只给人用吗
+
+不是。
+
+这是很多人小时候学英语时被简化过头的地方。
+
+### `whose` 的真正核心
+
+`whose` = 谁的 / 它的 / 其……的
+
+它不只可以指人，也可以指物。
+
+例如：
+
+* `the man whose car was stolen`
+  车被偷了的那个男人
+* `a house whose roof is red`
+  屋顶是红色的房子
+* `a string whose length is 5`
+  长度为5的字符串
+
+所以这句里：
+
+```text
+substrings whose length is exactly L
+```
+
+就是：
+
+> 那些长度恰好为 `L` 的子串
+> 子串，它们的长度恰好是 `L`
+
+这里 `whose` 完全可以修饰 `substrings`，没问题。
+
+### 这句还能怎么改写
+
+其实可以改成你更好懂的版本：
+
+```text
+substrings that have length exactly L
+```
+
+或者：
+
+```text
+substrings of length exactly L
+```
+
+意思都差不多。
+
+---
+
+## 12. 这里的 `that contain at most K zeros` 又是什么
+
+这一块：
+
+```text
+that contain at most K zeros
+```
+
+也是在修饰前面的 `substrings`。
+
+意思是：
+
+> 这些子串至多包含 `K` 个 `0`
+
+所以整个后半段其实是两个条件一起修饰 `substrings`：
+
+1. `whose length is exactly L`
+2. `that contain at most K zeros`
+
+也就是：
+
+> 长度恰好是 `L`，并且至多有 `K` 个 `0`
+
+---
+
+## 13. 你问的那些从句词，最实用的速记版
+
+这个我给你一个最实用版本，不搞太绕。
+
+### `who`
+
+指人，常作主语。
+
+* `the person who wrote this`
+  写这个的人
+
+### `whom`
+
+也指人，常作宾语，比较正式。
+
+* `the person whom I met`
+  我见到的人
+
+口语里很多时候直接用 `who` 或省略。
+
+### `whose`
+
+表示“谁的 / 其……的”，人和物都能用。
+
+* `a string whose length is 10`
+  长度为10的字符串
+
+### `which`
+
+常指物，也可指前面整件事。
+
+* `the array which contains duplicates`
+  含重复元素的数组
+* `He was late, which annoyed me.`
+  他迟到了，这让我很烦
+
+### `that`
+
+人和物都能用，限定性从句里很常见。
+
+* `the array that contains duplicates`
+* `the student that won`
+
+算法题里 `that` 非常常见。
+
+### `where`
+
+地点，或者“某种场景/情况”。
+
+* `the place where we met`
+* `a case where this fails`
+
+### `when`
+
+时间。
+
+* `the day when it happened`
+
+### `what`
+
+这个跟前面那几个不太一样。它通常前面没有先行词，整体相当于：
+
+> `the thing(s) that ...`
+
+例如：
+
+* `What I need is sleep.`
+  我需要的是睡觉。
+
+所以别把 `what` 跟 `which/that/whose` 完全当成一类来背。
+
+---
+
+## 14. 这句里为什么不用 `which`
+
+这里用 `whose` 是因为它要表达“子串的长度”。
+
+* `whose length is L` = 它的长度是 L
+
+如果用 `which`，就得换结构：
+
+* `substrings which have length L`
+
+所以：
+
+* `whose` 擅长表达“它的……”
+* `which/that` 擅长直接引出动作或状态
+
+---
+
+## 15. `achievable` 是什么
+
+`achievable` 来自动词 `achieve`。
+
+* `achieve` = 达到，实现  *v.*（经努力）达到，取得，实现；获得成功
+* `achievable` = 可达到的，可实现的 *adj.*可完成的；可有成就的；做得成的
+
+所以：
+
+* `maximum achievable length`
+  = 最大可达到长度
+  = 能实现的最大长度
+
+在算法题里，它和 `possible` 很多时候都可以先理解成：
+
+> 可达到的
+
+---
+
+## 16. `occurrences` 是不是“发生”的意思
+
+它跟“发生”是一个词根，但在字符串题、数组题里，它最常见的落地意思是：
+
+> 一次出现
+> 出现次数
+> 一次匹配
+
+例如：
+
+* `three occurrences of 101`
+  = `101` 这个子串出现了三次
+
+所以在题目例子里：
+
+> `the three occurrences of 101`
+
+最自然不是“101发生了三次”，而是：
+
+> `101` 这个子串一共出现了三次
+
+这和你笔记里前面整理过的 `occurrence` 用法是同一路。
+
+---
+
+## 17. 这三句话的骨架，你以后可以这么抓
+
+### 第一句
+
+```text
+Given a binary string S consisting only of 0s and 1s, you may change at most K zeros inside a substring into ones.
+```
+
+骨架：
+
+* `Given ...` = 给定……
+* `you may change ...` = 你可以改……
+* `consisting only of ...` = 修饰 `S`
+* `inside a substring` = 在某个子串中
+* `into ones` = 变成1
+
+---
+
+### 第二句
+
+```text
+Let L be the maximum possible length of a substring that can be turned into all ones in this way.
+```
+
+骨架：
+
+* `Let L be ...` = 设 L 为……
+* `the maximum possible length` = 最大可达到长度
+* `of a substring` = 某个子串的长度
+* `that can be turned into all ones` = 这个子串能被变成全1
+
+---
+
+### 第三句
+
+```text
+Write an algorithm to find the number of substrings whose length is exactly L and that contain at most K zeros.
+```
+
+骨架：
+
+* `Write an algorithm` = 写一个算法
+* `to find` = 去求 / 用来求
+* `the number of substrings` = 子串个数
+* `whose length is exactly L` = 长度恰好是L
+* `that contain at most K zeros` = 至多含K个0
+
+---
+
+## 18. 最后给你一个整题“超自然版”翻译
+
+> 给你一个 01 串 `S`。你可以任选一个子串，并把其中最多 `K` 个 `0` 改成 `1`。设 `L` 为经过这种操作后，能得到的全 `1` 子串的最大长度。请设计算法，统计一共有多少个长度恰好为 `L`、并且本身最多包含 `K` 个 `0` 的子串。
+
+顺便一提，这题意思搞懂后，算法上本质就是两步：先求“最多含 `K` 个 `0` 的最长子串长度 `L`”，再统计长度为 `L` 且 `0` 的个数不超过 `K` 的窗口数量。
+
+
+
+
+
+
+
+
+
+# 新题补充：`binary string / consisting / inside / into / maximum / possible / turned into / exactly / whose / that / which`
+
+## 1. 先说最重要的一句：英语不是“倒着读”，而是“先给核心，再往后补说明”
+
+英语很喜欢这种结构：
+
+```text
+核心名词 + 后面再挂说明
+```
+
+比如：
+
+```text
+a string consisting only of 0s and 1s
+```
+
+* 先告诉你：这是一个 `string`
+* 再补：这个 string 是什么样的
+* 它 `consists only of 0s and 1s`
+
+中文更爱前置，英语更爱后挂修饰，所以你会觉得拧巴。
+
+你现在先不要一上来就想“主谓宾定状补全都分析完”，那样太重了。
+先学一个更轻的办法：
+
+### 你读句子时，先只做 3 件事
+
+1. 找主干动作
+2. 找主干对象
+3. 其余都先当“补说明”
+
+你先把句子看成“骨架 + 挂件”，会轻松很多。
+
+---
+
+## 2. 这道题整题先说人话
+
+题目的真正意思是：
+
+> 给你一个只包含 `0` 和 `1` 的字符串 `S`。
+> 你可以选一个子串，并且在这个子串里最多把 `K` 个 `0` 改成 `1`。
+> 设 `L` 是这样能得到的“全是 `1` 的子串”的最大长度。
+> 现在你要统计：长度恰好等于 `L`，并且本身至多有 `K` 个 `0` 的子串，一共有多少个。
+
+---
+
+# 3. 第一句从零重讲
+
+原句：
+
+```text
+Given a binary string S consisting only of 0s and 1s, you may change at most K zeros inside a substring into ones.
+```
+
+---
+
+## 3.1 先看整句骨架
+
+先不要管所有细节，先抓主干：
+
+```text
+you may change ...
+```
+
+这才是这句真正的主干：
+
+> 你可以改……
+
+前面的：
+
+```text
+Given a binary string S ...
+```
+
+只是背景：
+
+> 给定一个字符串 S……
+
+所以你先读成：
+
+> 给定一个什么样的字符串 S，你可以做什么操作。
+
+这样就不会乱。
+
+---
+
+## 3.2 `Given` 是什么？名词？动词？被动？
+
+### 先给你最实用结论
+
+在算法题开头：
+
+```text
+Given ...
+```
+
+你先直接记成：
+
+> 给定……
+> 已知……
+
+就行。
+
+---
+
+### 严格一点说
+
+`given` 来自动词 `give`，是它的**过去分词**形式。
+
+* `give` = 给
+* `given` = 被给出的 / 已给出的
+
+但是在这种题面开头：
+
+```text
+Given a binary string S, ...
+```
+
+它已经很像一个**固定起手式**了。
+
+你不用先死抠它到底算哪一类。
+对你现在最有用的是：
+
+> 看到 `Given ...`，先当“给定……”读。
+
+这不是名词。
+
+---
+
+## 3.3 `a binary string S` 为什么不是“双名词”？
+
+你问得很好。
+
+这里是：
+
+* `a` = 冠词
+* `binary` = 形容词
+* `string` = 名词
+* `S` = 这个字符串的名字 / 变量名
+
+所以：
+
+```text
+a binary string S
+```
+
+不是“双名词”，而是：
+
+> 一个二进制字符串，名字叫 `S`
+
+更自然中文：
+
+> 一个名为 `S` 的二进制字符串
+
+---
+
+### 每个词分别是什么
+
+#### `a`
+
+冠词，表示“一个”。
+
+#### `binary`
+
+这里是**形容词**，意思是：
+
+> 二进制的
+
+不是名词。
+
+#### `string`
+
+名词，意思是：
+
+> 字符串
+
+#### `S`
+
+不是普通单词，是变量名。
+算法题很爱这样写：
+
+* an integer `N`
+* a string `S`
+* an array `arr`
+
+意思都是：
+
+> 一个叫 `N / S / arr` 的东西
+
+---
+
+## 3.4 `binary string` 是什么，不是 byte string 吗？
+
+不是。
+
+* `binary` = 二进制
+* `byte` = 字节
+
+这两个不是一个东西。
+
+### `binary string`
+
+就是：
+
+> 只由 `0` 和 `1` 组成的字符串
+
+也可以理解成：
+
+> 一个 01 串
+
+### `byte`
+
+是“字节”，通常是 8 位。
+所以 `binary string` 不是“字节字符串”。
+
+---
+
+## 3.5 `consisting only of 0s and 1s` 到底是什么结构
+
+这部分是你最卡的，我慢慢讲。
+
+先拆词：
+
+* `consisting` 来自动词 `consist`
+* `only` 是副词
+* `of` 是介词，但这里更重要的是：它属于固定搭配 `consist of`
+* `0s and 1s` = 多个 `0` 和多个 `1`
+
+---
+
+### 先记固定搭配
+
+```text
+consist of ...
+```
+
+意思是：
+
+> 由……组成
+
+所以：
+
+```text
+consists of 0s and 1s
+```
+
+就是：
+
+> 由 `0` 和 `1` 组成
+
+---
+
+### 那为什么这里不是 `consists`，而是 `consisting`
+
+因为这里它**不是整句的主干动词**，而是在修饰前面的 `string S`。
+
+你现在先把它理解成一种很实用的模式：
+
+```text
+名词 + 动词-ing
+```
+
+很多时候都可以先试着理解成：
+
+```text
+名词 + that/which + 动词
+```
+
+所以：
+
+```text
+a string consisting only of 0s and 1s
+```
+
+你可以先还原成：
+
+```text
+a string that consists only of 0s and 1s
+```
+
+意思完全就是：
+
+> 一个只由 `0` 和 `1` 组成的字符串
+
+---
+
+## 3.6 你能不能先把 “动词+ing” 暂时理解成 “that 动词”？
+
+### 可以，**对阅读来说，这样学很有用**
+
+你现在先这样记，非常实用：
+
+#### 模式 1
+
+```text
+名词 + 动词-ing
+≈ 名词 that/which + 动词
+```
+
+例如：
+
+```text
+a girl wearing glasses
+```
+
+≈
+
+```text
+a girl who is wearing glasses
+```
+
+意思：
+
+> 一个戴眼镜的女孩
+
+再比如：
+
+```text
+a string consisting only of 0s and 1s
+```
+
+≈
+
+```text
+a string that consists only of 0s and 1s
+```
+
+---
+
+### 但要多加一句提醒
+
+这不是“宇宙百分百万能公式”，
+而是一个**对你现在读题很有帮助的近似规则**。
+
+你现在先这样用，完全没问题。
+
+---
+
+## 3.7 为什么英语能这样写？本质是什么？
+
+这个你问得特别好。
+
+### 最简单的本质
+
+英语可以把一个“完整说明句”压缩成一个“挂在名词后面的说明块”。
+
+比如原来是：
+
+```text
+S that consists only of 0s and 1s
+```
+
+英语觉得太长，就可以压缩成：
+
+```text
+S consisting only of 0s and 1s
+```
+
+所以它的本质就是：
+
+> **把一个完整从句压缩成一个修饰块**
+
+这种修饰块不是句子的主干，所以不用 `consists`，而用 `consisting`。
+
+---
+
+### 你现在不用先记“非谓语”三个字
+
+你要是现在一上来背“这是非谓语动词作后置定语”，大概率会更烦。
+
+你先记成：
+
+> `-ing` 在这里不是主句主干动作，
+> 而是挂在名词后面，说明这个名词是什么样。
+
+这已经够你读题了。
+
+---
+
+## 3.8 `only` 是什么词性？
+
+`only` 在这里是**副词**。
+
+它修饰的是：
+
+```text
+consisting of 0s and 1s
+```
+
+也就是强调：
+
+> 只由 `0` 和 `1` 组成
+
+不是别的字符也有。
+
+---
+
+## 3.9 `of` 在这里是什么？是不是“B of A = B是A的属性”？
+
+这里你不要乱套公式。
+
+因为这里的 `of` 不是一般的“的”，而是固定搭配：
+
+```text
+consist of
+```
+
+这是一个整体，意思是：
+
+> 由……组成
+
+所以这里不要拆成：
+
+* `consist` = 组成
+* `of` = 的
+
+这样拆你会越拆越乱。
+
+### 这句里直接记：
+
+```text
+consist of = 由……组成
+```
+
+就够了。
+
+---
+
+## 3.10 `0s and 1s` 为什么加 `s`？
+
+这里的 `s` 是复数，不是秒。
+
+* `0s` = 多个 `0`
+* `1s` = 多个 `1`
+
+英语里数字、字母、符号在这种语境里都能这样写：
+
+* `As and Bs`
+* `x`s and y`s
+* `0s and 1s`
+
+所以这里就是：
+
+> 很多个 `0` 和很多个 `1`
+
+---
+
+## 3.11 `you may change` 里的 `may` 是什么感觉
+
+这里的 `may` 不是“也许”。
+
+在题面里更自然是：
+
+> 可以
+
+所以：
+
+```text
+you may change ...
+```
+
+就是：
+
+> 你可以改……
+
+---
+
+## 3.12 `at most K zeros` 是什么
+
+### 先记这个量词
+
+* `at most` = 最多，至多
+* `at least` = 至少
+* `exactly` = 恰好
+
+所以：
+
+```text
+at most K zeros
+```
+
+就是：
+
+> 最多 `K` 个 `0`
+
+---
+
+### `K zeros` 为什么这样说
+
+因为英语里数字/数量词可以直接放在名词前面：
+
+* `3 apples`
+* `5 students`
+* `K zeros`
+
+所以：
+
+> `K zeros` = `K` 个 `0`
+
+很正常。
+
+---
+
+## 3.13 `inside a substring` 和 `in a substring` 到底怎么分
+
+这次我不偷懒，我直接给你一个能用的规则。
+
+### `in`
+
+最普通、最常用、最广义的“在……里 / 在……中”。
+
+它可以用在：
+
+* 物理空间
+* 抽象范围
+* 文档、系统、列表、城市、房间……
+
+例如：
+
+* in the room
+* in the box
+* in the report
+* in the system
+* in a substring
+
+---
+
+### `inside`
+
+也是“在……里面”，但它比 `in` 更强调：
+
+> **在边界之内**
+> **在内部**
+> **没有出这个范围**
+
+例如：
+
+* inside the box
+  在盒子里面（强调盒子的边界内部）
+* inside the building
+  在楼里面
+* inside the app
+  在应用内部
+
+---
+
+### 那这题为什么用 `inside`
+
+```text
+inside a substring
+```
+
+题目想强调的是：
+
+> 你不是在整个字符串里随便改
+> 而是在你选中的那个子串范围之内改
+
+也就是：
+
+> 改动必须发生在这个边界内部
+
+所以用 `inside` 很自然。
+
+---
+
+### 你平时什么时候该用 `inside`
+
+我给你一个最实用规则：
+
+#### 想不出来时，先用 `in`
+
+因为 `in` 最安全、覆盖面最大。
+
+#### 想强调“边界内部”，再用 `inside`
+
+比如：
+
+* in the room ✅
+
+* inside the room ✅（更强调真的在里面）
+
+* in the report ✅
+
+* inside the report ❌ 一般不这么说
+
+* in a substring ✅
+
+* inside a substring ✅（这题为了强调范围）
+
+所以你不是“必须学会到处用 inside”，
+而是要知道：
+
+> `inside` = 比 `in` 更强调“边界内部”
+
+---
+
+## 3.14 `into ones` 里的 `into` 到底是什么，不要只告诉我搭配
+
+好，这次我直接讲这个词本身。
+
+### `into` 最原始的感觉
+
+`into` 的原始感觉是：
+
+> 进入……里面
+
+比如：
+
+* go into the room
+  走进房间
+* put it into the box
+  把它放进盒子里
+
+---
+
+### 为什么到这里又变成“变成”了
+
+因为 `into` 在一些动词后面，会引申成：
+
+> 从一种状态进入另一种状态
+
+所以：
+
+```text
+change zeros into ones
+```
+
+你可以脑补成：
+
+> 把 `0` 推进 `1` 这种新状态里
+
+中文自然就是：
+
+> 把 `0` 变成 `1`
+
+---
+
+### 这个时候 `into` 常见在哪些动词后面
+
+特别常见的是：
+
+* `turn A into B`
+* `change A into B`
+
+都表示：
+
+> 把 A 变成 B
+
+例如：
+
+* turn water into ice
+  把水变成冰
+* change the file into PDF
+  把文件变成 PDF
+* change zeros into ones
+  把 0 变成 1
+
+---
+
+## 3.15 那我平时说 `change to` 不行吗？
+
+不是完全不行，但感觉不一样。
+
+### 先给你一个很实用的区别
+
+#### `change A into B`
+
+强调：
+
+> A 本身变成了 B
+
+比如：
+
+* change zeros into ones
+* turn water into ice
+
+---
+
+#### `change ... to ...`
+
+更常见于：
+
+> 把设置、值、状态改为某个目标
+
+比如：
+
+* change the password to 123456
+* change the color to blue
+* change the meeting time to Friday
+
+---
+
+### 初学时你先这么记就够了
+
+* `into`：更强调“变成”
+* `to`：更强调“改为”
+
+这两个有重叠，但这个记法最实用。
+
+所以这题里：
+
+```text
+change zeros into ones
+```
+
+比 `change zeros to ones` 更自然。
+
+---
+
+## 3.16 第一句你自己可以怎么造更简单的句子
+
+你现在不用一开始就学题面这种压缩写法。
+
+你可以先写简单句：
+
+```text
+S is a binary string.
+It contains only 0s and 1s.
+You can choose a substring.
+You can change at most K zeros in it into ones.
+```
+
+这完全没问题。
+
+等你熟了，再把它压缩成题面风格。
+
+这点很重要：
+
+> 你现在先学会“说清楚”，
+> 不要强迫自己一上来就“说得很像出题人”。
+
+---
+
+# 4. 第二句从零重讲
+
+原句：
+
+```text
+Let L be the maximum possible length of a substring that can be turned into all ones in this way.
+```
+
+---
+
+## 4.1 `Let L be ...` 是什么句型
+
+这是数学和算法英语里的超高频句型：
+
+```text
+Let X be ...
+```
+
+意思就是：
+
+> 设 X 为……
+
+所以：
+
+```text
+Let L be ...
+```
+
+就是：
+
+> 设 `L` 为……
+
+---
+
+## 4.2 为什么是 `be`？
+
+因为这个句型就是：
+
+```text
+let + 某个东西 + 动词原形
+```
+
+例如：
+
+* Let `x` be 5.
+* Let `n` be the size of the array.
+* Let `L` be the maximum possible length.
+
+所以这里用 `be` 很正常，它是动词原形。
+
+---
+
+## 4.3 `maximum possible length` 这几个词分别是什么
+
+### `maximum`
+
+这个词你不能只知道“最大”就完了。
+
+在这句里，你可以先把它当成一个**修饰 `length` 的词**来看：
+
+> 最大的长度
+
+所以这里你先按“形容词作用”理解最稳。
+
+词典里它也可以当名词：
+
+* find the maximum
+  求最大值
+
+但这句里先不用纠结那么深。
+
+---
+
+### `possible`
+
+这是**形容词**，意思是：
+
+> 可能的
+> 能达到的
+
+所以：
+
+```text
+possible length
+```
+
+就是：
+
+> 可能的长度
+> 能达到的长度
+
+---
+
+### 合在一起
+
+```text
+maximum possible length
+```
+
+自然中文不是硬翻“最大可能长度”，
+而是：
+
+> 能达到的最大长度
+
+这才像中文。
+
+---
+
+## 4.4 为什么不是 `max`？
+
+因为：
+
+* `max` 是缩写
+* `maximum` 是完整正式写法
+
+题面、论文、正式说明里更爱用 `maximum`。
+代码、笔记、口语里你会更常见 `max`。
+
+例如：
+
+* `maxLen`
+* `maxValue`
+
+都很常见。
+
+---
+
+## 4.5 `that can be turned into all ones` 是什么
+
+先拆：
+
+* `that` = 修饰前面的 `substring`
+* `can be turned` = 能被变成
+* `into all ones` = 变成全是 `1`
+* `in this way` = 用这种方法
+
+所以整块意思是：
+
+> 能通过这种方法变成全 `1` 的那个子串
+
+---
+
+## 4.6 `turned into` 是不是过去分词表被动？
+
+对，这次你理解方向是对的。
+
+### 先看原形
+
+`turn` 是动词。
+
+它有很多意思，不止一个：
+
+* turn left = 转左
+* turn on = 打开
+* turn off = 关闭
+* turn A into B = 把 A 变成 B
+
+所以你不能把 `turn` 永远只绑成“打开”或者“转弯”。
+
+---
+
+### 这里是哪种
+
+这里是：
+
+```text
+turn A into B
+```
+
+也就是：
+
+> 把 A 变成 B
+
+所以：
+
+```text
+be turned into
+```
+
+就是被动：
+
+> 被变成……
+> 能被变成……
+
+---
+
+### 这里整块
+
+```text
+can be turned into all ones
+```
+
+就是：
+
+> 能被变成全 `1`
+> 能变成全 `1`
+
+中文一般不用老保留“被”字，
+读成“能变成全1”最自然。
+
+---
+
+## 4.7 `all ones` 是什么意思
+
+不是“所有的一们”。
+
+这里 `ones` 就是数字 `1` 当名词用：
+
+* `zeros` = 0
+* `ones` = 1
+
+所以：
+
+```text
+all ones
+```
+
+就是：
+
+> 全是 `1`
+> 全部都是 `1`
+
+例如：
+
+* all zeros = 全是 0
+* all ones = 全是 1
+
+---
+
+## 4.8 第二句整句怎么读最自然
+
+原句：
+
+```text
+Let L be the maximum possible length of a substring that can be turned into all ones in this way.
+```
+
+自然中文：
+
+> 设 `L` 为这样一种子串所能达到的最大长度：通过前面说的方法，它可以变成全 `1`。
+
+更人话一点：
+
+> 设 `L` 是这样能得到的全 `1` 子串的最大可能长度。
+
+---
+
+## 4.9 你自己怎么写得更简单
+
+你完全可以先写成：
+
+```text
+A substring can become all ones if we change at most K zeros in it.
+Let L be the largest possible length of such a substring.
+```
+
+这比原题更适合你现在练造句。
+
+注意：
+
+* `largest possible length`
+* `maximum possible length`
+
+都可以。
+
+---
+
+# 5. 第三句从零重讲
+
+原句：
+
+```text
+Write an algorithm to find the number of substrings whose length is exactly L and that contain at most K zeros.
+```
+
+---
+
+## 5.1 先抓主干
+
+主干其实是：
+
+```text
+Write an algorithm to find the number of substrings
+```
+
+意思：
+
+> 写一个算法，求子串的数量
+
+后面：
+
+```text
+whose length is exactly L
+and that contain at most K zeros
+```
+
+只是说明：
+
+> 这些子串得满足什么条件
+
+---
+
+## 5.2 `exactly` 是什么词性
+
+`exactly` 是**副词**。
+
+意思：
+
+> 恰好
+> 正好
+> 精确地
+
+所以：
+
+* exactly `L` = 恰好等于 `L`
+* exactly 3 = 恰好 3 个
+
+---
+
+## 5.3 `whose length is exactly L` 为什么可以这样写？`whose` 不是只给人吗？
+
+不是。
+
+这个简化说法会害很多人。
+
+### `whose` 的核心不是“人”，而是“所属关系”
+
+它表示：
+
+> 谁的 / 它的 / 其……的
+
+所以它可以用于人，也可以用于物。
+
+例如：
+
+* the man whose car was stolen
+  车被偷的那个男人
+* a house whose roof is red
+  屋顶是红色的房子
+* a string whose length is 5
+  长度为 5 的字符串
+
+所以这里：
+
+```text
+substrings whose length is exactly L
+```
+
+就是：
+
+> 那些长度恰好等于 `L` 的子串
+> 子串，它们的长度恰好是 `L`
+
+---
+
+## 5.4 为什么这里不能直接换成 `that`
+
+因为 `whose` 表示的是：
+
+> 它的长度
+
+也就是**所属关系**。
+
+如果你想用 `that`，你就不能直接说：
+
+```text
+substrings that length is exactly L
+```
+
+这个不对。
+
+因为 `that` 本身不表示“它的”。
+
+---
+
+### 你如果非要用 `that`，得改结构
+
+你可以说：
+
+```text
+substrings that have length exactly L
+```
+
+或者：
+
+```text
+substrings that have a length of L
+```
+
+或者：
+
+```text
+substrings that are of length L
+```
+
+所以：
+
+* `whose length is L` = 它的长度是 L
+* `that have length L` = 它有长度 L
+
+都行。
+
+---
+
+## 5.5 那 `substrings that have length exactly L` 为什么用 `have`？“有长度”不是很怪吗？
+
+中文听起来怪，英语很自然。
+
+因为英语里经常这样表达“某物具有某种属性”：
+
+* a car has four wheels
+  车有四个轮子
+* the box has a width of 10 cm
+  盒子宽 10 厘米
+* the string has length 5
+  字符串长度为 5
+
+所以：
+
+```text
+have length
+```
+
+就是：
+
+> 具有某个长度
+> 长度是……
+
+你可以先记成英语里的自然表达，不要硬拿中文的别扭感来卡死自己。
+
+---
+
+## 5.6 `that contain at most K zeros` 是什么
+
+这里的 `that` 修饰前面的 `substrings`。
+
+意思是：
+
+> 这些子串至多包含 `K` 个 `0`
+
+所以第三句就是在说：
+
+> 求这样的子串个数：
+> 它们的长度恰好是 `L`，并且至多包含 `K` 个 `0`
+
+---
+
+# 6. 你要求详细，那我把这几个关系词一次讲清
+
+## 6.1 `that`
+
+最常用的连接词之一。
+
+在你现在的阅读里，可以先记成：
+
+> 用来接“修饰前面名词的从句”
+
+例如：
+
+* the book that I bought
+  我买的那本书
+* substrings that contain at most K zeros
+  至多包含 K 个 0 的子串
+
+它很常见，也很万能。
+
+---
+
+## 6.2 `which`
+
+也常用来修饰前面的东西，尤其偏“物”。
+
+例如：
+
+* the array which contains duplicates
+  含有重复项的数组
+
+在很多限制性从句里，`that` 和 `which` 可以很接近。
+
+但你现在先记：
+
+* `that`：最常见、最万能
+* `which`：也能修饰物，书面一点
+
+---
+
+## 6.3 `whose`
+
+表示：
+
+> 它的 / 谁的 / 其……的
+
+这是所属关系。
+
+例如：
+
+* a string whose length is 5
+  长度为 5 的字符串
+
+这个在算法题里特别常见，因为算法题很爱说：
+
+* whose size is ...
+* whose value is ...
+* whose length is ...
+
+---
+
+## 6.4 `who`
+
+一般修饰人。
+
+* the person who wrote this
+  写这个的人
+
+---
+
+## 6.5 `where`
+
+表示地点，或者抽象“场景”。
+
+* the place where we met
+  我们见面的地方
+* a case where the algorithm fails
+  这个算法失效的情况
+
+---
+
+## 6.6 `when`
+
+表示时间。
+
+* the day when it happened
+  事情发生的那天
+
+---
+
+## 6.7 `what`
+
+这个跟前面几个不完全一样。
+
+它通常不是“前面先有个名词，再去修饰它”，
+而是它自己就带着“那个东西”的意思。
+
+例如：
+
+* What I need is sleep.
+  我需要的是睡觉。
+
+你可以粗略理解成：
+
+> the thing that ...
+
+---
+
+# 7. 这几个小词，你现在必须分清：`of / in / inside / into / to`
+
+## 7.1 `of`
+
+不要老死记成“的”。
+
+它最常做的是：
+
+> 把两个名词连起来，表示某种关系
+
+例如：
+
+* the length of the substring
+  子串的长度
+* the size of the array
+  数组的大小
+
+但在固定搭配里它可能不是单独翻：
+
+* consist of = 由……组成
+
+所以这题里：
+
+### `consisting of 0s and 1s`
+
+是固定搭配
+
+### `the length of a substring`
+
+是“子串的长度”
+
+这两个别混。
+
+---
+
+## 7.2 `in`
+
+最普通、最广的“在……里 / 在……中 / 在……方面”。
+
+例如：
+
+* in the room
+* in the string
+* in price
+
+注意：
+
+```text
+difference in price
+```
+
+这里不是“在价格里面”，而是：
+
+> 在价格这一项上
+
+---
+
+## 7.3 `inside`
+
+比 `in` 更强调：
+
+> 在边界内部
+
+例如：
+
+* inside the box
+* inside the substring
+
+想不出来时先用 `in`，要强调边界再用 `inside`。
+
+---
+
+## 7.4 `into`
+
+原始感觉：
+
+> 进入……里面
+
+引申到 change/turn 后：
+
+> 变成……
+
+例如：
+
+* go into the room
+* turn water into ice
+* change zeros into ones
+
+---
+
+## 7.5 `to`
+
+它更常见的感觉是：
+
+> 朝向某个目标
+> 到……
+> 改为……
+
+例如：
+
+* go to school
+* change the color to blue
+* change the meeting time to Friday
+
+---
+
+# 8. 你这次最该记住的一个语法：`动词 + ing` 到底是什么
+
+你别被术语先吓住，我给你最实用版。
+
+## 8.1 `-ing` 不只一种用法
+
+你以前可能只记得：
+
+* `be + ing` = 正在做
+
+这只是其中一种。
+
+---
+
+## 8.2 你现在先学最实用的 3 种
+
+### 第一种：和 `be` 一起，表示进行
+
+* He is running.
+  他正在跑。
+
+---
+
+### 第二种：把动作当“事情”来讲
+
+* Swimming is fun.
+  游泳很有趣。
+
+这里 `swimming` 像“游泳这件事”。
+
+---
+
+### 第三种：挂在名词后面做说明
+
+* a girl wearing glasses
+  戴眼镜的女孩
+* a string consisting only of 0s and 1s
+  一个只由 0 和 1 组成的字符串
+
+你这道题就是第三种。
+
+---
+
+## 8.3 你现在怎么最简单地抓住它
+
+你先记：
+
+> `动词-ing` 很多时候是在把“动作”变成一个比较柔软的说明块，
+> 不是句子主干动作。
+
+所以：
+
+* 主干已经有了 `you may change`
+* 那 `consisting ...` 就不能再当主干
+* 它只能挂在 `string` 后面说明这个 string
+
+这就是它的本质。
+
+---
+
+# 9. 两个你前面问过、这里顺手补上的词
+
+## 9.1 `possible`
+
+词性：**形容词**
+
+意思：
+
+> 可能的
+> 能做到的
+> 能达到的
+
+例如：
+
+* possible answer
+  可能的答案
+* maximum possible length
+  能达到的最大长度
+
+---
+
+## 9.2 `occurrence(s)`
+
+词性：**名词**
+
+在字符串题里最自然的意思是：
+
+> 一次出现
+> 出现次数
+
+例如：
+
+* three occurrences of `101`
+  `101` 出现了三次
+
+这里不要硬翻成“发生”。
+在字符串题里，它基本就等于：
+
+> 一次匹配 / 一次出现
+
+---
+
+# 10. 最后给你一版“真正适合初学者自己造句”的版本
+
+你现在先不要逼自己写出题面那种压缩英语。
+你先用简单版，把意思说明白。
+
+## 简单版
+
+```text
+S is a binary string.
+It contains only 0s and 1s.
+
+You can choose a substring.
+In this substring, you can change at most K zeros into ones.
+
+A substring can become all ones in this way.
+Let L be the largest possible length of such a substring.
+
+Now count the substrings that have length L and contain at most K zeros.
+```
+
+这版英语不花哨，但非常适合你现在学。
+
+---
+
+## 题面压缩版
+
+```text
+Given a binary string S consisting only of 0s and 1s, you may change at most K zeros inside a substring into ones.
+Let L be the maximum possible length of a substring that can be turned into all ones in this way.
+Write an algorithm to find the number of substrings whose length is exactly L and that contain at most K zeros.
+```
+
+你现在的目标，不是一步到位写出第二版。
+你现在的目标是：
+
+1. 先能看懂第二版
+2. 自己先能写第一版
+3. 然后慢慢学“怎么从第一版压缩成第二版”
