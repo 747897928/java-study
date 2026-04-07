@@ -64,21 +64,54 @@ public class AreaOfIntersectionOfTwoCircles {
         System.out.println(solver.formatArea(area));
     }
 
+    /**
+     * 这题关键不是死背公式，而是先分清几何上的三种情况：
+     *
+     * 1. 相离
+     *    两圆根本没碰到，交集面积 = 0
+     *
+     * 2. 包含
+     *    一个圆完全包在另一个圆里面，交集面积 = 小圆面积
+     *
+     * 3. 普通相交
+     *    这时交集是一个“透镜形”区域
+     *    面积 = 两个扇形面积 - 两个三角形面积
+     *
+     * 代码里的公式：
+     *
+     * 0.5 * r^2 * (angle - sin(angle))
+     *
+     * 正是“扇形减三角形”化简后的结果。
+     *
+     * 所以做这题时正确顺序应该是：
+     *
+     * - 先看圆心距 distance 和半径关系，判断属于哪一类
+     * - 只有普通相交时，才上标准公式
+     */
     public double intersectionArea(double x1, double y1, double r1, double x2, double y2, double r2) {
         double distance = Math.hypot(x1 - x2, y1 - y2);
+
+        // 情况 1：相离或外切。
+        // 交集面积为 0。
         if (distance >= r1 + r2) {
             return 0.0;
         }
+
+        // 情况 2：包含或内切。
+        // 交集就是较小那个圆的完整面积。
         if (distance <= Math.abs(r1 - r2)) {
             double radius = Math.min(r1, r2);
             return Math.PI * radius * radius;
         }
 
+        // 情况 3：普通相交。
+        // 先用余弦定理求出两个圆心对应的圆心角。
         double cos1 = clamp((distance * distance + r1 * r1 - r2 * r2) / (2.0 * distance * r1));
         double cos2 = clamp((distance * distance + r2 * r2 - r1 * r1) / (2.0 * distance * r2));
         double angle1 = 2.0 * Math.acos(cos1);
         double angle2 = 2.0 * Math.acos(cos2);
 
+        // 每一部分面积都是“扇形 - 三角形”的透镜片面积。
         double area1 = 0.5 * r1 * r1 * (angle1 - Math.sin(angle1));
         double area2 = 0.5 * r2 * r2 * (angle2 - Math.sin(angle2));
         return area1 + area2;
@@ -88,6 +121,12 @@ public class AreaOfIntersectionOfTwoCircles {
         return BigDecimal.valueOf(area).setScale(6, RoundingMode.HALF_UP).toPlainString();
     }
 
+    /**
+     * 浮点误差下，理论上应该在 [-1, 1] 的 cos 值，
+     * 可能会轻微越界到 1.0000000002 这类值。
+     *
+     * 不夹回去的话，acos 可能出 NaN。
+     */
     private double clamp(double value) {
         return Math.max(-1.0, Math.min(1.0, value));
     }

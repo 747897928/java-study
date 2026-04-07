@@ -76,6 +76,31 @@ public class MinimumPathToVisitAllRetailersInCartesia {
         System.out.println(solver.formatDistance(answer));
     }
 
+    /**
+     * 这题最容易乱的地方，是看起来像 TSP，
+     * 但实际上几何结构非常特殊：
+     *
+     * - 普通零售点全都在 x 轴上
+     * - 只有总部点离开了 x 轴
+     *
+     * 一旦抓住这个结构，就会发现最优路径不可能在 x 轴上来回折返很多次。
+     *
+     * 对 x 轴上的点来说，
+     * 访问顺序本质上只会有两种大方向：
+     *
+     * 1. 先一路往左扫到尽头，再一路往右扫
+     * 2. 先一路往右扫到尽头，再一路往左扫
+     *
+     * 总部这个离轴点，则相当于在某个位置“插入一次”。
+     *
+     * 所以这里的做法是：
+     *
+     * - 先把 x 轴上的点排序去重
+     * - 从起点出发，只枚举两种覆盖顺序
+     * - 对每种顺序，计算“把总部插入到哪一段之间”最省
+     *
+     * 这就把一个看似很像旅行商的问题，压成了很小的有限构造。
+     */
     public double minimumDistance(long[] retailerX, long headX, long headY, int startRetailerPosition) {
         if (retailerX.length == 0) {
             return 0.0;
@@ -83,6 +108,8 @@ public class MinimumPathToVisitAllRetailersInCartesia {
 
         long[] sortedX = uniqueSorted(retailerX);
         if (startRetailerPosition == retailerX.length + 1) {
+            // 如果起点就是总部，
+            // 那么剩下只需要覆盖整段 x 轴，并从总部先去左端或右端中较近的一个。
             long left = sortedX[0];
             long right = sortedX[sortedX.length - 1];
             return (right - left) + Math.min(distance(headX, headY, left), distance(headX, headY, right));
@@ -90,6 +117,9 @@ public class MinimumPathToVisitAllRetailersInCartesia {
 
         long startX = retailerX[startRetailerPosition - 1];
         int startIndex = findFirstIndex(sortedX, startX);
+
+        // 两种可能的主顺序：
+        // 先左后右，或者先右后左。
         double leftThenRight = evaluate(buildLeftThenRight(sortedX, startIndex), headX, headY);
         double rightThenLeft = evaluate(buildRightThenLeft(sortedX, startIndex), headX, headY);
         return Math.min(leftThenRight, rightThenLeft);
@@ -116,6 +146,7 @@ public class MinimumPathToVisitAllRetailersInCartesia {
         return Arrays.copyOf(copy, uniqueCount);
     }
 
+    // 访问顺序：起点 -> 左边一路扫完 -> 右边一路扫完
     private long[] buildLeftThenRight(long[] sortedX, int startIndex) {
         long[] order = new long[sortedX.length];
         int write = 0;
@@ -129,6 +160,7 @@ public class MinimumPathToVisitAllRetailersInCartesia {
         return order;
     }
 
+    // 访问顺序：起点 -> 右边一路扫完 -> 左边一路扫完
     private long[] buildRightThenLeft(long[] sortedX, int startIndex) {
         long[] order = new long[sortedX.length];
         int write = 0;
@@ -142,6 +174,22 @@ public class MinimumPathToVisitAllRetailersInCartesia {
         return order;
     }
 
+    /**
+     * evaluate 的含义是：
+     *
+     * 已知 x 轴点的访问顺序 order 以后，
+     * 求“把总部点插入到这条路径中的最佳位置”时，总距离最小是多少。
+     *
+     * baseline：
+     * 只走 x 轴上这些点的总长度
+     *
+     * 然后考虑两类插入方式：
+     *
+     * 1. 最后再去总部
+     * 2. 在 order[i] 和 order[i+1] 之间拐出去一趟总部再回来
+     *
+     * extra 就是在某一段之间插总部时，相比原本直走多出的代价。
+     */
     private double evaluate(long[] order, long headX, long headY) {
         double baseline = 0.0;
         for (int i = 0; i + 1 < order.length; i++) {

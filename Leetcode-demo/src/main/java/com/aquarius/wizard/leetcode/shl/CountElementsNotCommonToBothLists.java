@@ -76,6 +76,27 @@ public class CountElementsNotCommonToBothLists {
         System.out.println(solver.countNotCommon(firstList, secondList));
     }
 
+    /**
+     * 这题最容易误读的地方是“not common”。
+     *
+     * 它不是在做 multiset difference，
+     * 也不是做“去重后的对称差元素个数”。
+     *
+     * 按样例反推，正确理解是：
+     *
+     * - 先看一个元素的“值”是否在另一边出现过
+     * - 如果这个值根本没在另一边出现，那这个元素就算“不公共”
+     * - 如果这个值在另一边出现过，那么本边所有这个值都不算“不公共”
+     *
+     * 所以这题最自然的做法就是：
+     *
+     * 1. 先各自把“出现过哪些值”存进 HashSet
+     * 2. 再扫原数组，逐个元素判断“它的值是否在对方集合里”
+     *
+     * 注意这里虽然用了 Set，
+     * 但最终计数时仍然是扫原数组，
+     * 所以重复元素会按出现次数计入答案。
+     */
     public int countNotCommon(int[] first, int[] second) {
         Set<Integer> firstValues = new HashSet<>();
         Set<Integer> secondValues = new HashSet<>();
@@ -87,6 +108,8 @@ public class CountElementsNotCommonToBothLists {
         }
         int count = 0;
         for (int value : first) {
+            // 这个元素的值如果从没在 second 出现过，
+            // 那它就是一个“不公共元素”。
             if (!secondValues.contains(value)) {
                 count++;
             }

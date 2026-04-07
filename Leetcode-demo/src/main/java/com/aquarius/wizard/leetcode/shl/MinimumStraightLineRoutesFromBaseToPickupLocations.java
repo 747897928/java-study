@@ -66,20 +66,68 @@ public class MinimumStraightLineRoutesFromBaseToPickupLocations {
         System.out.println(solver.minimumRoutes(pickupLocations, baseX, baseY));
     }
 
+    /**
+     * 这题表面看像“很多坐标点，要连很多线”，
+     * 但真正的关键不是距离，而是“方向”。
+     *
+     * 一条从 base 出发的直线，能覆盖哪些 pickup 点？
+     *
+     * 答案是：
+     *
+     * - 和 base 共线
+     * - 并且在同一方向上的所有点
+     *
+     * 例如 base = (0, 0)：
+     *
+     * - (1, 1) 和 (2, 2) 可以共用一条路线
+     * - (1, 0) 和 (2, 0) 也可以共用一条路线
+     *
+     * 所以问题被简化成：
+     *
+     * “从 base 指向各个 pickup 点，会出现多少种不同方向？”
+     *
+     * 每一种不同方向，就至少需要一条新路线。
+     *
+     * 怎么判断两个点是不是同一方向？
+     *
+     * 看向量 (dx, dy) 归一化后的结果是否相同。
+     *
+     * 例如：
+     *
+     * - (2, 2) 归一化后是 (1, 1)
+     * - (6, 6) 归一化后也是 (1, 1)
+     *
+     * 所以它们属于同一条路线方向。
+     *
+     * 这里的归一化做法就是：
+     *
+     * - 先算 dx, dy
+     * - 再除以 gcd(|dx|, |dy|)
+     */
     public int minimumRoutes(int[][] pickupLocations, int baseX, int baseY) {
         Set<Direction> directions = new HashSet<>();
         for (int[] point : pickupLocations) {
             int dx = point[0] - baseX;
             int dy = point[1] - baseY;
+
+            // 如果点和 base 重合，它本身不需要额外路线。
             if (dx == 0 && dy == 0) {
                 continue;
             }
+
+            // 用 gcd 把方向向量约成最简形式。
             int g = gcd(Math.abs(dx), Math.abs(dy));
             directions.add(new Direction(dx / g, dy / g));
         }
+
+        // 不同最简方向的个数，就是最少路线数。
         return directions.size();
     }
 
+    /**
+     * 欧几里得算法求最大公约数。
+     * 这里用它来做方向向量约分。
+     */
     private int gcd(int a, int b) {
         while (b != 0) {
             int next = a % b;
@@ -89,6 +137,12 @@ public class MinimumStraightLineRoutesFromBaseToPickupLocations {
         return a;
     }
 
+    /**
+     * 最简方向向量。
+     *
+     * 放进 HashSet 之后，
+     * 只要两个点归一化后方向一样，就只会保留一个。
+     */
     private static final class Direction {
         private final int dx;
         private final int dy;

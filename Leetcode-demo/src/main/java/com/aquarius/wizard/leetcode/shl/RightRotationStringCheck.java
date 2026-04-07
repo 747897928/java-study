@@ -59,6 +59,20 @@ public class RightRotationStringCheck {
     }
 
     public int isRightRotation(String word1, String word2) {
+        /*
+         * 旋转字符串题最经典的判断方式就是：
+         * 如果 word1 是 word2 的某种旋转结果，
+         * 那么 word1 一定会出现在 word2 + word2 里面。
+         *
+         * 直观脑补：
+         * word2 = "plesam"
+         * word2 + word2 = "plesamplesam"
+         *
+         * 把一个环形字符串摊平之后，所有旋转结果都会成为这条长串的某个连续子串。
+         *
+         * 另外，长度不同可以直接排除，
+         * 因为旋转只会改变起点，不会改变字符总数。
+         */
         if (word1.length() != word2.length()) {
             return -1;
         }

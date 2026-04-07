@@ -77,6 +77,18 @@ public class KthSmallestRelativeStockPrice {
     }
 
     public int kthSmallest(int[] stockPrices, int k) {
+        /*
+         * 学习阶段最直观的思路就是：
+         * 先排序，再取第 k 小。
+         *
+         * 这里要注意：
+         * 题目里的第 k 小是“从 1 开始数”的，
+         * 但 Java 数组下标是“从 0 开始数”的，
+         * 所以排序后答案在 sorted[k - 1]。
+         *
+         * 另外这里先 copy 一份再排序，
+         * 是为了不修改原始输入数组，调试时更安全。
+         */
         int[] sorted = Arrays.copyOf(stockPrices, stockPrices.length);
         Arrays.sort(sorted);
         return sorted[k - 1];

@@ -119,6 +119,31 @@ public class OrganizationReputationUpdater {
         return builder.toString();
     }
 
+    /**
+     * 这题真正的难点不是“每天删一个人”，
+     * 而是：
+     *
+     * “每天还要在被开除的人所属团队里，再自动离职 K 个效率最小的人”
+     *
+     * 所以最自然的数据结构就是：
+     *
+     * - 每个团队维护一个最小堆
+     * - 堆里按效率从小到大排
+     *
+     * 这样每天只要找到被开除员工所在团队，
+     * 就能不断弹出该团队里当前效率最小的人。
+     *
+     * 为什么这里需要懒删除？
+     *
+     * 因为一个人离职以后，
+     * 他之前可能还残留在团队堆里，并不会自动从 PriorityQueue 的中间消失。
+     *
+     * 所以每次真正使用堆顶前，都要先 prune 一下：
+     *
+     * - 如果堆顶这个人已经不 active 了
+     * - 就把他继续弹掉
+     * - 直到堆顶真的是当前仍在职的人
+     */
     public long[] updateReputation(int[] efficiencies, int[] teamIds, int[][] dailyActions) {
         int n = efficiencies.length;
         boolean[] active = new boolean[n];
@@ -144,10 +169,13 @@ public class OrganizationReputationUpdater {
             teamMins[teamIds[i]].offer(i);
         }
 
+        // 逐天处理开除和连带离职。
         long[] answer = new long[dailyActions.length];
         for (int day = 0; day < dailyActions.length; day++) {
             int firedId = dailyActions[day][0] - 1;
             int resignCount = dailyActions[day][1];
+
+            // 先处理当天被直接开除的人。
             if (active[firedId]) {
                 active[firedId] = false;
                 reputation -= efficiencies[firedId];
@@ -158,6 +186,7 @@ public class OrganizationReputationUpdater {
             for (int i = 0; i < resignCount && !queue.isEmpty(); i++) {
                 int resign = queue.poll();
                 if (!active[resign]) {
+                    // 理论上 prune 后通常不会撞到，但保留这层防御更稳。
                     i--;
                     prune(queue, active);
                     continue;
@@ -171,6 +200,15 @@ public class OrganizationReputationUpdater {
         return answer;
     }
 
+    /**
+     * 懒删除：
+     *
+     * PriorityQueue 不适合“随便删中间元素”，
+     * 所以我们不主动去堆里找某个已经离职的人删掉。
+     *
+     * 而是在每次真正需要堆顶时，
+     * 把所有已经 inactive 的旧元素顺手清掉。
+     */
     private void prune(PriorityQueue<Integer> queue, boolean[] active) {
         while (!queue.isEmpty() && !active[queue.peek()]) {
             queue.poll();

@@ -61,6 +61,33 @@ public class CountDigitOccurrencesInNumber {
         System.out.println(solver.countOccurrences(targetDigit, sourceNumber));
     }
 
+    /**
+     * 这题是最标准的“按十进制一位一位拆数字”。
+     *
+     * 核心动作只有两个：
+     *
+     * 1. value % 10
+     *    拿到当前最低位
+     *
+     * 2. value /= 10
+     *    把当前最低位删掉，继续处理下一位
+     *
+     * 所以循环每一轮其实都在做：
+     *
+     * - 先看最低位是不是目标 digit
+     * - 是的话 count++
+     * - 再把这个最低位去掉
+     *
+     * 这里最容易漏掉的特例是 number = 0。
+     *
+     * 因为正常 while (value > 0) 根本不会进循环，
+     * 但十进制数字 0 本身其实包含一个字符 '0'。
+     *
+     * 所以：
+     *
+     * - 如果 number = 0 且 digit = 0，答案应该是 1
+     * - 如果 number = 0 且 digit != 0，答案才是 0
+     */
     public int countOccurrences(int digit, int number) {
         if (number == 0) {
             return digit == 0 ? 1 : 0;
@@ -68,9 +95,11 @@ public class CountDigitOccurrencesInNumber {
         int count = 0;
         int value = number;
         while (value > 0) {
+            // 取当前最低位。
             if (value % 10 == digit) {
                 count++;
             }
+            // 删掉当前最低位，继续看下一位。
             value /= 10;
         }
         return count;

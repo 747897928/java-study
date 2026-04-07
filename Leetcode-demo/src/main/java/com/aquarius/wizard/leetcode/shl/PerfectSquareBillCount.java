@@ -63,6 +63,30 @@ public class PerfectSquareBillCount {
         System.out.println(solver.countPerfectSquares(billAmounts));
     }
 
+    /**
+     * 判断一个数是不是完全平方数，最直接的方法就是：
+     *
+     * 1. 先求它的平方根整数部分 root
+     * 2. 再检查 root * root 是否刚好等于原数
+     *
+     * 为什么这能成立？
+     *
+     * 因为如果 bill 是完全平方数，
+     * 那一定存在某个整数 root，使得：
+     *
+     * root^2 = bill
+     *
+     * 而 Math.sqrt(bill) 会给出它的平方根。
+     * 强转成 int 以后，相当于取平方根的整数部分。
+     *
+     * 所以最后再做一次 root * root == bill，
+     * 就能把“刚好是完全平方数”和“只是接近平方数”区分开。
+     *
+     * 例如：
+     *
+     * - 25 -> sqrt = 5 -> 5*5 = 25，成立
+     * - 26 -> sqrt ≈ 5.09 -> 强转后 root = 5 -> 5*5 = 25，不成立
+     */
     public int countPerfectSquares(int[] bills) {
         int count = 0;
         for (int bill : bills) {

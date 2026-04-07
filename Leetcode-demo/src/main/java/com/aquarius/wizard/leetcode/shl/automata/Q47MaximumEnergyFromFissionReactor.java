@@ -46,6 +46,18 @@ public class Q47MaximumEnergyFromFissionReactor {
     }
 
     public int maximumEnergy(int[][] vials, int reactorVolume, int criticalMass) {
+        /*
+         * 这题不是普通的一维背包，而是两个限制同时存在：
+         * - 总体积不能超过 reactorVolume
+         * - 总质量不能超过 criticalMass
+         *
+         * 所以状态自然要写成二维：
+         * dp[usedVolume][usedMass]
+         * 表示在占用了这些体积和质量之后，最多能得到多少能量。
+         *
+         * 每个 vial 最多只能选一次，因此这是“二维 0/1 背包”。
+         * 所以内层循环必须倒着枚举，防止同一个 vial 在一轮里被重复使用。
+         */
         int[][] dp = new int[reactorVolume + 1][criticalMass + 1];
         for (int[] vial : vials) {
             int volume = vial[0];
@@ -53,6 +65,7 @@ public class Q47MaximumEnergyFromFissionReactor {
             int energy = vial[2];
             for (int usedVolume = reactorVolume; usedVolume >= volume; usedVolume--) {
                 for (int usedMass = criticalMass; usedMass >= mass; usedMass--) {
+                    // 选或不选当前 vial，取能量更大的方案。
                     dp[usedVolume][usedMass] = Math.max(
                         dp[usedVolume][usedMass],
                         dp[usedVolume - volume][usedMass - mass] + energy
@@ -64,6 +77,7 @@ public class Q47MaximumEnergyFromFissionReactor {
         int best = 0;
         for (int usedVolume = 0; usedVolume <= reactorVolume; usedVolume++) {
             for (int usedMass = 0; usedMass <= criticalMass; usedMass++) {
+                // 只要没有超过两个上限，这个状态就是合法状态。
                 best = Math.max(best, dp[usedVolume][usedMass]);
             }
         }

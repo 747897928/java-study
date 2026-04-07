@@ -140,6 +140,34 @@ public class OptimalStudentCompletionOrderInLibrary {
         return builder.toString();
     }
 
+    /**
+     * 这题和经典银行家算法很像。
+     *
+     * 真正决定一个学生当前能不能完成任务的，
+     * 不是 required 本身，而是：
+     *
+     * need = required - issued
+     *
+     * 因为 issued 表示这个学生手里已经拿着的书，
+     * 他真正还差多少，要看“总需求减去已拿到的部分”。
+     *
+     * 所以整体流程是：
+     *
+     * 1. 维护当前图书馆 available
+     * 2. 从小到大扫描 studentID
+     * 3. 谁的 need 当前能被满足，就让谁先完成
+     * 4. 他完成后，会把自己手里的 issuedBooks 全部归还
+     * 5. available 增加，再继续下一轮扫描
+     *
+     * 这和银行家算法的味道很像：
+     *
+     * - 一轮轮找“当前可完成”的任务
+     * - 做完后释放资源
+     * - 再看能不能带动更多任务可完成
+     *
+     * 如果某一整轮扫描下来，一个新学生都推进不了，
+     * 就说明系统卡死了，所有人不可能全部完成，此时返回 -1。
+     */
     public int[] findOptimalOrder(int[] availableBooks, int[][] issuedBooks, int[][] requiredBooks) {
         int studentCount = issuedBooks.length;
         int subjectCount = availableBooks.length;
@@ -151,12 +179,19 @@ public class OptimalStudentCompletionOrderInLibrary {
         while (completed < studentCount) {
             boolean progressed = false;
             for (int student = 0; student < studentCount; student++) {
+                // 已经完成的学生不再重复处理。
+                //
+                // 还没完成但当前资源不够的学生，也先跳过，等后面别人还书后再看。
                 if (finished[student] || !canFinish(available, issuedBooks[student], requiredBooks[student])) {
                     continue;
                 }
+
+                // 当前 student 可以完成，按题意顺序直接安排他。
                 finished[student] = true;
                 order[completed++] = student;
                 progressed = true;
+
+                // 他完成后，会把手里已借出的书全部归还给图书馆。
                 for (int subject = 0; subject < subjectCount; subject++) {
                     available[subject] += issuedBooks[student][subject];
                 }
@@ -173,6 +208,11 @@ public class OptimalStudentCompletionOrderInLibrary {
         return findOptimalOrder(availableBooks, promptIssuedBooks, promptRequiredBooks);
     }
 
+    /**
+     * 判断“当前 available 能不能支持这个学生完成任务”。
+     *
+     * 这里看的是 need = required - issued。
+     */
     private boolean canFinish(int[] available, int[] issued, int[] required) {
         for (int subject = 0; subject < available.length; subject++) {
             int needed = required[subject] - issued[subject];

@@ -44,6 +44,24 @@ public class Q63MostFrequentCharactersInRanges {
     }
 
     public String answerQueries(String text, int[][] queries) {
+        /*
+         * 题目会反复问很多次区间 [L, R]，
+         * 每次都重新数一遍频次当然能做，但如果查询很多，就会重复扫描同一段字符串。
+         *
+         * 这里的标准做法是“前缀频次数组”：
+         * prefix[i + 1][c] 表示 text[0..i] 里字符 c 出现了多少次。
+         *
+         * 那么任意区间 [left, right] 里字符 c 的出现次数就可以 O(1) 算出：
+         * prefix[right + 1][c] - prefix[left][c]
+         *
+         * 整体流程是：
+         * 1. 先预处理整串的前缀频次
+         * 2. 每个查询先扫一遍字符集，找出最大频次
+         * 3. 再扫一遍字符集，把所有频次等于最大值的字符输出
+         *
+         * 因为这里固定只处理 ASCII 128 个字符，
+         * 所以每次查询再扫一遍字符集的成本是可控的。
+         */
         int[][] prefix = new int[text.length() + 1][ASCII];
         for (int i = 0; i < text.length(); i++) {
             System.arraycopy(prefix[i], 0, prefix[i + 1], 0, ASCII);
@@ -56,6 +74,7 @@ public class Q63MostFrequentCharactersInRanges {
             int right = queries[q][1] - 1;
             int maxFreq = 0;
             for (int c = 0; c < ASCII; c++) {
+                // 用两份前缀频次相减，得到字符 c 在当前区间里的出现次数。
                 int freq = prefix[right + 1][c] - prefix[left][c];
                 maxFreq = Math.max(maxFreq, freq);
             }
@@ -64,6 +83,7 @@ public class Q63MostFrequentCharactersInRanges {
             }
             for (int c = 0; c < ASCII; c++) {
                 if (prefix[right + 1][c] - prefix[left][c] == maxFreq) {
+                    // 题目要的是“最频繁字符”，如果并列，就把并列字符都输出。
                     result.append((char) c);
                 }
             }

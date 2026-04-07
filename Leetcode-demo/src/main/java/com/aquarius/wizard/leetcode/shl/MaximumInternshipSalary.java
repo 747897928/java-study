@@ -82,18 +82,63 @@ public class MaximumInternshipSalary {
         System.out.println(solver.maxSalary(payByDay));
     }
 
+    /**
+     * 这题最关键的限制是：
+     *
+     * “只有昨天休息，今天才允许做困难任务”
+     *
+     * 所以状态不能只记“做到第几天的最大工资”，
+     * 还要记“今天是以什么状态结束的”。
+     *
+     * 这里把每天结束时分成三种状态：
+     *
+     * - prevIdle：今天休息
+     * - prevEasy：今天做了简单任务
+     * - prevHard：今天做了困难任务
+     *
+     * 第二天转移时：
+     *
+     * 1. nextIdle
+     *    昨天不管是什么状态，今天都可以选择休息
+     *
+     * 2. nextEasy
+     *    昨天休息或昨天做简单任务，今天都可以做简单任务
+     *    因为题目没有限制简单任务必须隔天
+     *
+     * 3. nextHard
+     *    只能从 prevIdle 转过来
+     *    这正好体现“昨天必须没工作”
+     *
+     * 这就是标准的小状态 DP。
+     */
     public long maxSalary(int[][] payByDay) {
+        // 第 0 天之前：
+        // “休息”是合法初始态，工资为 0。
         long prevIdle = 0L;
+
+        // 还没开始时，不可能已经处于“今天做了简单/困难任务”的状态，
+        // 所以先设成极小值，表示非法。
         long prevEasy = Long.MIN_VALUE / 4;
         long prevHard = Long.MIN_VALUE / 4;
         for (int[] day : payByDay) {
+            // 今天休息：昨天三种状态随便接。
             long nextIdle = Math.max(prevIdle, Math.max(prevEasy, prevHard));
+
+            // 今天做简单任务：
+            // 可以从“昨天休息”或“昨天也做简单任务”接过来。
             long nextEasy = Math.max(prevIdle, prevEasy) + day[0];
+
+            // 今天做困难任务：
+            // 只能从“昨天休息”接过来。
             long nextHard = prevIdle + day[1];
+
+            // 滚动更新到下一天。
             prevIdle = nextIdle;
             prevEasy = nextEasy;
             prevHard = nextHard;
         }
+
+        // 最后一天结束时，三种状态里工资最大的就是答案。
         return Math.max(prevIdle, Math.max(prevEasy, prevHard));
     }
 }

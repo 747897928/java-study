@@ -146,6 +146,8 @@ public class CircularDinnerMaximumAttendees {
             }
         }
 
+        // 拓扑剥叶：
+        // 把所有不在环上的点先删掉，并维护“流进某个点的最长链长度”。
         while (!queue.isEmpty()) {
             int node = queue.poll();
             int next = likes[node];
@@ -162,6 +164,7 @@ public class CircularDinnerMaximumAttendees {
             if (indegree[i] <= 0 || visited[i]) {
                 continue;
             }
+            // 现在能进到这里的点，已经保证在某个环里。
             int current = i;
             List<Integer> cycle = new ArrayList<>();
             while (!visited[current]) {
@@ -172,8 +175,10 @@ public class CircularDinnerMaximumAttendees {
             if (cycle.size() == 2) {
                 int a = cycle.get(0);
                 int b = cycle.get(1);
+                // 二元环可以把两边最长链一起接上。
                 pairContribution += longestChain[a] + longestChain[b];
             } else {
+                // 大环只能单独成环，不能再外挂链。
                 maxCycle = Math.max(maxCycle, cycle.size());
             }
         }

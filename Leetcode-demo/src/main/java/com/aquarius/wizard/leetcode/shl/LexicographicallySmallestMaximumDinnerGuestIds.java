@@ -83,6 +83,33 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
         System.out.println(joinSpaceSeparated(guestIds));
     }
 
+    /**
+     * 这题和 CircularDinnerMaximumAttendees 是同一个函数图模型，
+     * 区别只是这里不再只输出“最多能来几个人”，
+     * 而是要输出“哪一批人来”，并且在人数相同的候选里取字典序更小的集合。
+     *
+     * 所以整体结构还是那两个分支：
+     *
+     * 1. 选一个最大大环
+     * 2. 选所有二元环，并给每个二元环两边各接一条最长链
+     *
+     * 但现在除了要算人数，还要真正把人名单恢复出来。
+     *
+     * 当前实现采用的输出口径是：
+     *
+     * - 输出参会人员 ID 的升序列表
+     * - 不去输出圆桌上的具体座位顺序
+     *
+     * 在这个口径下：
+     *
+     * - 大环候选：就是环上的点集
+     * - 二元环候选：就是所有二元环方案合并后的点集
+     *
+     * 最后比较：
+     *
+     * - 谁人数更多
+     * - 如果人数一样，谁的升序列表字典序更小
+     */
     public int[] findGuestIds(int[] likesOneBased) {
         int n = likesOneBased.length;
         int[] likes = new int[n];
@@ -92,6 +119,15 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
             indegree[likes[i]]++;
         }
 
+        // bestLength[x]：
+        // 流进 x 的最长链长度（包含 x 本人）。
+        //
+        // bestPrev[x]：
+        // 在这条“最优链”里，x 前一个节点是谁，用来后面恢复链上人员。
+        //
+        // bestRemainderMin[x]：
+        // 用来做同长度链之间的字典序打破平局。
+        // 当前实现保留了这份信息，使得选择更稳定。
         int[] bestLength = new int[n];
         int[] bestPrev = new int[n];
         int[] bestRemainderMin = new int[n];
@@ -109,6 +145,8 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
             }
         }
 
+        // 拓扑剥叶：
+        // 先把所有不在环上的链剥掉，并顺手维护“流向某个点的最佳链”。
         while (!queue.isEmpty()) {
             int node = queue.poll();
             int next = likes[node];
@@ -125,11 +163,13 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
             }
         }
 
+        // 剥叶结束后，workingIndegree > 0 的点就是环上点。
         boolean[] cycleNode = new boolean[n];
         for (int i = 0; i < n; i++) {
             cycleNode[i] = workingIndegree[i] > 0;
         }
 
+        // 分支 1：找“人数最多的大环候选”，并在同长度时取字典序更小的集合。
         List<Integer> bestCycleSet = new ArrayList<>();
         boolean[] visitedCycle = new boolean[n];
         for (int i = 0; i < n; i++) {
@@ -150,6 +190,9 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
             }
         }
 
+        // 分支 2：收集所有二元环，以及它们两边能接上的最佳链。
+        //
+        // pairUnion 最后会变成“所有二元环方案合并后的参会人员集合”。
         boolean[] pairVisited = new boolean[n];
         List<Integer> pairUnion = new ArrayList<>();
         for (int i = 0; i < n; i++) {
@@ -164,6 +207,9 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
         }
         pairUnion.sort(Integer::compareTo);
 
+        // 最后比较两个候选：
+        // 1. 最优大环方案
+        // 2. 所有二元环方案之和
         if (pairUnion.size() > bestCycleSet.size()) {
             return toArray(pairUnion);
         }
@@ -173,6 +219,12 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
         return toArray(lexLess(pairUnion, bestCycleSet) ? pairUnion : bestCycleSet);
     }
 
+    /**
+     * 从二元环某个端点往外，沿着 bestPrev 恢复那条“最佳链”上的所有人。
+     *
+     * 因为 bestPrev 是在拓扑剥叶阶段维护出来的，
+     * 所以这里恢复出来的，就是能挂到这个端点上的最长链。
+     */
     private void addChainNodes(int root, int[] bestPrev, List<Integer> target) {
         int current = root;
         while (current != -1) {
@@ -181,6 +233,10 @@ public class LexicographicallySmallestMaximumDinnerGuestIds {
         }
     }
 
+    /**
+     * 字典序比较：
+     * 默认列表里元素已经按升序排好。
+     */
     private boolean lexLess(List<Integer> first, List<Integer> second) {
         if (second.isEmpty()) {
             return true;

@@ -80,6 +80,17 @@ public class CountElementsStrictlyLessThanK {
     }
 
     public int countLessThan(int[] nums, int target) {
+        /*
+         * 这题不需要排序，也不需要二分。
+         *
+         * 题目只问“有多少个元素 < target”，并没有要求把这些元素找出来或按顺序输出。
+         * 所以最直接的做法就是线性扫描一遍，看到一个满足条件的元素就把计数 +1。
+         *
+         * 时间复杂度 O(n)，空间复杂度 O(1)。
+         * 对这种纯计数题，先问自己一句：
+         * “我真的需要改变数组顺序吗？”
+         * 如果答案是否定的，往往一趟扫描就够了。
+         */
         int count = 0;
         for (int num : nums) {
             if (num < target) {

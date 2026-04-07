@@ -70,6 +70,34 @@ public class MissingCharacterDuringTransmission {
         System.out.println(solver.findMissingCharacter(sentString, receivedString));
     }
 
+    /**
+     * 这题最巧的地方是异或。
+     *
+     * 异或有两个特别适合这题的性质：
+     *
+     * 1. a ^ a = 0
+     *    同一个字符异或两次会抵消
+     *
+     * 2. 0 ^ a = a
+     *    最后剩下的那个字符会被保留下来
+     *
+     * 所以如果：
+     *
+     * - sent 里有所有字符
+     * - received 里少了恰好 1 个字符
+     *
+     * 那把两个字符串所有字符一起异或后，
+     * 成对出现的字符都会互相抵消，
+     * 最后剩下的就正好是那个丢失字符。
+     *
+     * 这类题的标准信号就是：
+     *
+     * - “两边几乎一样”
+     * - “只差一个元素”
+     * - “不关心顺序”
+     *
+     * 看到这种描述，就可以优先想异或。
+     */
     public char findMissingCharacter(String sent, String received) {
         int xor = 0;
         for (int i = 0; i < sent.length(); i++) {

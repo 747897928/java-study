@@ -78,6 +78,21 @@ public class StableEvenOddPartition {
     }
 
     public int[] rearrange(int[] nums) {
+        /*
+         * 题目要求的不只是“偶数在前、奇数在后”，
+         * 还额外要求：
+         * - 偶数之间的相对顺序不能乱
+         * - 奇数之间的相对顺序也不能乱
+         *
+         * 这就说明不能用普通的双指针原地交换。
+         * 因为交换虽然能分组，但会把原顺序打乱。
+         *
+         * 最稳的做法是两趟扫描：
+         * 1. 第一趟先把所有偶数按原顺序放进结果数组
+         * 2. 第二趟再把所有奇数按原顺序接在后面
+         *
+         * 这就是稳定分组（stable partition）的最直观写法。
+         */
         int[] result = new int[nums.length];
         int index = 0;
         for (int num : nums) {

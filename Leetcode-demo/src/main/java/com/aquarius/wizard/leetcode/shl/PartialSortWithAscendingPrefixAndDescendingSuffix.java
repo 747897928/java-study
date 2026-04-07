@@ -75,6 +75,20 @@ public class PartialSortWithAscendingPrefixAndDescendingSuffix {
     }
 
     public int[] partialSort(int[] nums, int k) {
+        /*
+         * 这题最容易写错的点是：
+         * 不是“整体排序后前 k 个升序、后面降序”，
+         * 而是“前半段自己排，后半段自己排”。
+         *
+         * 所以步骤应该拆成：
+         * 1. 复制原数组，避免直接改输入
+         * 2. 对 [0, k) 这一段做升序排序
+         * 3. 对 [k, n) 这一段也先做升序排序
+         * 4. 再把后半段反转，得到降序
+         *
+         * Java 标准库的 Arrays.sort 对 int[] 的区间排序只能做升序，
+         * 所以后半段要“先升序，再 reverse”。
+         */
         int[] result = Arrays.copyOf(nums, nums.length);
         Arrays.sort(result, 0, k);
         Arrays.sort(result, k, result.length);
@@ -83,6 +97,10 @@ public class PartialSortWithAscendingPrefixAndDescendingSuffix {
     }
 
     private void reverse(int[] nums, int left, int right) {
+        /*
+         * 这里是最普通的双指针反转：
+         * 左右交换，然后向中间收缩。
+         */
         while (left < right) {
             int temp = nums[left];
             nums[left] = nums[right];

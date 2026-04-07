@@ -120,6 +120,33 @@ public class MinimumStraightLineCoverForPickupLocations {
         System.out.println(solver.minimumRoutes(pickupLocations));
     }
 
+    /**
+     * 这题是“点集最少直线覆盖”的精确解版本。
+     *
+     * 如果点数大，这题会很难；
+     * 但当前学习版把规模收成了“去重后点数不超过 20”，
+     * 所以可以直接做状态压缩 DP。
+     *
+     * 思路分三步：
+     *
+     * 1. 先把所有可能成为“候选直线”的点集 mask 枚举出来
+     *    - 单个点也算一条线
+     *    - 任取两个点，可以唯一确定一条直线
+     *    - 再把所有落在这条直线上的点一起打成一个 mask
+     *
+     * 2. 对每个点 i，预处理“有哪些 lineMask 可以覆盖到它”
+     *
+     * 3. 做搜索 / 记忆化：
+     *    - 当前已经覆盖 coveredMask
+     *    - 找第一个还没覆盖的点 firstUncovered
+     *    - 枚举所有能覆盖这个点的 lineMask
+     *    - 选最少条数的方案
+     *
+     * 为什么只看“第一个还没覆盖的点”就够了？
+     *
+     * 因为任何合法答案都必须覆盖它。
+     * 所以与其枚举所有直线，不如只枚举“能盖住这个点的直线”，搜索会小很多。
+     */
     public int minimumRoutes(int[][] pickupLocations) {
         Point[] points = uniquePoints(pickupLocations);
         int pointCount = points.length;
@@ -143,11 +170,14 @@ public class MinimumStraightLineCoverForPickupLocations {
 
         Set<Integer> masks = new HashSet<>();
         for (int i = 0; i < pointCount; i++) {
+            // 一个单点自己也可以单独作为一条直线覆盖。
             masks.add(1 << i);
         }
         for (int i = 0; i < pointCount; i++) {
             for (int j = i + 1; j < pointCount; j++) {
                 int mask = 0;
+                // 枚举由 points[i] 和 points[j] 唯一确定的那条直线，
+                // 把所有共线点一起收进 mask。
                 for (int k = 0; k < pointCount; k++) {
                     if (areCollinear(points[i], points[j], points[k])) {
                         mask |= 1 << k;
@@ -159,6 +189,7 @@ public class MinimumStraightLineCoverForPickupLocations {
 
         for (int mask : masks) {
             for (int i = 0; i < pointCount; i++) {
+                // 预处理：这个点 i 能被哪些直线 mask 覆盖到。
                 if (((mask >> i) & 1) != 0) {
                     optionsByPoint[i].add(mask);
                 }
@@ -171,6 +202,12 @@ public class MinimumStraightLineCoverForPickupLocations {
         return search(0, fullMask, optionsByPoint, memo);
     }
 
+    /**
+     * search(coveredMask)：
+     * 表示“从当前已覆盖状态 coveredMask 出发，最少还要几条线”
+     *
+     * 记忆化后，每个状态只算一次。
+     */
     private int search(int coveredMask, int fullMask, List<Integer>[] optionsByPoint, int[] memo) {
         if (coveredMask == fullMask) {
             return 0;
@@ -179,9 +216,11 @@ public class MinimumStraightLineCoverForPickupLocations {
             return memo[coveredMask];
         }
 
+        // 找第一个没被覆盖到的点。
         int firstUncovered = Integer.numberOfTrailingZeros(fullMask ^ coveredMask);
         int best = Integer.MAX_VALUE;
         for (int lineMask : optionsByPoint[firstUncovered]) {
+            // 当前如果选择这条线，就能新增覆盖 lineMask 里的所有点。
             best = Math.min(best, 1 + search(coveredMask | lineMask, fullMask, optionsByPoint, memo));
         }
         memo[coveredMask] = best;

@@ -83,6 +83,27 @@ public class LongestPalindromicListByMergingAdjacentValues {
     }
 
     public long[] longestPalindromicList(int[] salesData) {
+        /*
+         * 这题最关键的一步是先换个角度理解目标：
+         * 题目要的是“最终回文列表尽量长”，
+         * 等价于“合并次数尽量少”。
+         *
+         * 为什么可以用双指针贪心？
+         *
+         * 因为回文要求两端相等。
+         * 如果当前 leftValue == rightValue，
+         * 这两个位置已经能在最终回文里对应上，直接同时向中间收缩。
+         *
+         * 如果 leftValue < rightValue，
+         * 左边这一块太小了，不可能单独和右边当前值配平，
+         * 所以左边必须继续向内合并，去增大左侧总和。
+         *
+         * 同理，如果 leftValue > rightValue，
+         * 就只能让右边继续向内合并。
+         *
+         * 这个贪心的核心是：
+         * “较小的一侧如果不先合并，它永远追不上较大的一侧。”
+         */
         List<Long> values = new ArrayList<>(salesData.length);
         for (int value : salesData) {
             values.add((long) value);
@@ -98,10 +119,12 @@ public class LongestPalindromicListByMergingAdjacentValues {
                 continue;
             }
             if (leftValue < rightValue) {
+                // 把左边较小的一块并到它右边的相邻元素里，等价于“左侧继续扩大”。
                 values.set(left + 1, leftValue + values.get(left + 1));
                 values.remove(left);
                 right--;
             } else {
+                // 对称地处理右边：右侧较小，就把它并到左边相邻元素里。
                 values.set(right - 1, values.get(right - 1) + rightValue);
                 values.remove(right);
                 right--;

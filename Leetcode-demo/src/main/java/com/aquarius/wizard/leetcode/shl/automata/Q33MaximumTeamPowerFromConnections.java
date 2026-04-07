@@ -47,22 +47,71 @@ public class Q33MaximumTeamPowerFromConnections {
         System.out.println(solver.maximumTeamPower(strengths, pairs));
     }
 
+    /**
+     * 这题的本质不是“随机抽卡”，而是“这些配对关系把哪些孩子连成了同一个连通块”。
+     *
+     * 题面说：
+     *
+     * - [1, 4] 表示 1 和 4 在同一队
+     * - [4, 3] 表示 4 和 3 在同一队
+     *
+     * 那么根据传递性：
+     *
+     * - 1、4、3 就都在同一队
+     *
+     * 这其实就是并查集最典型的应用场景：
+     *
+     * “不断给我一些连边关系，问最后哪些点属于同一个集合”
+     *
+     * 所以这题可以拆成两步：
+     *
+     * 1. 先用并查集把所有属于同一队的孩子合并起来
+     * 2. 再按每个集合的代表元，把力量值累加，取最大值
+     *
+     * 为什么单独出现、从来没出现在配对里的孩子也没问题？
+     *
+     * 因为并查集初始化时每个人自己就是自己的父节点，
+     * 也就是说默认每个人都是一个单独集合。
+     *
+     * 如果他没参与任何 union，
+     * 那他最后就自然保持为“一人队”。
+     */
     public long maximumTeamPower(int[] strengths, int[][] pairs) {
+        // 并查集先把“同队关系”统一合并。
         DisjointSet dsu = new DisjointSet(strengths.length);
         for (int[] pair : pairs) {
+            // 题目位置编号从 1 开始，数组下标从 0 开始，所以要减 1。
             dsu.union(pair[0] - 1, pair[1] - 1);
         }
 
+        // teamPower[root] 表示“以 root 为代表元的那个队伍，目前总力量是多少”。
         long[] teamPower = new long[strengths.length];
         long best = 0L;
         for (int i = 0; i < strengths.length; i++) {
+            // 找到第 i 个孩子最终属于哪个集合。
             int root = dsu.find(i);
+            // 把他的力量加到对应队伍上。
             teamPower[root] += strengths[i];
+            // 维护当前最大队伍力量。
             best = Math.max(best, teamPower[root]);
         }
         return best;
     }
 
+    /**
+     * 并查集 / Union-Find。
+     *
+     * parent[x]：
+     * 表示 x 当前指向的父节点
+     *
+     * rank[x]：
+     * 是一种近似“树高”的信息，用来做按秩合并，避免树退化太深
+     *
+     * 你可以先把它理解成：
+     *
+     * - find(x)：问 x 现在属于哪个集合
+     * - union(a, b)：把 a 和 b 所在集合合并起来
+     */
     private static class DisjointSet {
         private final int[] parent;
         private final int[] rank;
@@ -75,6 +124,17 @@ public class Q33MaximumTeamPowerFromConnections {
             }
         }
 
+        /**
+         * find 的目标是找到“集合代表元”。
+         *
+         * 如果 parent[x] == x，
+         * 说明 x 自己就是这个集合当前的代表元。
+         *
+         * 路径压缩的含义是：
+         *
+         * 在递归返回时，顺手把沿途节点都直接挂到代表元下面，
+         * 这样后面再 find 会更快。
+         */
         private int find(int x) {
             if (parent[x] != x) {
                 parent[x] = find(parent[x]);
@@ -82,6 +142,21 @@ public class Q33MaximumTeamPowerFromConnections {
             return parent[x];
         }
 
+        /**
+         * union 把两个集合合并。
+         *
+         * 先各自找根，如果根相同，
+         * 说明本来就在同一个集合，不需要再做事。
+         *
+         * 如果根不同，就把其中一棵树挂到另一棵树下面。
+         *
+         * 这里用了按秩合并：
+         *
+         * - 矮树挂高树
+         * - 如果一样高，随便挂，并把新的根 rank + 1
+         *
+         * 这样可以让并查集整体更扁，后续 find 更快。
+         */
         private void union(int a, int b) {
             int rootA = find(a);
             int rootB = find(b);

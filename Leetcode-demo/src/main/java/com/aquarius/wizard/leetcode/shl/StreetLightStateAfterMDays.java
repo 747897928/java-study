@@ -1,8 +1,8 @@
 package com.aquarius.wizard.leetcode.shl;
 
-import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Question
@@ -91,6 +91,20 @@ public class StreetLightStateAfterMDays {
     }
 
     public int[] stateAfterDays(int[] currentState, int days) {
+        /*
+         * 这题如果老老实实模拟 M 天，days 最多能到 10^6，虽然 8 个灯其实也能跑，
+         * 但更值得学的是“状态会重复，所以可以找周期”这个思路。
+         *
+         * 这里先把整个灯泡数组编码成一个 int：
+         * 例如 [1, 0, 1, 1] -> 二进制 1011。
+         *
+         * 这样做之后：
+         * - 一个完整状态就可以用一个整数表示
+         * - HashMap 里记录“某个状态第一次出现在第几天”会很方便
+         *
+         * 一旦某个状态再次出现，就说明后面进入循环了。
+         * 之后不需要一天一天跑到 days，只要对周期长度取模即可。
+         */
         int state = encode(currentState);
         Map<Integer, Integer> seenAt = new HashMap<>();
         int day = 0;
@@ -111,11 +125,23 @@ public class StreetLightStateAfterMDays {
     }
 
     private int nextState(int state, int length) {
+        /*
+         * 题面说：
+         * - 左右邻居都相同 -> 下一天变 0
+         * - 左右邻居不同 -> 下一天变 1
+         *
+         * 所以规则其实就是：
+         * next[i] = 1，当且仅当 left != right
+         *
+         * 这里直接在位运算层面上逐位构造下一个状态。
+         */
         int next = 0;
         for (int i = 0; i < length; i++) {
+            // 边界灯泡缺失的一侧按 0 处理。
             int left = i == 0 ? 0 : ((state >> (length - i)) & 1);
             int right = i == length - 1 ? 0 : ((state >> (length - i - 2)) & 1);
             if (left != right) {
+                // 如果下一天这一位要亮，就把 next 对应的 bit 位置成 1。
                 next |= 1 << (length - i - 1);
             }
         }
@@ -123,6 +149,14 @@ public class StreetLightStateAfterMDays {
     }
 
     private int encode(int[] state) {
+        /*
+         * 从左到右把数组拼成一个二进制整数。
+         * 例如 [1, 0, 1]：
+         * 初始 0
+         * -> (0 << 1) | 1 = 1
+         * -> (1 << 1) | 0 = 2
+         * -> (2 << 1) | 1 = 5
+         */
         int encoded = 0;
         for (int value : state) {
             encoded = (encoded << 1) | value;
@@ -131,6 +165,9 @@ public class StreetLightStateAfterMDays {
     }
 
     private int[] decode(int state, int length) {
+        /*
+         * encode 的逆过程：从最低位开始一位一位拆回来。
+         */
         int[] decoded = new int[length];
         for (int i = length - 1; i >= 0; i--) {
             decoded[i] = state & 1;

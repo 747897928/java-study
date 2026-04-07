@@ -68,6 +68,25 @@ public class PrintAllPrimesFrom2ToN {
         return builder.toString();
     }
 
+    /**
+     * 这里没有直接用最朴素的“对每个数试除到 sqrt(n)”。
+     *
+     * 原因是题面上限写得比较大，
+     * 所以更稳的思路是分段筛。
+     *
+     * 分段筛可以拆成两层：
+     *
+     * 1. 先用普通筛法，筛出 <= sqrt(limit) 的所有质数
+     *    这些叫 basePrimes
+     *
+     * 2. 再把区间 [2, limit] 切成很多段
+     *    每一段都用 basePrimes 去标记合数
+     *
+     * 这样做的好处是：
+     *
+     * - 时间上仍然沿用筛法思路
+     * - 空间上不用一次性开到 limit 那么大的布尔数组
+     */
     public int[] listPrimes(int limit) {
         if (limit < 2) {
             return new int[0];
@@ -77,10 +96,12 @@ public class PrintAllPrimesFrom2ToN {
         List<Integer> result = new ArrayList<>();
         int segmentSize = Math.max(root + 1, 32_768);
 
+        // 逐段处理 [low, high]。
         for (int low = 2; low <= limit; low += segmentSize) {
             int high = Math.min(limit, low + segmentSize - 1);
             boolean[] composite = new boolean[high - low + 1];
             for (int prime : basePrimes) {
+                // 这一段里，prime 的第一个需要被标掉的倍数。
                 long start = Math.max((long) prime * prime, ((low + (long) prime - 1) / prime) * (long) prime);
                 for (long value = start; value <= high; value += prime) {
                     composite[(int) (value - low)] = true;
@@ -99,6 +120,9 @@ public class PrintAllPrimesFrom2ToN {
         return primes;
     }
 
+    /**
+     * 普通筛法，专门用来生成 basePrimes。
+     */
     private List<Integer> simpleSieve(int limit) {
         boolean[] composite = new boolean[limit + 1];
         List<Integer> primes = new ArrayList<>();

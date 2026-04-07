@@ -75,6 +75,29 @@ public class LargestHouseAreaInGrid {
         System.out.println(solver.largestArea(grid));
     }
 
+    /**
+     * 这题本质就是：
+     *
+     * “在一个 0/1 网格里，找四连通块的最大大小”
+     *
+     * 题面里的“一个 house 由相邻的 1 组成”，
+     * 翻译成算法语言，就是连通块。
+     *
+     * 所以标准做法是：
+     *
+     * - 扫描每个格子
+     * - 只要遇到一个还没访问过的 1
+     * - 就从它出发做一次 DFS/BFS
+     * - 这一次搜索能吃到的所有 1，就是同一个 house
+     *
+     * 这次搜索返回的格子数，就是这个 house 的面积。
+     * 所有 house 面积里取最大值即可。
+     *
+     * 为什么 visited 必须要有？
+     *
+     * 因为一个 house 里的格子彼此相邻，
+     * 如果不做 visited 标记，递归会反复在这些格子之间来回走。
+     */
     public int largestArea(int[][] grid) {
         int rows = grid.length;
         int cols = rows == 0 ? 0 : grid[0].length;
@@ -82,6 +105,7 @@ public class LargestHouseAreaInGrid {
         int best = 0;
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
+                // 只有遇到“还没访问过的 1”时，才说明发现了一个新 house。
                 if (grid[row][col] == 1 && !visited[row][col]) {
                     best = Math.max(best, dfs(grid, visited, row, col));
                 }
@@ -90,8 +114,13 @@ public class LargestHouseAreaInGrid {
         return best;
     }
 
+    /**
+     * DFS 返回“以 (row, col) 为起点的这一整块 house 面积”。
+     */
     private int dfs(int[][] grid, boolean[][] visited, int row, int col) {
         visited[row][col] = true;
+
+        // 当前格子本身就贡献 1 格面积。
         int area = 1;
         for (int[] direction : DIRECTIONS) {
             int nextRow = row + direction[0];
@@ -99,6 +128,7 @@ public class LargestHouseAreaInGrid {
             if (nextRow < 0 || nextRow >= grid.length || nextCol < 0 || nextCol >= grid[0].length) {
                 continue;
             }
+            // 四连通方向里，只继续走到“还是 1 且还没访问过”的格子。
             if (grid[nextRow][nextCol] == 1 && !visited[nextRow][nextCol]) {
                 area += dfs(grid, visited, nextRow, nextCol);
             }

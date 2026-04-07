@@ -86,6 +86,28 @@ public class ReplaceValuesWithTheirIndexPositions {
     }
 
     public int[] replaceWithIndices(int[] nums) {
+        /*
+         * 题目说：
+         * nums[index] = value
+         * 现在要改成：
+         * answer[value] = index
+         *
+         * 这其实就是把“值 -> 下标”的映射反过来写出来。
+         *
+         * 由于题目保证：
+         * - 所有值互不重复
+         * - 值域正好落在 0..N-1
+         *
+         * 所以 value 本身就可以直接当成 answer 的下标使用。
+         *
+         * 例子：
+         * nums = [3, 2, 0, 1]
+         * index=0 时，值 3 出现在位置 0，所以 answer[3] = 0
+         * index=1 时，值 2 出现在位置 1，所以 answer[2] = 1
+         * ...
+         *
+         * 最后得到 [2, 3, 1, 0]。
+         */
         int[] indices = new int[nums.length];
         for (int index = 0; index < nums.length; index++) {
             indices[nums[index]] = index;

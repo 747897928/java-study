@@ -84,7 +84,59 @@ public class MinimumProjectsToZeroErrorScores {
         System.out.println(solver.minimumProjects(errorScores, projectDecrease, otherDecrease));
     }
 
+    /**
+     * 这题的难点不在模拟，而在“最少做多少个项目”这个问法。
+     *
+     * 一看到“最少多少次”，并且数据范围很大，
+     * 就应该优先想：
+     *
+     * - 答案二分
+     * - 然后写一个 canFinish(mid) 去判断“做 mid 次够不够”
+     *
+     * 为什么这里适合二分？
+     *
+     * 因为它有明显单调性：
+     *
+     * - 如果做 x 次项目已经能把所有人清零
+     * - 那么做 x + 1 次、x + 2 次也一定能清零
+     *
+     * 所以答案集合一定形如：
+     *
+     * false false false true true true ...
+     *
+     * 这就是标准二分模板可以上的信号。
+     *
+     * canFinish(projects) 怎么判断？
+     *
+     * 先假设总共做了 projects 次。
+     * 那么不管谁是“被重点照顾的人”，
+     * 每个人至少都会被“其他人完成项目”影响到 projects 次，
+     * 也就是先统一减去：
+     *
+     * projects * Q
+     *
+     * 如果某个人减完以后还大于 0，
+     * 说明他还需要额外被选中若干次。
+     *
+     * 每当他自己完成一次项目，
+     * 相比“只吃到别人带来的 Q”，
+     * 他会额外多减：
+     *
+     * P - Q
+     *
+     * 所以剩余值 remaining 需要多少次额外重点照顾，
+     * 就是：
+     *
+     * ceil(remaining / (P - Q))
+     *
+     * 把所有人这些“额外需要的重点次数”加起来，
+     * 如果总数不超过 projects，
+     * 说明 projects 次项目足够安排。
+     */
     public long minimumProjects(long[] errorScores, long projectDecrease, long otherDecrease) {
+        // 特判 P == Q：
+        // 这时不存在“额外重点照顾收益”，每次对所有人效果都完全一样。
+        // 所以答案就是把最大 errorScore 除以 Q 后向上取整。
         if (projectDecrease == otherDecrease) {
             long max = 0L;
             for (long errorScore : errorScores) {
@@ -93,11 +145,14 @@ public class MinimumProjectsToZeroErrorScores {
             return max;
         }
 
+        // 先倍增找到一个一定可行的右边界。
         long left = 0L;
         long right = 1L;
         while (!canFinish(errorScores, projectDecrease, otherDecrease, right)) {
             right <<= 1;
         }
+
+        // 标准二分最小可行答案。
         while (left < right) {
             long middle = left + ((right - left) >> 1);
             if (canFinish(errorScores, projectDecrease, otherDecrease, middle)) {
@@ -109,13 +164,23 @@ public class MinimumProjectsToZeroErrorScores {
         return left;
     }
 
+    /**
+     * 判断“总共做 projects 次项目”是否足够把所有 errorScore 清零。
+     */
     private boolean canFinish(long[] errorScores, long projectDecrease, long otherDecrease, long projects) {
+        // 每次如果一个人自己做项目，
+        // 相比“只吃到别人带来的 Q”，会额外多减 extra = P - Q。
         long extra = projectDecrease - otherDecrease;
         long needed = 0L;
         for (long errorScore : errorScores) {
+            // 假设先统一吃满 projects 次“全体减 Q”的效果。
             long remaining = errorScore - projects * otherDecrease;
             if (remaining > 0) {
+                // remaining 还没清零，就要额外分配若干次“这个人自己做项目”的机会。
                 needed += (remaining + extra - 1) / extra;
+
+                // 提前剪枝：
+                // 如果额外需要的次数已经超过总项目数，就不可能安排成功。
                 if (needed > projects) {
                     return false;
                 }

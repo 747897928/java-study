@@ -103,13 +103,44 @@ public class MaximumTotalRatingWithHorrorAndSciFiBooks {
         System.out.println(solver.maximumRating(amount, horrorBooks, sciFiBooks));
     }
 
+    /**
+     * 这题如果只看“预算不超过 amount，最大化 rating”，
+     * 很容易直接想到普通 0/1 背包。
+     *
+     * 但真正麻烦的点是：
+     *
+     * - Horror 至少选一本
+     * - Sci-fi 至少选一本
+     *
+     * 所以状态不能只记“花了多少钱”，
+     * 还要记“目前两种类别的完成情况”。
+     *
+     * 这里用一个 2 bit 的 mask 表示：
+     *
+     * - 00：两类都还没选到
+     * - 01：已经选到 Horror
+     * - 10：已经选到 Sci-fi
+     * - 11：两类都已经选到
+     *
+     * 然后：
+     *
+     * dp[mask][money]
+     * = 花费恰好为 money，且类别覆盖状态为 mask 时，能拿到的最大总 rating
+     *
+     * 最终我们只关心 mask = 3，也就是两类都选到了的状态。
+     */
     public long maximumRating(int amount, int[][] horrorBooks, int[][] sciFiBooks) {
         long[][] dp = new long[4][amount + 1];
         for (long[] row : dp) {
             Arrays.fill(row, NEGATIVE_INF);
         }
+
+        // 花费 0，且两类都没选时，rating = 0。
         dp[0][0] = 0L;
+
+        // 先把 Horror 书一本本加入状态。
         addBooks(dp, horrorBooks, 1);
+        // 再把 Sci-fi 书一本本加入状态。
         addBooks(dp, sciFiBooks, 2);
 
         long best = NEGATIVE_INF;
@@ -119,6 +150,23 @@ public class MaximumTotalRatingWithHorrorAndSciFiBooks {
         return best == NEGATIVE_INF ? -1L : best;
     }
 
+    /**
+     * 把某一类书逐本加入 DP。
+     *
+     * categoryMask：
+     *
+     * - Horror 传 1（二进制 01）
+     * - Sci-fi 传 2（二进制 10）
+     *
+     * 加入一本书时，本质上就是普通 0/1 背包转移：
+     *
+     * - 花费增加这本书的 price
+     * - rating 增加这本书的 rating
+     * - mask 额外并上这本书所属类别
+     *
+     * 这里从大到小枚举 money，
+     * 是标准 0/1 背包写法，目的就是防止同一本书在同一轮被重复选。
+     */
     private void addBooks(long[][] dp, int[][] books, int categoryMask) {
         for (int[] book : books) {
             long rating = book[0];
@@ -129,6 +177,7 @@ public class MaximumTotalRatingWithHorrorAndSciFiBooks {
                     if (previous == NEGATIVE_INF) {
                         continue;
                     }
+                    // 选上这本书之后，对应类别会被“点亮”。
                     int nextMask = mask | categoryMask;
                     dp[nextMask][money] = Math.max(dp[nextMask][money], previous + rating);
                 }

@@ -71,6 +71,27 @@ public class TotalBusRouteCoverageDistance {
         System.out.println(solver.totalDistance(busRoutes));
     }
 
+    /**
+     * 这题本质就是区间合并。
+     *
+     * 每一辆车跑的 [busStop0, busStop1]，
+     * 都可以看成一段区间。
+     *
+     * 题目要的是所有这些区间并起来后的总长度。
+     *
+     * 所以标准套路是：
+     *
+     * 1. 先把每条路线整理成 [left, right]
+     * 2. 按 left 升序排序
+     * 3. 一路扫描，能并就并
+     * 4. 并不了时，先结算上一段长度，再开启新区间
+     *
+     * 这里再强调一次题目的计量方式：
+     *
+     * 站点是等距的，
+     * 所以区间 [l, r] 覆盖距离是 r - l，
+     * 不是包含几个整数点。
+     */
     public int totalDistance(int[][] busRoutes) {
         if (busRoutes.length == 0) {
             return 0;
@@ -94,9 +115,11 @@ public class TotalBusRouteCoverageDistance {
         int currentLeft = intervals[0][0];
         int currentRight = intervals[0][1];
         for (int i = 1; i < intervals.length; i++) {
+            // 新区间和当前合并段有重叠，就扩右端点。
             if (intervals[i][0] <= currentRight) {
                 currentRight = Math.max(currentRight, intervals[i][1]);
             } else {
+                // 否则先结算当前合并段，再开启新的合并段。
                 total += currentRight - currentLeft;
                 currentLeft = intervals[i][0];
                 currentRight = intervals[i][1];

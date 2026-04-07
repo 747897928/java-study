@@ -47,10 +47,23 @@ public class RemoveVowelsFromString {
 
         RemoveVowelsFromString solver = new RemoveVowelsFromString();
         System.out.println(solver.removeVowels(source));
-        System.out.println(solver.removeVowels2(source));
+        /*
+         * 如果需要核对更“展开版”的写法，可以临时打开下面这行：
+         * System.out.println(solver.removeVowels2(source));
+         */
     }
 
     public String removeVowels(String input) {
+        /*
+         * 这是典型的“字符过滤”题。
+         *
+         * 思路不是去想“怎么删除字符”，而是换个角度：
+         * 从左到右扫描原串，只把“我想保留的字符”收集到答案里。
+         *
+         * 这样写有两个好处：
+         * 1. 不需要在原字符串里做删除操作，逻辑更直。
+         * 2. String 不可变，StringBuilder 逐步 append 更自然。
+         */
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
@@ -62,6 +75,10 @@ public class RemoveVowelsFromString {
     }
 
     private boolean isVowel(char ch) {
+        /*
+         * 这里把“元音判断”单独抽成一个方法，
+         * 主流程就只保留“不是元音就加入答案”这一层意思，读起来更像题意本身。
+         */
         switch (ch) {
             case 'a':
             case 'e':
@@ -80,6 +97,14 @@ public class RemoveVowelsFromString {
     }
 
     public String removeVowels2(String input) {
+        /*
+         * 这个版本和 removeVowels 的本质一样，
+         * 只是把 isVowel(ch) 的判断完全展开写在循环里。
+         *
+         * 学习时可以对照着看：
+         * - 第一个版本更适合提交和复用
+         * - 第二个版本更像“把条件判断摊开写给自己看”
+         */
         StringBuilder builder = new StringBuilder();
         char inputChars[] = input.toCharArray();
         for (int i = 0; i < inputChars.length; i++) {

@@ -46,6 +46,22 @@ public class Q36MaximumMoleculeCountForCompoundMass {
 
     public int maximumMoleculeCount(int atomMassA, int atomMassB, int atomMassC, int atomMassD,
                                     int targetMass) {
+        /*
+         * 题目要的是：
+         * 在总质量恰好等于 targetMass 的前提下，分子个数尽量多。
+         *
+         * 这和“凑金额时硬币数量最多/最少”是同一类完全背包题。
+         * 区别只是这里的“物品”变成了 4 种分子，它们可以重复使用。
+         *
+         * 先把四种分子的实际质量统一算出来：
+         * - A、B 是单原子，质量就是 atomMass
+         * - C、D 是双原子，质量要乘 2
+         *
+         * dp[mass] 表示：
+         * 恰好凑出 mass 时，最多能用多少个分子。
+         *
+         * 如果某个质量无法凑出，就记成 -1。
+         */
         int[] masses = {atomMassA, atomMassB, atomMassC * 2, atomMassD * 2};
         int[] dp = new int[targetMass + 1];
         Arrays.fill(dp, -1);
@@ -53,6 +69,7 @@ public class Q36MaximumMoleculeCountForCompoundMass {
         for (int mass = 1; mass <= targetMass; mass++) {
             for (int moleculeMass : masses) {
                 if (mass >= moleculeMass && dp[mass - moleculeMass] != -1) {
+                    // 先凑出更小的质量，再补上当前这个分子。
                     dp[mass] = Math.max(dp[mass], dp[mass - moleculeMass] + 1);
                 }
             }

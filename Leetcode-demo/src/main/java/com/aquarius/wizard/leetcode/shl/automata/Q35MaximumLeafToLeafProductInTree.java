@@ -53,6 +53,20 @@ public class Q35MaximumLeafToLeafProductInTree {
     }
 
     public BigInteger maximumScore(long[] nodeValues, int[][] edges) {
+        /*
+         * 这题要的是“叶子到叶子”的路径最大乘积。
+         *
+         * 树上的这类题，常见拆法是：
+         * 1. 先定义“从当前节点往下走，到某个叶子为止”的最优值
+         * 2. 再考虑“最佳路径是否刚好穿过当前节点”
+         *
+         * 对当前节点 node 来说：
+         * - 如果只打算继续往下延伸给父节点用，那么只需要保留一个最好的子树贡献
+         * - 如果想在 node 这里形成一条“叶 -> node -> 叶”的完整路径，
+         *   就需要取两个最好的子树贡献，再乘上当前节点的值
+         *
+         * 由于是乘积，而且数值可能很大，所以这里用 BigInteger。
+         */
         int nodeCount = nodeValues.length - 1;
         graph = new ArrayList[nodeCount + 1];
         values = new BigInteger[nodeCount + 1];
@@ -70,6 +84,13 @@ public class Q35MaximumLeafToLeafProductInTree {
     }
 
     private BigInteger dfs(int node, int parent) {
+        /*
+         * 返回值含义：
+         * 从 node 出发向下走，直到某个叶子，能够得到的最大乘积。
+         *
+         * 这不是完整答案，只是“向下的一条链”的最优值。
+         * 真正的叶到叶答案在 bestPath 里单独维护。
+         */
         BigInteger bestChild = null;
         BigInteger firstChild = null;
         BigInteger secondChild = null;
@@ -97,11 +118,13 @@ public class Q35MaximumLeafToLeafProductInTree {
         }
 
         if (firstChild != null && secondChild != null) {
+            // 两条最优向下链在当前节点拼起来，就形成了一条完整的叶到叶路径。
             BigInteger throughNode = values[node].multiply(firstChild).multiply(secondChild);
             if (bestPath == null || throughNode.compareTo(bestPath) > 0) {
                 bestPath = throughNode;
             }
         }
+        // 给父节点返回时，只能选择一条向下链继续往上连。
         return values[node].multiply(bestChild);
     }
 }

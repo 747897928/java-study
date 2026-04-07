@@ -73,7 +73,36 @@ public class FifoCacheMissCounter {
         System.out.println(solver.countMisses(pageRequests, cacheSize));
     }
 
+    /**
+     * 这题最容易和 LRU 搞混。
+     *
+     * FIFO 的意思是：
+     *
+     * - 谁最早进入缓存
+     * - 谁就最早被淘汰
+     *
+     * 它完全不关心“最近有没有再次访问过”。
+     *
+     * 所以如果某个页面命中了：
+     *
+     * - miss 数不变
+     * - 它在队列里的先后顺序也不更新
+     *
+     * 这正是它和 LRU 最大的区别。
+     *
+     * 这个实现用了两个结构配合：
+     *
+     * 1. Set<Integer> cache
+     *    负责 O(1) 判断“页面在不在缓存里”
+     *
+     * 2. Queue<Integer> order
+     *    负责记录“谁最早进入缓存”
+     *
+     * 这样当缓存满了又来新页时，
+     * 只要从队头弹出最老的页面即可。
+     */
     public int countMisses(int[] pageRequests, int maxCacheSize) {
+        // 缓存容量是 0，说明任何请求都必 miss。
         if (maxCacheSize <= 0) {
             return pageRequests.length;
         }
@@ -82,14 +111,20 @@ public class FifoCacheMissCounter {
         Queue<Integer> order = new ArrayDeque<>();
         int misses = 0;
         for (int page : pageRequests) {
+            // 命中：FIFO 下顺序不更新，直接跳过。
             if (cache.contains(page)) {
                 continue;
             }
+
+            // 走到这里就是 miss。
             misses++;
             if (cache.size() == maxCacheSize) {
+                // 缓存已满，淘汰最早进入缓存的那个页面。
                 int evict = order.poll();
                 cache.remove(evict);
             }
+
+            // 把新页面加入缓存，并记录它进入缓存的先后顺序。
             cache.add(page);
             order.offer(page);
         }

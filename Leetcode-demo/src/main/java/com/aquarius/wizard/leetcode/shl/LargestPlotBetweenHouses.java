@@ -90,6 +90,26 @@ public class LargestPlotBetweenHouses {
         return builder.toString();
     }
 
+    /**
+     * 这题的核心不是房号，而是“位置”。
+     *
+     * 最大可建 plot 一定只会出现在：
+     *
+     * “按位置排序后，相邻两栋房子之间”
+     *
+     * 为什么只看相邻房子就够了？
+     *
+     * 因为如果两栋房子中间还夹着别的房子，
+     * 那么真正可用的空地会被这些中间房子切碎，
+     * 不可能整段都拿来建房。
+     *
+     * 所以做法就是：
+     *
+     * 1. 先按位置排序
+     * 2. 看每一对相邻房子的间隔
+     * 3. 取 gap 最大的那一对
+     * 4. 如果 gap 并列，取更靠近入口的那一对
+     */
     public int[] findHouseNumbers(int[][] houses) {
         int[][] sorted = Arrays.copyOf(houses, houses.length);
         Arrays.sort(sorted, (a, b) -> Integer.compare(a[1], b[1]));
@@ -100,6 +120,9 @@ public class LargestPlotBetweenHouses {
         for (int i = 1; i < sorted.length; i++) {
             int gap = sorted[i][1] - sorted[i - 1][1];
             int leftPosition = sorted[i - 1][1];
+
+            // gap 更大，说明这对相邻房子之间空地更大。
+            // gap 相同则按题意选更靠近入口的，也就是 leftPosition 更小的。
             if (gap > bestGap || (gap == bestGap && leftPosition < bestLeftPosition)) {
                 bestGap = gap;
                 bestLeftPosition = leftPosition;

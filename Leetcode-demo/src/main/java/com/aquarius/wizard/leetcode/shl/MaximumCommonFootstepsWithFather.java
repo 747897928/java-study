@@ -73,18 +73,72 @@ public class MaximumCommonFootstepsWithFather {
         System.out.println(answer[0] + " " + answer[1]);
     }
 
+    /**
+     * 这题题面缺失比较多，所以真正的理解关键在于把它翻译成数列问题。
+     *
+     * 父亲的脚印位置是一个有限等差数列：
+     *
+     * fatherPos + fatherVelocity * 1
+     * fatherPos + fatherVelocity * 2
+     * ...
+     * fatherPos + fatherVelocity * steps
+     *
+     * Martin 的脚印位置则是：
+     *
+     * martinPos + martinVelocity * 1
+     * martinPos + martinVelocity * 2
+     * ...
+     *
+     * 题目还给了一个关键条件：
+     *
+     * “Martin 的第一步一定踩在父亲某一个脚印上”
+     *
+     * 这句话意味着：
+     *
+     * 只要你枚举“Martin 第一步对应父亲的第 fatherStepIndex 个脚印”，
+     * 那么 Martin 的速度 martinVelocity 就被唯一确定了。
+     *
+     * 因为：
+     *
+     * martinPos + martinVelocity
+     * = fatherPos + fatherStepIndex * fatherVelocity
+     *
+     * 所以：
+     *
+     * martinVelocity
+     * = (fatherPos - martinPos) + fatherStepIndex * fatherVelocity
+     *
+     * 枚举完这个 fatherStepIndex 后，
+     * 问题就变成：
+     *
+     * “两个等差数列之后还会重合多少次？”
+     *
+     * 这个重合步长由 gcd 决定。
+     */
     public long[] maximizeCommonSteps(long fatherPos, long martinPos, long fatherVelocity, long steps) {
         long delta = fatherPos - martinPos;
         long bestCommon = 0L;
         long bestVelocity = -1L;
+
+        // 枚举：Martin 第一步踩中父亲的第几步脚印。
         for (long fatherStepIndex = 1; fatherStepIndex <= steps; fatherStepIndex++) {
             long martinVelocity = delta + fatherStepIndex * fatherVelocity;
             if (martinVelocity <= 0) {
                 continue;
             }
+
+            // 两个等差数列的公共落点间隔，和 gcd 有关。
             long gcd = gcd(fatherVelocity, martinVelocity);
+
+            // strideOnFatherSteps 表示：
+            // 父亲还要再走多少步，才会再次和 Martin 落在同一个位置。
             long strideOnFatherSteps = martinVelocity / gcd;
+
+            // 第一次公共脚印已经固定算 1 次。
+            // 后面还能再出现多少次，就看父亲剩余步数里还能容纳多少个 stride。
             long common = 1L + (steps - fatherStepIndex) / strideOnFatherSteps;
+
+            // 如果公共脚印数相同，按题意取更大的 Martin 速度。
             if (common > bestCommon || (common == bestCommon && martinVelocity > bestVelocity)) {
                 bestCommon = common;
                 bestVelocity = martinVelocity;
@@ -93,6 +147,10 @@ public class MaximumCommonFootstepsWithFather {
         return new long[]{bestCommon, bestVelocity};
     }
 
+    /**
+     * 欧几里得算法求 gcd。
+     * 这里只是用来推公共脚印的重复节奏。
+     */
     private long gcd(long a, long b) {
         long x = Math.abs(a);
         long y = Math.abs(b);

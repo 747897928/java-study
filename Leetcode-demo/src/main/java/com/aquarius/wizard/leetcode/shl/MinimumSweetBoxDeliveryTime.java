@@ -114,8 +114,45 @@ public class MinimumSweetBoxDeliveryTime {
         System.out.println(solver.minimumTime(boxCount, oldMachineTime, budget, machineOptions, shopOffers));
     }
 
+    /**
+     * 这题最容易乱的地方，是题面里同时有三种资源：
+     *
+     * - 旧机器
+     * - 新机器
+     * - 商店现货
+     *
+     * 但真正整理一下，会发现结构其实很清楚：
+     *
+     * 1. 机器只能二选一
+     *    要么继续用旧机器
+     *    要么买某一台新机器
+     *
+     * 2. 商店 offer 是独立的 0/1 选择
+     *    每个 offer 最多用一次
+     *
+     * 所以最自然的拆法是：
+     *
+     * - 先枚举“最终用哪台机器”
+     * - 机器一旦固定，剩余预算也就固定
+     * - 然后问题就变成：
+     *   “在剩余预算下，最多能从 shops 里买到多少现货盒子”
+     *
+     * 这个子问题就是标准 0/1 背包。
+     *
+     * 最后：
+     *
+     * - 商店现货是即时获得的
+     * - 剩下不够的盒子，再让选定的机器去生产
+     * - 时间 = remainingBoxes * machineTime
+     *
+     * 在所有机器方案里取最小值即可。
+     */
     public long minimumTime(int boxCount, int oldMachineTime, int budget, int[][] machineOptions, int[][] shopOffers) {
+        // 什么都不买时，直接用旧机器生产全部盒子，是一个合法基线答案。
         long best = (long) boxCount * oldMachineTime;
+
+        // 把“旧机器”也当成一个成本为 0 的机器选项，
+        // 这样后面就能统一写成“枚举机器方案”。
         List<int[]> affordableMachines = new ArrayList<>();
         affordableMachines.add(new int[]{oldMachineTime, 0});
         for (int[] machine : machineOptions) {
@@ -124,22 +161,45 @@ public class MinimumSweetBoxDeliveryTime {
             }
         }
 
+        // 依次枚举最终采用的机器方案。
         for (int[] machine : affordableMachines) {
             int machineTime = machine[0];
             int machineCost = machine[1];
+
+            // 先扣掉买机器的钱，剩下的钱才能给商店现货用。
             int remainingBudget = budget - machineCost;
+
+            // 在剩余预算下，从 shops 里最多能买多少盒现货。
             int boughtBoxes = maximumBoxesFromShops(remainingBudget, shopOffers);
+
+            // 还差多少盒没有现货覆盖，就交给当前机器慢慢生产。
             int remainingBoxes = Math.max(0, boxCount - boughtBoxes);
             best = Math.min(best, (long) remainingBoxes * machineTime);
         }
         return best;
     }
 
+    /**
+     * 这个子问题是标准 0/1 背包：
+     *
+     * - 每个 shop offer 最多选一次
+     * - cost 是花费
+     * - boxes 是收益
+     *
+     * 目标是在预算不超过 budget 的前提下，
+     * 让买到的盒子总数尽量多。
+     *
+     * dp[money]：
+     * 表示花费恰好为 money 时，最多能买到多少盒
+     */
     private int maximumBoxesFromShops(int budget, int[][] shopOffers) {
         int[] dp = new int[budget + 1];
         for (int[] offer : shopOffers) {
             int boxes = offer[0];
             int cost = offer[1];
+
+            // 从大到小枚举 money，是 0/1 背包的标准写法。
+            // 否则同一个 offer 可能在同一轮里被重复使用。
             for (int money = budget; money >= cost; money--) {
                 dp[money] = Math.max(dp[money], dp[money - cost] + boxes);
             }
