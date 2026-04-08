@@ -23,13 +23,16 @@ import java.util.Scanner;
  * Write an algorithm to find the maximum number of phones owned by a single generation of family
  * members.
  *
- * Notes
+ * 补充说明
  *
- * This learning version uses:
+ * 这份代码里我先约定下面这种输入格式：
  * 1. memberCount
  * 2. memberCount phone counts
  * 3. memberCount - 1 lines of parent child
  * Root is node 0.
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q88MaximumPhonesInSingleGeneration {
 

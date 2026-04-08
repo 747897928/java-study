@@ -53,6 +53,9 @@ import java.util.Arrays;
  * 考点：按位置排序、相邻差值最大化。
  * 校对：题面稳定。
  * 提示：若间隔并列，优先选更靠近入口的那一对。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class LargestPlotBetweenHouses {
 

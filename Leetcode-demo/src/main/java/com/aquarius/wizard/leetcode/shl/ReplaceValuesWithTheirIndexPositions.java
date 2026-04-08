@@ -52,6 +52,9 @@ import java.util.Scanner;
  * 考点：数组映射、逆排列。
  * 校对：题面稳定。
  * 提示：因为值域刚好是 0..N-1 且互不重复，所以本质上是在求排列的 inverse permutation。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class ReplaceValuesWithTheirIndexPositions {
 
@@ -87,14 +90,14 @@ public class ReplaceValuesWithTheirIndexPositions {
 
     public int[] replaceWithIndices(int[] nums) {
         /*
-         * 题目说：
+         * Question说：
          * nums[index] = value
          * 现在要改成：
          * answer[value] = index
          *
          * 这其实就是把“值 -> 下标”的映射反过来写出来。
          *
-         * 由于题目保证：
+         * 由于Question保证：
          * - 所有值互不重复
          * - 值域正好落在 0..N-1
          *

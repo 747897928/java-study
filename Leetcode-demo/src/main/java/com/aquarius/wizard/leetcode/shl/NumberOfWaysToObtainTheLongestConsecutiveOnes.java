@@ -65,6 +65,9 @@ import java.util.Scanner;
  *
  * A 用滑动窗口最自然。
  * B 在知道 L 之后，再扫一遍计数就行。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
 
@@ -161,7 +164,7 @@ public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
      * 这是标准的“窗口内坏字符数量不超过 K”的滑动窗口。
      *
      * 这里的“坏字符”就是 0。
-     * 因为题目允许我们把最多 K 个 0 改成 1，
+     * 因为Question允许我们把最多 K 个 0 改成 1，
      * 所以一个窗口只要满足：
      *
      * zeroCount <= K

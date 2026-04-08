@@ -21,13 +21,16 @@ import java.util.Set;
  * houses (x , y ) and outputs the number of unique lines that can be drawn with Tim's house as the
  * common point in each line.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. friendCount
  * 2. homeX homeY
  * 3. friendCount lines of x y
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q96CountUniqueLinesThroughTimsHouse {
 
@@ -43,7 +46,7 @@ public class Q96CountUniqueLinesThroughTimsHouse {
         }
 
         /*
-         * Local practice input:
+         * 本地自测输入：
          *
          * int homeX = 0;
          * int homeY = 0;

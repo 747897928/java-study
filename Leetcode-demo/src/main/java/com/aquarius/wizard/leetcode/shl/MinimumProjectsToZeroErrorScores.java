@@ -58,6 +58,9 @@ import java.util.Scanner;
  * 考点：答案二分、可行性判断。
  * 校对：OCR 与 docx 的规模上限冲突；这里按 OCR 的 2*10^5 理解实现，样例已做代码校验。
  * 做法：二分项目次数，把每个人在做了 mid 次“全体减 Q”后剩余的部分，用 P-Q 去补。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumProjectsToZeroErrorScores {
 

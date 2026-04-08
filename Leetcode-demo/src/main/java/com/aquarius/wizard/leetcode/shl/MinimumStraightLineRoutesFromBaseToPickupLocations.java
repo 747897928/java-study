@@ -38,6 +38,9 @@ import java.util.Set;
  * 考点：几何、方向归一化、gcd。
  * 校对：这不是当前题库 A25 的直接定稿，而是基于更高可信外部证据补出的“候选原题版本”。
  * 提示：如果两个 pickup 点和 base 共线且在同一方向上，它们可以由同一条 route 覆盖。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumStraightLineRoutesFromBaseToPickupLocations {
 

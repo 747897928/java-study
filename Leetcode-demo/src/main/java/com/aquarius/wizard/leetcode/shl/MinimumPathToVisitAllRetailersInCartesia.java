@@ -47,6 +47,9 @@ import java.util.Scanner;
  * 校对：题面没有样例和完整约束，因此这是基于“所有普通零售点都在 x 轴上，只有总部点离轴”这一可见结构推导出的实现。
  * 当前理解：最优路径不会在 x 轴上的点之间来回折返多次；它等价于先按某个方向覆盖整段 x 轴区间，再把唯一的离轴点作为一次插入。
  * 提示：这个实现已经用小规模暴力枚举做过对拍，但仍建议后续继续复核题面。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumPathToVisitAllRetailersInCartesia {
 

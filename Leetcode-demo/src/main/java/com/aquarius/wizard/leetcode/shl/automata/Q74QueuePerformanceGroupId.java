@@ -20,11 +20,14 @@ import java.util.Scanner;
  *
  * Write an algorithm to find the group ID of a group of students.
  *
- * Notes
+ * 补充说明
  *
- * This learning version uses:
+ * 这份代码里我先约定下面这种输入格式：
  * 1. studentCount
  * 2. studentCount performance factors
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q74QueuePerformanceGroupId {
 

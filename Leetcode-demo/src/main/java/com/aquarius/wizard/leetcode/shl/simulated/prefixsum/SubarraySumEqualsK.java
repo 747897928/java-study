@@ -19,7 +19,7 @@ import java.util.Scanner;
  * 这题是前缀和训练里最关键的一道升级题，因为它告诉你：
  *
  * 1. 只有前缀和还不够。
- * 2. 如果题目在“统计个数”，往往还需要哈希表记录历史前缀和出现次数。
+ * 2. 如果Question在“统计个数”，往往还需要哈希表记录历史前缀和出现次数。
  *
  * 暴力思路：
  *
@@ -40,6 +40,9 @@ import java.util.Scanner;
  * 就知道有多少个子数组以 i 结尾且和为 k。
  *
  * 这就是“前缀和 + 哈希表计数”的标准模板。
+ *
+ * <p>create: 2026-03-28 23:43:16</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class SubarraySumEqualsK {
 

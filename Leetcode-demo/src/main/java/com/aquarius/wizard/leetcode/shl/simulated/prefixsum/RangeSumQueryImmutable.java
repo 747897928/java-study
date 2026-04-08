@@ -34,6 +34,9 @@ import java.util.Scanner;
  * 题型总结：
  *
  * 只要是“静态数组 + 多次区间求和”，前缀和几乎就是第一反应。
+ *
+ * <p>create: 2026-03-28 23:43:16</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class RangeSumQueryImmutable {
 

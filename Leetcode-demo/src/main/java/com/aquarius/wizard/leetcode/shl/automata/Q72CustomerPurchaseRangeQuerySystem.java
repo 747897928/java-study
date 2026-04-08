@@ -20,14 +20,17 @@ import java.util.Scanner;
  *
  * Write an algorithm to help the distributer find the answer for all the type 2 queries.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. queryCount
  * 2. Each query is either:
  *    type 1 customerId quantity
  *    type 2 leftCustomerId rightCustomerId
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q72CustomerPurchaseRangeQuerySystem {
 

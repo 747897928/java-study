@@ -64,6 +64,9 @@ import java.util.PriorityQueue;
  * 考点：分层图最短路、Dijkstra。
  * 校对：题面里“Each city is connected to another city by one direct road only”这句英文不自然，但样例和输入格式都明显说明这是一般无向图，不是树。
  * 提示：状态要带上“已经用了几次法术”，也就是 dist[node][used]。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class ShortestPathWithUpToKZeroCostSpells {
 
@@ -215,7 +218,7 @@ public class ShortestPathWithUpToKZeroCostSpells {
      * - edge[0] = 相邻城市 v
      * - edge[1] = 边权 w
      *
-     * 因为题目说是双向路，所以两边都要加。
+     * 因为Question说是双向路，所以两边都要加。
      */
     private List<int[]>[] buildGraph(int cityCount, int[][] roads) {
         @SuppressWarnings("unchecked")

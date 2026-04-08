@@ -51,6 +51,9 @@ import java.util.Scanner;
  * positive integer正整数
  *
  * the number of 数量的
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class CountElementsStrictlyLessThanK {
 
@@ -83,7 +86,7 @@ public class CountElementsStrictlyLessThanK {
         /*
          * 这题不需要排序，也不需要二分。
          *
-         * 题目只问“有多少个元素 < target”，并没有要求把这些元素找出来或按顺序输出。
+         * Question只问“有多少个元素 < target”，并没有要求把这些元素找出来或按顺序输出。
          * 所以最直接的做法就是线性扫描一遍，看到一个满足条件的元素就把计数 +1。
          *
          * 时间复杂度 O(n)，空间复杂度 O(1)。

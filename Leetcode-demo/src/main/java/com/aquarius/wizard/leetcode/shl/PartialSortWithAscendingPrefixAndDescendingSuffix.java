@@ -39,6 +39,9 @@ import java.util.Arrays;
  * 考点：分段排序。
  * 校对：题面稳定。
  * 提示：不是整体排序后切两段，而是两段各自独立排序。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class PartialSortWithAscendingPrefixAndDescendingSuffix {
 

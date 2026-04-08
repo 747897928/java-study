@@ -19,11 +19,14 @@ import java.util.Scanner;
  *
  * Design an algorithm that will help carry out this communication.
  *
- * Notes
+ * 补充说明
  *
- * This learning version uses:
+ * 这份代码里我先约定下面这种输入格式：
  * 1. numberCount takeCount
  * 2. numberCount integers
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q78TopNumbersByBinaryOneCount {
 

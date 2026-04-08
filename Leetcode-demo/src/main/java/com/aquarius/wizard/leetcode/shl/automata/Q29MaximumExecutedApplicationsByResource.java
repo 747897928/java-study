@@ -33,14 +33,14 @@ import java.util.Scanner;
  * Write an algorithm to help Allie calculate the maximum number of applications that are executed
  * successfully by the system.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. applicationCount resourceTypeCount
  * 2. applicationCount lines: requestTime endTime resourceId
  *
- * About the ambiguous sentence:
+ * 关于题面里的歧义，我这里按下面这个口径理解：
  *
  * The original wording says requests with the same request time cannot all be approved, but the
  * commonly circulated sample explanation for this OA groups requests by resource type and solves
@@ -53,6 +53,9 @@ import java.util.Scanner;
  *
  * In other words, this is the classic "interval scheduling per resource, then sum the answers"
  * version.
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q29MaximumExecutedApplicationsByResource {
 
@@ -68,7 +71,7 @@ public class Q29MaximumExecutedApplicationsByResource {
         }
 
         /*
-         * Local practice input:
+         * 本地自测输入：
          *
          * 6 3
          * 1210 1300 1
@@ -78,7 +81,7 @@ public class Q29MaximumExecutedApplicationsByResource {
          * 1330 1340 2
          * 1340 1345 2
          *
-         * Explanation under this interpretation:
+         * 按当前这套理解，样例可以这样读：
          * resource 1 -> take [1215,1240]
          * resource 2 -> take [1250,1330], [1330,1340], [1340,1345]
          * total = 4
@@ -99,7 +102,7 @@ public class Q29MaximumExecutedApplicationsByResource {
      * - 所以问题被拆成：
      *   “对每一种资源，分别求最多能选几个互不重叠的区间”
      *
-     * 一旦接受这个解释，题目就退化成经典区间调度：
+     * 一旦接受这个解释，Question就退化成经典区间调度：
      *
      * 1. 按 resourceId 分组
      * 2. 每组按结束时间从早到晚排序

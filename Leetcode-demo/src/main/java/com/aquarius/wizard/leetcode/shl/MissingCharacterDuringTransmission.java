@@ -51,6 +51,9 @@ import java.util.Scanner;
  * 考点：异或、字符计数。
  * 校对：样例已做代码校验。
  * 做法：把两个字符串所有字符异或起来，剩下的就是丢失字符。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MissingCharacterDuringTransmission {
 

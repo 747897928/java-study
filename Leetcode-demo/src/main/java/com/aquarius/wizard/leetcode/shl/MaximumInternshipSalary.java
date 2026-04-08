@@ -56,6 +56,9 @@ import java.util.Scanner;
  * 考点：状态 DP。
  * 校对：样例已做代码校验。
  * 思路：区分“今天休息 / 今天做简单任务 / 今天做困难任务”三种状态，困难任务只能从“昨天休息”转移过来。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MaximumInternshipSalary {
 
@@ -103,7 +106,7 @@ public class MaximumInternshipSalary {
      *
      * 2. nextEasy
      *    昨天休息或昨天做简单任务，今天都可以做简单任务
-     *    因为题目没有限制简单任务必须隔天
+     *    因为Question没有限制简单任务必须隔天
      *
      * 3. nextHard
      *    只能从 prevIdle 转过来

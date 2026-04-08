@@ -39,6 +39,9 @@ import java.util.Scanner;
  * 考点：字符串旋转。
  * 校对：题面稳定。
  * 提示：长度相同且 word1 是 word2+word2 的子串即可。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class RightRotationStringCheck {
 

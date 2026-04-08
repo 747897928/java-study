@@ -64,12 +64,15 @@ import java.util.Scanner;
  *
  * 1. 只有两种 lot size
  * 2. 每种 lot 都能无限买
- * 3. 题目只要求 exactly N
+ * 3. Question只要求 exactly N
  *
  * 所以你只要固定一边，另一边就被“剩余量”唯一决定了。
  *
  * 也就是说，这题不是通用背包。
  * 它是一个更轻量的“枚举一边 + 检查另一边能否整除”的题。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumApplePurchaseCost {
 
@@ -112,7 +115,7 @@ public class MinimumApplePurchaseCost {
      *
      * 这题的学习重点是：
      *
-     * 当题目只有两种选择、并且要求“恰好凑出”时，
+     * 当Question只有两种选择、并且要求“恰好凑出”时，
      * 先别急着往 DP 想，先看能不能“枚举一边，解另一边”。
      */
     public long minimumCost(int targetApples, int lotSizeA, int priceA, int lotSizeB, int priceB) {

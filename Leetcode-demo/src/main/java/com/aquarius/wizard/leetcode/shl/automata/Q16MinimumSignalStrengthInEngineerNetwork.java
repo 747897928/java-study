@@ -22,15 +22,18 @@ import java.util.Scanner;
  * Write an algorithm to help Austin find the minimum strength at which the signal must be sent so
  * that the data will reach everyone.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. engineerCount
  * 2. engineerCount - 1 lines: u v
  *
  * This version assumes the data is broadcast from engineer 1, so the required signal strength is
  * the farthest number of transmissions from engineer 1.
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q16MinimumSignalStrengthInEngineerNetwork {
 

@@ -20,13 +20,16 @@ import java.util.Scanner;
  * Write an algorithm to help Adam find the minimum length of cable he needs to turn all the
  * systems ON.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. systemCount
  * 2. systemCount positions in increasing order
  * 3. systemCount states, where 1 means ON and 0 means OFF
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q19MinimumCableLengthToRestoreSystems {
 

@@ -80,6 +80,9 @@ import java.util.Scanner;
  * 本质在问：
  *
  * “有向图缩成 SCC DAG 之后，有多少个入度为 0 的强连通分量？”
+ *
+ * <p>create: 2026-03-29 15:22:34</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumManagersToStartCompanyAnnouncement {
 

@@ -39,6 +39,9 @@ import java.util.Scanner;
  * 考点：字符串匹配、大小写归一化。
  * 校对：样例已做代码校验。
  * 当前实现按所有起点计数，允许重叠匹配；这也是我认为最稳妥的题意理解。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class CaseInsensitiveSubstringOccurrenceCount {
 

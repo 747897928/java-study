@@ -59,7 +59,10 @@ import java.util.Queue;
  *
  * 考点：函数图、环检测、链长 DP、字典序集合比较。
  * 校对：这是 A10 的恢复版。当前实现沿用了同型问题（类似 LeetCode 2127）的标准结论，并输出“字典序最小的参会 ID 集合（升序）”。
- * 提示：这里我默认题目要输出的是“参会人员 ID 的升序列表”，不是具体环上的座位顺序。
+ * 提示：这里我默认Question要输出的是“参会人员 ID 的升序列表”，不是具体环上的座位顺序。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class LexicographicallySmallestMaximumDinnerGuestIds {
 

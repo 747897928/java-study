@@ -49,6 +49,9 @@ import java.util.List;
  * 考点：双指针、贪心合并、回文构造。
  * 校对：题面完整，样例稳定。
  * 提示：目标是让“合并次数最少”，因为每合并一次，最终列表长度就减少 1。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class LongestPalindromicListByMergingAdjacentValues {
 
@@ -85,7 +88,7 @@ public class LongestPalindromicListByMergingAdjacentValues {
     public long[] longestPalindromicList(int[] salesData) {
         /*
          * 这题最关键的一步是先换个角度理解目标：
-         * 题目要的是“最终回文列表尽量长”，
+         * Question要的是“最终回文列表尽量长”，
          * 等价于“合并次数尽量少”。
          *
          * 为什么可以用双指针贪心？

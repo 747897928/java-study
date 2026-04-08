@@ -52,6 +52,9 @@ import java.util.Arrays;
  * 考点：排序、选择算法。
  * 校对：题面稳定。
  * 提示：学习阶段先写排序版最直观，后面再补 quickselect 也不迟。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class KthSmallestRelativeStockPrice {
 
@@ -82,7 +85,7 @@ public class KthSmallestRelativeStockPrice {
          * 先排序，再取第 k 小。
          *
          * 这里要注意：
-         * 题目里的第 k 小是“从 1 开始数”的，
+         * Question里的第 k 小是“从 1 开始数”的，
          * 但 Java 数组下标是“从 0 开始数”的，
          * 所以排序后答案在 sorted[k - 1]。
          *

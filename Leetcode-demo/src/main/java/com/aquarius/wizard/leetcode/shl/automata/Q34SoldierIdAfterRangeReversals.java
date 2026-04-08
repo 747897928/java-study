@@ -18,12 +18,15 @@ import java.util.Scanner;
  * Write an algorithm to find the ID of the soldier at Kth position in the line after all the
  * actions are completed.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. soldierCount actionCount kthPosition
  * 2. actionCount lines: left right
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q34SoldierIdAfterRangeReversals {
 

@@ -1,7 +1,7 @@
 package com.aquarius.wizard.leetcode;
 
 /**
- * 题目：Equal Matrix Partition
+ * Question：Equal Matrix Partition
  * <p>
  * 给你一个只包含正整数的 m x n 矩阵。
  * 你可以画一条水平切线，或者画一条竖直切线，把矩阵分成两个非空部分。
@@ -172,7 +172,7 @@ public class EqualMatrixPartition {
      * <p>
      * 这题为什么一定要用 long：
      * <p>
-     * 题目允许 m * n <= 10^5，grid[i][j] <= 10^5，
+     * Question允许 m * n <= 10^5，grid[i][j] <= 10^5，
      * 所以总和最大可能到 10^10，int 不够。
      * <p>
      * 另外，下面这句也要看懂：
@@ -492,7 +492,7 @@ public class EqualMatrixPartition {
      * <p>
      * 这类边界思考以后要形成固定反应：
      * <p>
-     * “题目要求切完两边都非空，所以切线只能落在中间，不能贴边。”
+     * “Question要求切完两边都非空，所以切线只能落在中间，不能贴边。”
      */
     public static boolean canPartitionGridWith2DPrefixSum(int[][] grid) {
         int rows = grid.length;

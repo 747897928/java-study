@@ -19,11 +19,14 @@ import java.util.TreeSet;
  * Write an algorithm to help the manager find the lexicographically sorted productIDs of the
  * products that are most frequently purchased by all the N customers.
  *
- * Notes
+ * 补充说明
  *
- * This learning version uses:
+ * 这份代码里我先约定下面这种输入格式：
  * 1. customerCount bagSize
  * 2. customerCount * bagSize integers
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q71LexicographicallySortedCommonProductIds {
 

@@ -18,12 +18,15 @@ import java.util.Scanner;
  * Write an algorithm to help Roger find the minimum number of bits that must be flipped to convert
  * message P to message Q.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. binary message P
  * 2. binary message Q
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q32MinimumBitFlipsBetweenMessages {
 
@@ -33,7 +36,7 @@ public class Q32MinimumBitFlipsBetweenMessages {
         String messageQ = scanner.next();
 
         /*
-         * Local practice input:
+         * 本地自测输入：
          *
          * String messageP = "101001";
          * String messageQ = "100111";

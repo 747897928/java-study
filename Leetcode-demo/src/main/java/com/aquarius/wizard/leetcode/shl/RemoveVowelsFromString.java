@@ -32,6 +32,9 @@ import java.util.Scanner;
  * 考点：字符过滤。
  * 校对：题面稳定。
  * 提示：这是非常适合拿来熟悉英文题面动词 remove / eliminate / filter 的题。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class RemoveVowelsFromString {
 

@@ -50,6 +50,9 @@ import java.util.Scanner;
  * 考点：贪心结论。
  * 校对：约束来自 docx 截图公式区；最后一行截图肉眼略模糊，我按题意修正为更合理的 0 <= i < N。
  * 核心结论：若最大次数 max 大于其余次数总和加一，则答案是 2*others + 1；否则可以全部排满。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class TravelingSalesmanMaximumWorkingDays {
 

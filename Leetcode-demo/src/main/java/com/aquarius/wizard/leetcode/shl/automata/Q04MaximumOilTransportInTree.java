@@ -20,14 +20,17 @@ import java.util.Scanner;
  * Write an algorithm to help Theon find the maximum amount of oil that can be transported via the
  * network at any given time.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. nodeCount
  * 2. nodeCount - 1 lines: from to transferRate
  *
  * This version assumes refinery/root is node 1.
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q04MaximumOilTransportInTree {
 

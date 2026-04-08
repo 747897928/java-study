@@ -65,6 +65,9 @@ import java.util.Arrays;
  *
  * consists v.由……构成；由……组成（consist 的三单形式）
  * consists of 包含；由……组成；充斥着
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class AlternateSortedElements {
 

@@ -17,14 +17,17 @@ import java.util.Scanner;
  *
  * matrix A (i.e. submatrices B[1..X][1..Y] for 1 ≤ X ≤ N, 1 ≤ Y ≤ M) with a product ≤ K.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. rows cols limitK
  * 2. rows * cols positive integers
  *
  * This version assumes matrix elements are positive so prefix-product division remains exact.
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q95CountTopLeftSubmatricesWithProductAtMostK {
 

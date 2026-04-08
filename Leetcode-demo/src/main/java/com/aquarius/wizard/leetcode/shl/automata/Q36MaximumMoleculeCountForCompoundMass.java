@@ -22,11 +22,14 @@ import java.util.Scanner;
  *
  * Write an algorithm to find the maximum number of molecules that can be used to form compound X.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. atomMassA atomMassB atomMassC atomMassD targetMass
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q36MaximumMoleculeCountForCompoundMass {
 
@@ -47,7 +50,7 @@ public class Q36MaximumMoleculeCountForCompoundMass {
     public int maximumMoleculeCount(int atomMassA, int atomMassB, int atomMassC, int atomMassD,
                                     int targetMass) {
         /*
-         * 题目要的是：
+         * Question要的是：
          * 在总质量恰好等于 targetMass 的前提下，分子个数尽量多。
          *
          * 这和“凑金额时硬币数量最多/最少”是同一类完全背包题。

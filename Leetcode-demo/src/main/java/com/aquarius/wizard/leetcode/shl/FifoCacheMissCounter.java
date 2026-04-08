@@ -49,6 +49,9 @@ import java.util.Set;
  * 考点：队列模拟、缓存状态维护。
  * 校对：题面稳定。
  * 提示：FIFO 命中时顺序不更新，这一点和 LRU 不同。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class FifoCacheMissCounter {
 

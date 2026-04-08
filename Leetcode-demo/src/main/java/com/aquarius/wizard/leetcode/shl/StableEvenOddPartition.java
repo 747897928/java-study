@@ -43,7 +43,10 @@ import java.util.Scanner;
  *
  * 考点：稳定分组。
  * 校对：题面稳定。
- * 提示：不能直接做普通原地交换，因为题目要求相对顺序不变。
+ * 提示：不能直接做普通原地交换，因为Question要求相对顺序不变。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class StableEvenOddPartition {
 
@@ -79,7 +82,7 @@ public class StableEvenOddPartition {
 
     public int[] rearrange(int[] nums) {
         /*
-         * 题目要求的不只是“偶数在前、奇数在后”，
+         * Question要求的不只是“偶数在前、奇数在后”，
          * 还额外要求：
          * - 偶数之间的相对顺序不能乱
          * - 奇数之间的相对顺序也不能乱

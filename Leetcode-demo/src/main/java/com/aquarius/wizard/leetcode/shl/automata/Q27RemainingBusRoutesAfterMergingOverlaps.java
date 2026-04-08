@@ -19,11 +19,14 @@ import java.util.Scanner;
  * Write an algorithm to find how many buses will remain after the buses with overlapping routes
  * have been eliminated.
  *
- * Notes
+ * 补充说明
  *
- * This learning version uses:
+ * 这份代码里我先约定下面这种输入格式：
  * 1. routeCount
  * 2. routeCount lines of start end
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q27RemainingBusRoutesAfterMergingOverlaps {
 

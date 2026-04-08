@@ -45,6 +45,9 @@ import java.util.Scanner;
  * 考点：网格连通块、DFS/BFS。
  * 校对：题面稳定。
  * 提示：只算四连通，不算对角线。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class LargestHouseAreaInGrid {
 

@@ -15,9 +15,9 @@ import java.util.Scanner;
  * - 下一个字段 / 下一个单词
  * - 还是整行原样文本
  *
- * 如果题目里是纯数字、坐标、数组，
+ * 如果Question里是纯数字、坐标、数组，
  * 基本就不该优先想到 nextLine()。
- * 如果题目里是一整句文本、带空格的内容，
+ * 如果Question里是一整句文本、带空格的内容，
  * 那 nextLine() 才更自然。
  */
 public class ScannerNextVsNextLineDemo {

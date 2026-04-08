@@ -67,6 +67,9 @@ import java.util.Set;
  * 考点：几何、状态压缩 DP、点集最少直线覆盖。
  * 校对：这是按 OCR 字面题意写出的学习版定稿。原 OCR 里的 `N <= 10^3` 与精确解模型不匹配，所以这里直接把公开约束改成了学习版可验证规模。
  * 提示：当前主版本按“去重后点数不超过 20”理解。更像同源题的候选重建版见 MinimumStraightLineRoutesFromBaseToPickupLocations。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumStraightLineCoverForPickupLocations {
 

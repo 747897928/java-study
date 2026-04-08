@@ -57,6 +57,9 @@ import java.util.Arrays;
  *
  * 详细思路、PriorityQueue 的理解、以及样例手推，都放在对应方法上面了，
  * 这样阅读时可以直接在“看这个解法”时同步看这段解法的注释。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumJuiceStallStops {
 
@@ -406,7 +409,7 @@ public class MinimumJuiceStallStops {
      *
      * 为什么“每次都先拿历史最大补给量”是对的？
      *
-     * 因为题目要优化的是“停靠次数”，不是“喝得均不均匀”。
+     * 因为Question要优化的是“停靠次数”，不是“喝得均不均匀”。
      * 每喝一个摊位，代价都是 +1 次停靠。
      *
      * 如果你已经确定：

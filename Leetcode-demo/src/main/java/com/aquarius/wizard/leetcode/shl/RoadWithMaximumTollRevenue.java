@@ -82,6 +82,9 @@ import java.util.List;
  * 条路径会经过这条边。
  *
  * 这就是公式的来源，不是死记硬背出来的。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class RoadWithMaximumTollRevenue {
 

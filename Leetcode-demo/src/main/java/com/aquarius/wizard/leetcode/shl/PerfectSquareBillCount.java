@@ -41,6 +41,9 @@ import java.util.Scanner;
  * 考点：完全平方数判断。
  * 校对：题面稳定。
  * 提示：0 也是完全平方数。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class PerfectSquareBillCount {
 

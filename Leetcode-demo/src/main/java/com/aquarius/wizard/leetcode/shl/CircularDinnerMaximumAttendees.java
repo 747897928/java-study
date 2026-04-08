@@ -85,6 +85,9 @@ import java.util.Queue;
  * x -> ... -> a <-> b <- ... <- y
  *
  * 但长度 >= 3 的环不行，因为环上每个人两边座位都已经被环内邻居占掉了。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class CircularDinnerMaximumAttendees {
 

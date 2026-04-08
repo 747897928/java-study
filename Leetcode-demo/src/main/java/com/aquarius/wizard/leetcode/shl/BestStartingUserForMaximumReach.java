@@ -72,6 +72,9 @@ import java.util.List;
  * 考点：有向图可达性、从每个起点做 BFS/DFS。
  * 校对：原题中的编号范围和样例冲突，这里按样例统一为 0..users-1，并把并列时取更小 userID 的规则写明。
  * 提示：users 只有 1000，直接从每个点跑一次搜索就够了，不必先上 SCC 压缩。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class BestStartingUserForMaximumReach {
 
@@ -113,7 +116,7 @@ public class BestStartingUserForMaximumReach {
      * - 取 reach 最大的那个起点
      *
      * 这题没有必要一上来就想 SCC、拓扑压缩之类更重的做法，
-     * 题目规模已经允许直接从每个点扫一遍。
+     * Question规模已经允许直接从每个点扫一遍。
      */
     public int bestUserId(int users, int[][] friendships) {
         // 先把输入边表建成邻接表。
@@ -127,7 +130,7 @@ public class BestStartingUserForMaximumReach {
             int reach = bfsReachCount(graph, start);
 
             // reach 更大时直接更新。
-            // 如果 reach 相同，题目要求返回更小的 userID。
+            // 如果 reach 相同，Question要求返回更小的 userID。
             if (reach > bestReach || (reach == bestReach && start < bestUserId)) {
                 bestReach = reach;
                 bestUserId = start;
@@ -139,7 +142,7 @@ public class BestStartingUserForMaximumReach {
     /**
      * 邻接表建图。
      *
-     * 题目是有向关系：
+     * Question是有向关系：
      * user1 -> user2
      *
      * 所以这里只加单向边，不加反向边。

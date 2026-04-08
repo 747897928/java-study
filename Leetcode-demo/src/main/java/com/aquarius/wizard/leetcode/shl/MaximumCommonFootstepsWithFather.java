@@ -49,6 +49,9 @@ import java.util.Scanner;
  * 考点：等差数列交集、数论、gcd。
  * 校对：题面缺得比较多，所以这题的代码是基于可见英文重新推导的。我把父亲的落脚点看成有限等差数列，把 Martin 的落脚点看成从第一步开始的无限等差数列。
  * 提示：先枚举 Martin 第一步对应父亲的第 t 个脚印，此时 V2 就唯一确定；之后公共脚印会按固定步长继续出现。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MaximumCommonFootstepsWithFather {
 
@@ -89,7 +92,7 @@ public class MaximumCommonFootstepsWithFather {
      * martinPos + martinVelocity * 2
      * ...
      *
-     * 题目还给了一个关键条件：
+     * Question还给了一个关键条件：
      *
      * “Martin 的第一步一定踩在父亲某一个脚印上”
      *

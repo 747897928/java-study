@@ -36,6 +36,9 @@ import java.util.Scanner;
  * 考点：几何分类讨论、圆相交面积公式。
  * 校对：当前题库没有样例，所以实现时只能依赖标准公式；“rounded up”更像平台常见的“保留 6 位小数”，这里按 HALF_UP 处理。
  * 提示：要先分清三类情况：相离、包含、普通相交。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class AreaOfIntersectionOfTwoCircles {
 

@@ -24,14 +24,17 @@ import java.util.Scanner;
  * Write an algorithm to help Billy make a list of the first meat based pizza order numbers
  * displayed on the screen each time an order is delivered to a customer.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. orderCount windowSize
  * 2. orderCount order numbers
  *
  * If a window has no meat pizza order, this version prints 0 for that window.
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q86FirstMeatPizzaInEveryDisplayWindow {
 

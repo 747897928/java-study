@@ -15,12 +15,15 @@ import java.util.Set;
  * Write an algorithm to remove all the duplicate numbers of the list so that the list contains
  * only distinct numbers in the same order as they appear in the input list.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. listSize
  * 2. listSize integers
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q13DistinctNumbersInOriginalOrder {
 
@@ -33,7 +36,7 @@ public class Q13DistinctNumbersInOriginalOrder {
         }
 
         /*
-         * Local practice input:
+         * 本地自测输入：
          *
          * int[] numbers = {4, 1, 4, 2, 1, 3, 3};
          */

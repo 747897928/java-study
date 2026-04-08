@@ -81,6 +81,9 @@ import java.util.Scanner;
  * 而是“当你发现走不动时，回头从已经路过的站里挑一个最赚的补给站”。
  *
  * 所以核心数据结构是大根堆。
+ *
+ * <p>create: 2026-03-29 15:22:34</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumChargingStopsForCourierRobot {
 

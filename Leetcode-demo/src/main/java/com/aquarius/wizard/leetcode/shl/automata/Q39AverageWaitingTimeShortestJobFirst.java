@@ -25,12 +25,15 @@ import java.util.Scanner;
  * Given a list of request times and duration times, calculate the average task waiting time when
  * scheduled using the Shortest Job First (SJF) algorithm.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. taskCount
  * 2. taskCount lines: requestTime duration
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q39AverageWaitingTimeShortestJobFirst {
 
@@ -86,7 +89,7 @@ public class Q39AverageWaitingTimeShortestJobFirst {
             currentTime += task[1];
         }
 
-        // 题目问平均等待时间，所以最后再统一做一次平均。
+        // Question问平均等待时间，所以最后再统一做一次平均。
         return BigDecimal.valueOf(totalWaitingTime)
             .divide(BigDecimal.valueOf(tasks.length), 6, RoundingMode.HALF_UP)
             .stripTrailingZeros()

@@ -41,6 +41,9 @@ import java.util.Map;
  * 考点：频次统计、稳定排序。
  * 校对：题意稳定。
  * 提示：同频元素保持原始出现顺序，不能再按数值大小排。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class FrequencyDescendingStableSort {
 

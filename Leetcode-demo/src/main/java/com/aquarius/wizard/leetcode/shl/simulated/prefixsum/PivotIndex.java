@@ -39,6 +39,9 @@ import java.util.Scanner;
  *
  * 看到“某个位置把数组分成左右两边，要求两边满足某种和关系”，
  * 优先想“总和 + 左前缀和”，而不是每次从头累加左右两边。
+ *
+ * <p>create: 2026-03-28 23:43:16</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class PivotIndex {
 

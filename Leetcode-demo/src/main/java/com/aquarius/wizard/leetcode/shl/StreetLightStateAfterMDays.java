@@ -55,6 +55,9 @@ import java.util.Scanner;
  * 考点：状态模拟、找周期。
  * 校对：题面稳定。
  * 提示：规则等价于“下一天是否为 1 = 左右邻居是否不同”。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class StreetLightStateAfterMDays {
 

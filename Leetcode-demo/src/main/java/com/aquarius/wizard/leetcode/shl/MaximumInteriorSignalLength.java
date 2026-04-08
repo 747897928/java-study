@@ -47,6 +47,9 @@ import java.util.Scanner;
  * 考点：连续段统计。
  * 校对：题面稳定。
  * 提示：只有完全处于字符串内部的连续段才算，所以前缀段和后缀段都不能直接计入答案。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MaximumInteriorSignalLength {
 

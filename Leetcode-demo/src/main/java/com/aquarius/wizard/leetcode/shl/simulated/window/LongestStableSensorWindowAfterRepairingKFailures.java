@@ -64,6 +64,9 @@ import java.util.Scanner;
  *
  * 这题练的是滑动窗口的标准反应：
  * “窗口里某种坏东西的数量不能超过 K”。
+ *
+ * <p>create: 2026-03-29 15:22:34</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class LongestStableSensorWindowAfterRepairingKFailures {
 

@@ -62,6 +62,9 @@ import java.util.Scanner;
  * 考点：0/1 背包、状态压缩、预算约束下的最优选择。
  * 校对：docx 样例在末尾被截断，输出和最后若干行缺失；但核心题意足够稳定，可以按“每本书最多买一次”来建模。
  * 提示：关键不只是花费不超预算，还要保证 Horror 和 Sci-fi 两类都至少选到一本。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MaximumTotalRatingWithHorrorAndSciFiBooks {
 

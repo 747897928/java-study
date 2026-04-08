@@ -71,7 +71,7 @@ import java.util.Set;
  * 这是你刚刷到的模拟题，不是原 SHL 题。
  * <p>
  * 这里顺手记一下：
- * 如果题目解释还想写“剩余数组具体是什么”，原截图里的解释很可能写错了，或者至少不严谨。
+ * 如果Question解释还想写“剩余数组具体是什么”，原截图里的解释很可能写错了，或者至少不严谨。
  * <p>
  * 为什么？
  * <p>
@@ -90,7 +90,7 @@ import java.util.Set;
  * remainingCount = 4
  * <p>
  * 但是如果你硬要问“剩下的 4 个数按什么顺序排”，
- * 题目并没有把“优先删哪两个 12、是否保持原顺序”定义清楚。
+ * Question并没有把“优先删哪两个 12、是否保持原顺序”定义清楚。
  * <p>
  * 如果按“删除最早能凑成的一对，并保持原相对顺序”去理解，
  * 一个自然的剩余序列会是：
@@ -99,14 +99,17 @@ import java.util.Set;
  * <p>
  * 所以你感觉“更像 6 12 1 21，而不是别的奇怪顺序”，这个判断是合理的。
  * <p>
- * 但因为题目输出不要求这个序列，
+ * 但因为Question输出不要求这个序列，
  * 所以我们真正该做的是“只算数量，不碰重建顺序”。
  * <p>
  * 学习重点：
  * <p>
- * 1. 先分清题目要的是“数量”还是“具体方案”
+ * 1. 先分清Question要的是“数量”还是“具体方案”
  * 2. 如果只要数量，频次统计往往就够了
  * 3. 不要被样例解释里多余又含糊的“剩余数组”带偏
+ *
+ * <p>create: 2026-03-29 23:32:14</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class TransmittedPairsAndRemainingIntegers {
 
@@ -139,7 +142,7 @@ public class TransmittedPairsAndRemainingIntegers {
     /**
      * 平台/OA 风格输入版本。
      * <p>
-     * 题目模板就是 Scanner。
+     * Question模板就是 Scanner。
      * 所以这里单独留了一个 Scanner 版本，临时切回提交模式时也能直接用。
      * <p>
      * 输入格式：
@@ -286,7 +289,7 @@ public class TransmittedPairsAndRemainingIntegers {
      * 对这题来说，pair size 固定是 2，
      * 所以“维护奇偶性”就够了。
      * <p>
-     * 但如果以后题目变成：
+     * 但如果以后Question变成：
      * <p>
      * - 每 3 个相同数组成一组
      * - 每 k 个相同数组成一组

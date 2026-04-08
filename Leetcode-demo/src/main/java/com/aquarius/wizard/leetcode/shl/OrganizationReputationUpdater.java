@@ -68,6 +68,9 @@ import java.util.PriorityQueue;
  * 考点：按团队维护最小堆、懒删除、动态总和。
  * 校对：样例已做代码校验。
  * 实现关键：被开除和已离职的人都还可能残留在堆里，因此需要懒删除。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class OrganizationReputationUpdater {
 

@@ -40,6 +40,9 @@ import java.util.List;
  * 考点：质数筛、试除法、分段筛。
  * 校对：题面把上限写到了 10^9，但又要求“输出全部质数”，这在真实面试里通常意味着截图漏了更合理的限制。
  * 提示：这里我用分段筛，至少在空间上更稳；但如果平台真的给到 10^9 级别并要求完整输出，I/O 本身都会很重。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class PrintAllPrimesFrom2ToN {
 

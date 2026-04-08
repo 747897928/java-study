@@ -19,13 +19,16 @@ import java.util.Scanner;
  * Given the maximum size of the cache and an array of page requests, calculate the number of cache
  * misses. A cache miss occurs when a page is requested but is not found in the cache.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. cacheSize
  * 2. requestCount
  * 3. requestCount space-separated page IDs
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q31LruCacheMissCounter {
 
@@ -39,7 +42,7 @@ public class Q31LruCacheMissCounter {
         }
 
         /*
-         * Local practice input:
+         * 本地自测输入：
          *
          * int cacheSize = 3;
          * int[] requests = {1, 2, 3, 1, 4, 5};

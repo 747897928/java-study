@@ -75,6 +75,9 @@ import java.util.List;
  * 考点：预算优化、枚举机器、0/1 背包。
  * 校对：原 docx 样例尾部缺失，而且“最小时间对 1000007 取模”这句逻辑上可疑，所以这里明确改写为与当前实现一致的学习版定稿，不再保留那条规则。
  * 提示：当前学习版把每个 shop offer 视为最多使用一次；机器方案在“旧机器或某一台新机器”之间二选一。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class MinimumSweetBoxDeliveryTime {
 

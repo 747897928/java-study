@@ -85,6 +85,9 @@ import java.util.Arrays;
  * 考点：资源可行性模拟，和银行家算法很像。
  * 校对：原 docx 的文字版把“required books”和“already issued books”两个矩阵顺序写反了；示例和解释都只能按“先 issued，后 required”才能自洽。
  * 提示：真正决定能否完成的是 need = required - issued，而不是 required 本身。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class OptimalStudentCompletionOrderInLibrary {
 

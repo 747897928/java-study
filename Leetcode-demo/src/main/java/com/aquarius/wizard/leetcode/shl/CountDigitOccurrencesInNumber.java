@@ -42,6 +42,9 @@ import java.util.Scanner;
  * 考点：按位遍历。
  * 校对：题面稳定。
  * 提示：别漏掉 haystack = 0 的特殊情况。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class CountDigitOccurrencesInNumber {
 

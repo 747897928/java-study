@@ -15,15 +15,18 @@ import java.util.Scanner;
  *
  * Write an algorithm to help Mitchell find the output for all the inputs he provides.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. text
  * 2. queryCount
  * 3. queryCount lines: left right (1-based, inclusive)
  *
  * For ties, this version prints all most-frequent characters in ascending character order.
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q63MostFrequentCharactersInRanges {
 
@@ -45,7 +48,7 @@ public class Q63MostFrequentCharactersInRanges {
 
     public String answerQueries(String text, int[][] queries) {
         /*
-         * 题目会反复问很多次区间 [L, R]，
+         * Question会反复问很多次区间 [L, R]，
          * 每次都重新数一遍频次当然能做，但如果查询很多，就会重复扫描同一段字符串。
          *
          * 这里的标准做法是“前缀频次数组”：
@@ -83,7 +86,7 @@ public class Q63MostFrequentCharactersInRanges {
             }
             for (int c = 0; c < ASCII; c++) {
                 if (prefix[right + 1][c] - prefix[left][c] == maxFreq) {
-                    // 题目要的是“最频繁字符”，如果并列，就把并列字符都输出。
+                    // Question要的是“最频繁字符”，如果并列，就把并列字符都输出。
                     result.append((char) c);
                 }
             }

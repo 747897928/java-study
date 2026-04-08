@@ -19,13 +19,16 @@ import java.util.Scanner;
  *
  * Design an algorithm that outputs the power of the winning team.
  *
- * Notes
+ * 补充说明
  *
- * The docx only keeps the statement and does not spell out a standard input format.
- * This learning version uses:
+ * docx 里只保留了题干，没有给出特别标准的输入模板。
+ * 这份代码里我先约定下面这种输入格式：
  * 1. kidCount pairCount
  * 2. kidCount strengths
  * 3. pairCount lines: positionA positionB
+ *
+ * <p>create: 2026-04-01 23:10:02</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class Q33MaximumTeamPowerFromConnections {
 
@@ -80,7 +83,7 @@ public class Q33MaximumTeamPowerFromConnections {
         // 并查集先把“同队关系”统一合并。
         DisjointSet dsu = new DisjointSet(strengths.length);
         for (int[] pair : pairs) {
-            // 题目位置编号从 1 开始，数组下标从 0 开始，所以要减 1。
+            // Question位置编号从 1 开始，数组下标从 0 开始，所以要减 1。
             dsu.union(pair[0] - 1, pair[1] - 1);
         }
 

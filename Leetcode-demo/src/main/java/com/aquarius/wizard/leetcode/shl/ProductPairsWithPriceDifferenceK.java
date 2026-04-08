@@ -59,7 +59,7 @@ import java.util.Scanner;
  * 所以相当于固定只数一次，不会把 (1, 3) 和 (3, 1) 重复算两遍。
  *
  * 考点：哈希计数、差值配对。
- * 校对：题目缺样例和约束，是高风险题。
+ * 校对：Question缺样例和约束，是高风险题。
  *
  * 当前代码的解释口径：
  *
@@ -67,6 +67,9 @@ import java.util.Scanner;
  * 2. 只统计无序对一次
  * 3. 如果 K = 0，就统计同价商品之间能组成多少对
  * 4. 如果 K > 0，就统计价格 x 和价格 x + K 能组成多少对
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class ProductPairsWithPriceDifferenceK {
 

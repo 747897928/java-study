@@ -45,6 +45,9 @@ import java.util.Arrays;
  * 考点：区间合并。
  * 校对：题意稳定。
  * 提示：站点等距时区间 [l,r] 的覆盖距离是 r-l，不是端点数量。
+ *
+ * <p>create: 2026-03-28 18:11:29</p>
+ * @author zhaoyijie(AquariusGenius)
  */
 public class TotalBusRouteCoverageDistance {
 
@@ -77,7 +80,7 @@ public class TotalBusRouteCoverageDistance {
      * 每一辆车跑的 [busStop0, busStop1]，
      * 都可以看成一段区间。
      *
-     * 题目要的是所有这些区间并起来后的总长度。
+     * Question要的是所有这些区间并起来后的总长度。
      *
      * 所以标准套路是：
      *
@@ -86,7 +89,7 @@ public class TotalBusRouteCoverageDistance {
      * 3. 一路扫描，能并就并
      * 4. 并不了时，先结算上一段长度，再开启新区间
      *
-     * 这里再强调一次题目的计量方式：
+     * 这里再强调一次Question的计量方式：
      *
      * 站点是等距的，
      * 所以区间 [l, r] 覆盖距离是 r - l，
