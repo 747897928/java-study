@@ -64,6 +64,10 @@ public class FrequencyDescendingStableSort {
 
         FrequencyDescendingStableSort solver = new FrequencyDescendingStableSort();
         System.out.println(format(solver.sortByFrequency(numbers)));
+        /*
+         * 如果想专门对照“手搓 compare”是怎么写的，可以临时打开下面这行：
+         * System.out.println(format(solver.sortByFrequencyManualComparator(numbers)));
+         */
     }
 
     private static String format(int[] nums) {
@@ -109,17 +113,12 @@ public class FrequencyDescendingStableSort {
         List<Integer> values = new ArrayList<>(count.keySet());
 
         /*
-         * 这一段 JDK Comparator 链式写法，拆开理解就不绕了：
          *
          * Comparator.comparingInt(count::get)
-         * 意思是：
          * “先按 count.get(value) 这个整数来比较”
          * 也就是先按频次比较。
          *
-         * count::get 是方法引用，等价于：
-         * value -> count.get(value)
-         *
-         * 所以这一小段也可以脑补成：
+         * 这一小段也可以脑补成：
          * Comparator.comparingInt(value -> count.get(value))
          *
          * .reversed()
@@ -168,6 +167,67 @@ public class FrequencyDescendingStableSort {
          * index++
          * 表示每写进一个位置，结果数组的写入指针就往后挪一格。
          */
+        for (int value : values) {
+            for (int i = 0; i < count.get(value); i++) {
+                result[index++] = value;
+            }
+        }
+        return result;
+    }
+
+    public int[] sortByFrequencyManualComparator(int[] nums) {
+        /*
+         * 这个方法和 sortByFrequency 的目标完全一样，
+         * 只是把那段链式 Comparator API，改成更“手搓”的 compare 写法。
+         *
+         * 你可以把两种写法一一对应起来：
+         *
+         * 1.
+         * Comparator.comparingInt(count::get).reversed()
+         * 对应这里的：
+         * if (countA != countB) {
+         *     return Integer.compare(countB, countA);
+         * }
+         *
+         * 为什么是 countB, countA？
+         * 因为我们想要“频次大的排前面”，也就是降序。
+         * Integer.compare(x, y) 默认表达的是 x 和 y 的升序关系，
+         * 所以把顺序反过来写成 compare(countB, countA)，就等价于降序。
+         *
+         * 2.
+         * .thenComparingInt(firstIndex::get)
+         * 对应这里的：
+         * return Integer.compare(firstIndexA, firstIndexB);
+         *
+         * 这表示如果频次相同，
+         * 就比较谁第一次出现在原数组里的位置更靠前。
+         *
+         * 所以这个 compare 方法的思路其实非常朴素：
+         * - 先比主关键字：频次
+         * - 主关键字一样，再比次关键字：首次出现位置
+         */
+        Map<Integer, Integer> count = new HashMap<>();
+        Map<Integer, Integer> firstIndex = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            count.put(nums[i], count.getOrDefault(nums[i], 0) + 1);
+            firstIndex.putIfAbsent(nums[i], i);
+        }
+
+        List<Integer> values = new ArrayList<>(count.keySet());
+        values.sort((a, b) -> {
+            int countA = count.get(a);
+            int countB = count.get(b);
+            if (countA != countB) {
+                return Integer.compare(countB, countA);
+            }
+
+            int firstIndexA = firstIndex.get(a);
+            int firstIndexB = firstIndex.get(b);
+            return Integer.compare(firstIndexA, firstIndexB);
+        });
+
+        int[] result = new int[nums.length];
+        int index = 0;
         for (int value : values) {
             for (int i = 0; i < count.get(value); i++) {
                 result[index++] = value;
