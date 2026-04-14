@@ -66,6 +66,76 @@ import java.util.Scanner;
  * A 用滑动窗口最自然。
  * B 在知道 L 之后，再扫一遍计数就行。
  *
+ * 这题更重要的不是把答案背下来，而是把“我到底应该怎么想”固定住。
+ *
+ * 如果我在考场上第一次看到这题，我最自然的第一反应应该是：
+ *
+ * 1. 题目在问子串，那我先想怎么把所有子串都覆盖到。
+ * 2. 一个子串由 start 和 end 两个端点决定，所以最原始写法通常就是两层 for。
+ * 3. 每拿到一个子串，再去数里面有几个 0，看它合不合法。
+ *
+ * 也就是说，这题最朴素的起点根本不是滑动窗口，
+ * 而是“先用两层 for 把所有连续段枚举出来”。
+ *
+ * 这个起点是对的，不是错的。
+ *
+ * 我现在最需要练出来的，不是“秒出最优解”，
+ * 而是下面这条固定思路：
+ *
+ * 1. 先写暴力法
+ * 2. 再找重复计算
+ * 3. 再看哪种工具正好能消掉这类重复
+ *
+ * 对这题来说：
+ *
+ * - 暴力法：两层 for 枚举所有子串
+ * - 重复计算 1：很多窗口里的 0 被反复统计
+ * - 重复计算 2：最长长度找到之后，又要反复问“固定长度窗口里有几个 0”
+ *
+ * 所以优化才会分成两步：
+ *
+ * 1. 问题 A 用滑动窗口
+ *    因为它是“连续窗口 + 最多 K 个坏字符”的典型模型
+ *
+ * 2. 问题 B 用前缀和
+ *    因为它是“很多次问某个固定区间里有几个 0”的典型模型
+ *
+ * 以后看到新题时，可以先用下面这张简化判断表：
+ *
+ * 一、什么时候优先想滑动窗口
+ *
+ * - 题目对象是子串 / 子数组 / 连续段
+ * - 条件是“最多 K 个坏东西 / 至少 K 个坏东西 / 不超过某个上限”
+ * - 右边界往右扩一格时，窗口信息可以增量维护
+ * - 窗口不合法时，只能靠移动左边界修复
+ *
+ * 满足这些信号时，就优先怀疑是滑动窗口。
+ *
+ * 二、什么时候优先想前缀和
+ *
+ * - 题目会反复问“某个区间里有几个什么 / 区间和是多少”
+ * - 如果每次都重新扫这段区间，会产生大量重复工作
+ * - 这个统计量可以先累积起来，再通过“两份前缀相减”得到
+ *
+ * 满足这些信号时，就优先怀疑是前缀和。
+ *
+ * 在 shl 题库里，可以顺手拿这些题互相对照：
+ *
+ * - 滑动窗口味道很明显的：
+ *   LongestStableSensorWindowAfterRepairingKFailures
+ *   NumberOfWaysToObtainTheLongestConsecutiveOnes
+ *
+ * - 前缀和味道很明显的：
+ *   PivotIndex
+ *   RangeSumQueryImmutable
+ *   SubarraySumEqualsK
+ *
+ * - 明显不是滑动窗口的：
+ *   CountElementsStrictlyLessThanK
+ *   ReplaceValuesWithTheirIndexPositions
+ *
+ * 这样对照着看，比单独背“滑动窗口定义”更容易真的形成感觉。
+ *
  * <p>create: 2026-03-28 18:11:29</p>
  * @author zhaoyijie(AquariusGenius)
  */
@@ -85,6 +155,12 @@ public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
 
         NumberOfWaysToObtainTheLongestConsecutiveOnes solver = new NumberOfWaysToObtainTheLongestConsecutiveOnes();
         System.out.println(solver.countWays(binaryString, changeK));
+        /*
+         * 如果想先看最朴素的做法，可以临时打开下面这些：
+         *
+         * System.out.println(solver.findMaximumLengthBruteForce(binaryString, changeK));
+         * System.out.println(solver.countWaysBruteForce(binaryString, changeK));
+         */
     }
 
     /**
@@ -100,6 +176,55 @@ public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
      * 这也是很多面试题会用到的套路：
      *
      * 先求最优值，再求达到最优值的方案数 / 窗口数 / 区间数。
+     *
+     * 你刚开始刷题时，很自然会先想到：
+     *
+     * 1. 我怎么把所有子串都找出来？
+     * 2. 哪些子串满足“0 的个数 <= K”？
+     * 3. 最长的是多长？
+     * 4. 这种最长子串有几个？
+     *
+     * 这个想法其实没有错，它对应的就是暴力解法。
+     *
+     * 最原始的暴力法通常会写成两层 for：
+     *
+     * - 外层枚举 start
+     * - 内层枚举 end
+     *
+     * 这样就能把所有子串 [start, end] 全部覆盖到。
+     *
+     * 所以你以后如果再遇到“子串 / 子数组”题，不要先怕。
+     * 第一反应先固定成：
+     *
+     * “我要不要先用两层 for，把所有连续段枚举出来？”
+     *
+     * 这是一个很好的起点。
+     *
+     * 这题从暴力法往后推，会自然拆成两个小问题：
+     *
+     * A. 最长合法子串长度是多少
+     * B. 长度等于这个最优值的合法子串有多少个
+     *
+     * 当前这个方法就是：
+     * - 先用 findMaximumLength(...) 解决 A
+     * - 再用前缀和高效解决 B
+     *
+     * 你刚才提到一种很自然的想法：
+     * “我能不能用 Map，key 是长度，value 是这个长度下符合条件的子串或数量？”
+     *
+     * 这个想法不是完全错，而是它并没有打到这题真正的瓶颈。
+     *
+     * 这题真正难的不是“怎么存结果”，
+     * 而是“怎么高效判断一个窗口里有几个 0”。
+     *
+     * Map 更像是在解决“结果归档”的问题，
+     * 但当前性能压力主要来自“区间统计”。
+     *
+     * 所以这里优先考虑的工具不是 Map，
+     * 而是更贴合问题本质的：
+     *
+     * - 滑动窗口：解决最长长度
+     * - 前缀和：解决固定长度窗口计数
      */
     public int countWays(String binaryString, int changeK) {
         // 第一步：先求“最长合法窗口长度”到底是多少。
@@ -119,6 +244,54 @@ public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
         //
         // 这样一来，任意子串 [start, end] 里的 0 的数量，
         // 都可以用前缀和快速算出来。
+        //
+        // 为什么数组长度要 +1？
+        //
+        // 因为我们想让“空前缀”也有一个位置。
+        // 这样 prefixZeros[0] = 0 才有意义。
+        //
+        // 例如字符串是：
+        // index:      0 1 2 3
+        // string:     1 0 1 0
+        //
+        // 那么 prefixZeros 会写成：
+        // 下标:       0 1 2 3 4
+        // 含义:   前0个 前1个 前2个 前3个 前4个
+        // 数值:       0 0 1 1 2
+        //
+        // 有了这个“多出来的第 0 格”，
+        // 任意窗口 [start, end] 里的 0 的个数都能统一写成：
+        //
+        // prefixZeros[end + 1] - prefixZeros[start]
+        //
+        // 不需要再对 start = 0 单独写特殊判断。
+        //
+        // 这一点其实非常重要：
+        // 前缀和数组多出来的那一格，不是“浪费空间”，
+        // 而是故意留给“空前缀”用的。
+        //
+        // 以后只要看到 prefix 长度开成 n + 1，
+        // 你脑子里就可以直接翻译成：
+        // “第 0 格表示前 0 个元素。”
+        //
+        // 为什么这里会想到前缀和？
+        //
+        // 因为第二步里，我们要枚举很多个“固定长度 = maxLength”的窗口。
+        // 如果每个窗口都再从头扫一遍数 0 的个数，
+        // 那就又回到两层 for 甚至更慢了。
+        //
+        // 前缀和的作用就是：
+        // 把“一个窗口里有几个 0”这个问题，
+        // 从“每次重新数”变成“两个前缀相减，一下得到”。
+        //
+        // 所以这里不是为了炫技才用前缀和，
+        // 而是因为“同一个统计问题会被重复问很多次”，
+        // 这正是前缀和最适合出场的信号。
+        //
+        // 如果你明天再看这段代码时还是有点晕，
+        // 就先回头看 countWaysBruteForce(...)：
+        // 那个版本是“每个窗口重新数一遍 0”；
+        // 当前这个版本只是把“重新数一遍”换成了“两份前缀相减”。
         int[] prefixZeros = new int[binaryString.length() + 1];
         for (int i = 0; i < binaryString.length(); i++) {
             // 先继承前一个位置的 0 的总数，
@@ -161,6 +334,94 @@ public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
     }
 
     /**
+     * 这个版本是你最容易先想到的暴力法。
+     *
+     * 它不优化，只做一件事：
+     * 把所有子串都枚举出来，然后看哪个合法，最后取最大长度。
+     *
+     * 写法上最自然就是两层 for：
+     *
+     * 1. 外层枚举起点 start
+     * 2. 内层枚举终点 end
+     *
+     * 为什么不是三层 for？
+     *
+     * 因为“所有子串”只需要两个端点就能确定：
+     * [start, end]
+     *
+     * 这也是你以后做连续段题时最先可以固定下来的模板：
+     * “要枚举所有子串，先写两层 for。”
+     */
+    public int findMaximumLengthBruteForce(String binaryString, int changeK) {
+        int maxLength = 0;
+        for (int start = 0; start < binaryString.length(); start++) {
+            int zeroCount = 0;
+            for (int end = start; end < binaryString.length(); end++) {
+                if (binaryString.charAt(end) == '0') {
+                    zeroCount++;
+                }
+                if (zeroCount <= changeK) {
+                    maxLength = Math.max(maxLength, end - start + 1);
+                }
+            }
+        }
+        return maxLength;
+    }
+
+    /**
+     * 这个方法只是把当前滑动窗口主解开放成 public，
+     * 方便和暴力版做一一对照。
+     */
+    public int findMaximumLengthForLearning(String binaryString, int changeK) {
+        return findMaximumLength(binaryString, changeK);
+    }
+
+    /**
+     * 这是完整的暴力版：
+     *
+     * 1. 先暴力求最长长度
+     * 2. 再暴力数有多少个长度等于这个最长值的合法子串
+     *
+     * 这个版本的价值不在效率，而在于帮你看清楚：
+     * 当前优化版到底省掉了哪些重复工作。
+     *
+     * 你可以把两者对应起来：
+     *
+     * - 这里的 findMaximumLengthBruteForce
+     *   对应优化版里的滑动窗口
+     *
+     * - 这里第二轮再枚举所有长度为 maxLength 的窗口、重新数 0
+     *   对应优化版里的“前缀和快速算 0 的个数”
+     *
+     * 这个方法其实很适合你现在的阶段：
+     * 如果以后你在考场上先只能想到这个版本，不要慌。
+     *
+     * 真正更值得训练的是：
+     * 先把这个版本写出来，
+     * 再去问自己：
+     *
+     * “我是不是在很多窗口上反复数同一种东西？”
+     *
+     * 一旦答案是“是”，就开始往前缀和或滑动窗口想。
+     */
+    public int countWaysBruteForce(String binaryString, int changeK) {
+        int maxLength = findMaximumLengthBruteForce(binaryString, changeK);
+        int ways = 0;
+        for (int start = 0; start + maxLength <= binaryString.length(); start++) {
+            int zeroCount = 0;
+            for (int i = start; i < start + maxLength; i++) {
+                if (binaryString.charAt(i) == '0') {
+                    zeroCount++;
+                }
+            }
+            if (zeroCount <= changeK) {
+                ways++;
+            }
+        }
+        return ways;
+    }
+
+    /**
      * 这是标准的“窗口内坏字符数量不超过 K”的滑动窗口。
      *
      * 这里的“坏字符”就是 0。
@@ -176,7 +437,7 @@ public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
      * 因为窗口是否合法，只和“当前这一段里有几个 0”有关，
      * 不需要重新枚举整段内容。
      *
-     * 你最困惑的点是：
+     * 最困惑的点是：
      *
      * “为什么如果 0 的数量超了，就一定要移动 left 缩窗？”
      *
@@ -226,6 +487,51 @@ public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
      *
      * maxLength = Math.max(maxLength, right - left + 1)
      *
+     * 你如果在考场上不知道能不能上滑窗，
+     * 可以先从最笨的两层 for 开始想：
+     *
+     * for (int start = 0; start < n; start++) {
+     *     int zeroCount = 0;
+     *     for (int end = start; end < n; end++) {
+     *         if (s.charAt(end) == '0') {
+     *             zeroCount++;
+     *         }
+     *         if (zeroCount <= k) {
+     *             // 更新答案
+     *         }
+     *     }
+     * }
+     *
+     * 从这个暴力法往后推，你会发现：
+     *
+     * 1. 当 start 固定时，end 是一直往右走的
+     * 2. zeroCount 也不需要重新数，可以边走边维护
+     * 3. 如果当前窗口不合法，除了把左端点往右挪，没有别的修复办法
+     *
+     * 这三句话合在一起，其实就是滑动窗口。
+     *
+     * 所以以后你看到这种题，
+     * 不要要求自己“一眼想到滑窗”。
+     * 更实用的做法是：
+     *
+     * 先想到两层 for 的暴力法，
+     * 再问自己：
+     *
+     * - 我维护的是不是一个连续窗口？
+     * - 窗口信息能不能增量更新？
+     * - 不合法时是不是只能丢左边？
+     *
+     * 如果这三句都能回答“是”，那大概率就是滑动窗口题。
+     *
+     * 换句话说，
+     * 你不是要训练自己“看到题马上背出滑动窗口”；
+     * 你要训练的是：
+     *
+     * “我能不能先写出两层 for 的暴力法，
+     * 然后发现它其实就是一个连续窗口在移动。”
+     *
+     * 这是更稳、更可复制的能力。
+     *
      * 你可以用样例 S = 1010101, K = 1 来手推：
      *
      * right = 0，窗口 = "1"，0 的个数 = 0，合法，长度 = 1
@@ -241,6 +547,31 @@ public class NumberOfWaysToObtainTheLongestConsecutiveOnes {
      *
      * 所以最后以 right = 3 结尾时，
      * 最长合法窗口就是 "10"，长度 2。
+     *
+     * 另外你担心的这一句会不会越界：
+     *
+     * if (binaryString.charAt(left) == '0')
+     *
+     * 这里其实是安全的。
+     *
+     * 原因是：
+     *
+     * 1. 进入 while 的前提是 zeroCount > changeK
+     * 2. 这说明当前窗口 [left, right] 里确实还有字符，而且窗口不为空
+     * 3. 只要窗口不为空，就有 left <= right
+     * 4. 而 right 本来就永远小于 binaryString.length()
+     *
+     * 所以在 while 体里访问 charAt(left) 时，
+     * 实际上始终满足：
+     *
+     * 0 <= left <= right < binaryString.length()
+     *
+     * 真正的顺序是：
+     * - 先读取当前 left 位置的字符
+     * - 再决定 zeroCount 要不要减
+     * - 最后 left++
+     *
+     * 不会发生“left 已经跑到字符串外面了，才去 charAt(left)”这种情况。
      */
     private int findMaximumLength(String binaryString, int changeK) {
         // left 表示当前窗口左边界。
