@@ -10,14 +10,25 @@ import java.util.Scanner;
  * LeetCode 42
  * Trapping Rain Water
  *
+ * 原题链接：
+ * https://leetcode.com/problems/trapping-rain-water/description/?envType=problem-list-v2&envId=dynamic-programming
+ *
+ * 题意（按原题补全）：
  * 给定一个非负整数数组 height。
- * 数组里的每个数都表示一堵墙的高度，每堵墙的宽度都按 1 来看。
- * 下雨后，问这些墙之间一共能接住多少单位的雨水。
+ * height[i] 表示第 i 根柱子的高度，每根柱子的宽度都按 1 处理。
+ * 下雨后，问这些柱子之间一共能接住多少单位的雨水。
  *
- * 示例：
+ * 示例 1：
+ * Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+ * Output: 6
  *
- * height = [0,1,0,2,1,0,1,3,2,1,2,1]
- * answer = 6
+ * 示例 2：
+ * Input: height = [4,2,0,3,2,5]
+ * Output: 9
+ *
+ * 约束：
+ * 1 <= height.length <= 2 * 10^4
+ * 0 <= height[i] <= 10^5
  *
  * 笔记
  *

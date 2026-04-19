@@ -7,14 +7,28 @@ import java.util.Scanner;
  *
  * LeetCode 3653
  * XOR After Range Multiplication Queries I
+ * 原题链接：https://leetcode.com/problems/xor-after-range-multiplication-queries-i/description/
  *
- * 给定数组 nums 和若干个查询 queries。
+ * 给定一个整数数组 nums 和一个二维数组 queries。
  *
- * 每个查询是 [l, r, k, v]：
- * 从下标 l 开始，每次跳 k 个位置，只要没有超过 r，就把当前位置乘上 v，
+ * 每个查询 queries[i] = [l, r, k, v] 表示：
+ * 从下标 l 开始，每次向右跳 k 个位置，
+ * 只要当前位置没有超过 r，就把 nums[pos] 乘上 v，
  * 然后对 1_000_000_007 取模。
  *
  * 所有查询处理完之后，返回整个数组所有元素的按位异或结果。
+ *
+ * 示例 1：
+ *
+ * 输入：nums = [2,3,1,5,4], queries = [[1,4,2,3],[0,2,1,2]]
+ * 输出：22
+ *
+ * 约束：
+ *
+ * - 1 <= nums.length <= 100
+ * - 1 <= queries.length <= 100
+ * - 0 <= l <= r < nums.length
+ * - 1 <= k, v <= 100
  *
  * 笔记
  *

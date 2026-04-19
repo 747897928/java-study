@@ -9,13 +9,31 @@ import java.util.Set;
  *
  * LeetCode 3804
  * Number of Centered Subarrays
+ * 原题链接：https://leetcode.com/problems/number-of-centered-subarrays/description/
  *
  * 给定整数数组 nums。
  *
- * 如果一个子数组的元素和，恰好等于这个子数组里的某个元素，
+ * 如果某个连续子数组的元素和，恰好等于这个子数组中的某个元素，
  * 那么这个子数组就叫 centered subarray。
  *
- * 返回 centered subarray 的数量。
+ * 请返回 centered subarray 的数量。
+ *
+ * 示例 1：
+ *
+ * 输入：nums = [2, -1, 1]
+ * 输出：4
+ * 解释：
+ * 合法子数组分别是 [2]、[-1]、[1]、[2,-1,1]。
+ *
+ * 示例 2：
+ *
+ * 输入：nums = [1, 1, 1]
+ * 输出：6
+ *
+ * 约束：
+ *
+ * - 1 <= nums.length <= 100
+ * - -100 <= nums[i] <= 100
  *
  * 笔记
  *

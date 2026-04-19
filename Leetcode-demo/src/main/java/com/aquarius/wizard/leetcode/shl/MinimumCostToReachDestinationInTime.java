@@ -12,8 +12,32 @@ import java.util.Scanner;
  * LeetCode 1928
  * Minimum Cost to Reach Destination in Time
  *
- * 给定城市费用 passingFees、道路耗时 edges 和总时间上限 maxTime。
- * 从 0 出发到 n-1，问在总时间不超过 maxTime 的前提下最小费用是多少。
+ * 原题链接：
+ * https://leetcode.com/problems/minimum-cost-to-reach-destination-in-time/description/?envType=problem-list-v2&envId=dynamic-programming
+ *
+ * 题意（按原题补全）：
+ * 给定最大时间 maxTime、无向道路 edges 和每个城市的 passingFees。
+ * 其中 edges[i] = [xi, yi, timei] 表示城市 xi 和 yi 之间有一条耗时 timei 的双向道路。
+ * 每次经过一个城市，都需要支付 passingFees[city]。
+ * 你从城市 0 出发，目标是到达城市 n - 1。
+ * 返回在总耗时不超过 maxTime 的前提下，所需的最小费用；如果到不了，就返回 -1。
+ *
+ * 示例 1：
+ * Input: maxTime = 30, edges = [[0,1,10],[1,2,10],[2,5,10],[0,3,1],[3,4,10],[4,5,15]], passingFees = [5,1,2,20,20,3]
+ * Output: 11
+ *
+ * 示例 2：
+ * Input: maxTime = 29, edges = [[0,1,10],[1,2,10],[2,5,10],[0,3,1],[3,4,10],[4,5,15]], passingFees = [5,1,2,20,20,3]
+ * Output: 48
+ *
+ * 约束：
+ * 2 <= passingFees.length <= 1000
+ * 1 <= maxTime <= 1000
+ * 1 <= edges.length <= 1000
+ * edges[i].length == 3
+ * 0 <= xi, yi < n
+ * 1 <= timei <= 1000
+ * 1 <= passingFees[j] <= 1000
  *
  * 笔记
  *

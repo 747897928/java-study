@@ -5,13 +5,40 @@ import java.util.Scanner;
 /**
  * Prefix Sum Drill
  *
- * Original source style:
- *
- * LeetCode 303 - Range Sum Query - Immutable
+ * LeetCode 303
+ * Range Sum Query - Immutable
+ * 原题链接：https://leetcode.com/problems/range-sum-query-immutable/description/
  *
  * 不是原 SHL 题，是前缀和练习题。
  *
- * 给定一个数组 nums，多次查询 [left, right] 区间元素和。
+ * 给定一个整数数组 nums，请处理多次查询：
+ * 返回区间 [left, right] 的元素和，其中 left <= right。
+ *
+ * 实现 NumArray 类：
+ *
+ * - NumArray(int[] nums) 用数组 nums 初始化对象
+ * - int sumRange(int left, int right) 返回 nums[left..right] 的区间和
+ *
+ * 示例：
+ *
+ * 输入：
+ * ["NumArray", "sumRange", "sumRange", "sumRange"]
+ * [[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]]
+ * 输出：
+ * [null, 1, -1, -3]
+ *
+ * 解释：
+ * NumArray numArray = new NumArray([-2, 0, 3, -5, 2, -1]);
+ * numArray.sumRange(0, 2); // 1
+ * numArray.sumRange(2, 5); // -1
+ * numArray.sumRange(0, 5); // -3
+ *
+ * 约束：
+ *
+ * - 1 <= nums.length <= 10^4
+ * - -10^5 <= nums[i] <= 10^5
+ * - 0 <= left <= right < nums.length
+ * - 最多调用 sumRange 10^4 次
  *
  * 这题的关键是：不是只问一次，而是会问很多次。
  * 一旦你发现“同一个数组上会重复查询很多段区间和”，

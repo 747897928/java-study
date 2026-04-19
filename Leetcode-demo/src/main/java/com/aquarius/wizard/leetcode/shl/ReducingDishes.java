@@ -9,9 +9,32 @@ import java.util.Scanner;
  * LeetCode 1402
  * Reducing Dishes
  *
- * 给定 satisfaction 数组，每做一道菜都要占一个时间单位。
- * 某道菜如果在第 t 个时间做，它的贡献是 satisfaction[i] * t。
- * 可以丢弃一些菜，问最大总贡献。
+ * 原题链接：
+ * https://leetcode.com/problems/reducing-dishes/description/?envType=problem-list-v2&envId=sorting
+ *
+ * 题意（按原题补全）：
+ * 给定一个整数数组 satisfaction。
+ * 你可以任意选择若干道菜并决定它们的制作顺序。
+ * 如果某道菜在第 t 个时间单位完成，那么它贡献的 like-time coefficient
+ * 是 satisfaction[i] * t。
+ * 返回你能得到的最大 like-time coefficient 总和。
+ *
+ * 示例 1：
+ * Input: satisfaction = [-1,-8,0,5,-9]
+ * Output: 14
+ * 解释：可以按 [-1,0,5] 的顺序制作，总和是 (-1)*1 + 0*2 + 5*3 = 14。
+ *
+ * 示例 2：
+ * Input: satisfaction = [4,3,2]
+ * Output: 20
+ *
+ * 示例 3：
+ * Input: satisfaction = [-1,-4,-5]
+ * Output: 0
+ *
+ * 约束：
+ * 1 <= satisfaction.length <= 500
+ * -1000 <= satisfaction[i] <= 1000
  *
  * 笔记
  *

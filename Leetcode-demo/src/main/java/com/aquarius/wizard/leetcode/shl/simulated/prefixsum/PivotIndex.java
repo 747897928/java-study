@@ -6,15 +6,38 @@ import java.util.Scanner;
 /**
  * Prefix Sum Drill
  *
- * Original source style:
- *
- * LeetCode 724 - Find Pivot Index
+ * LeetCode 724
+ * Find Pivot Index
+ * 原题链接：https://leetcode.com/problems/find-pivot-index/description/
  *
  * 不是原 SHL 题，是前缀和练习题。
  *
  * 给你一个整数数组 nums，请返回数组的中心下标。
- * 中心下标的定义是：下标左侧所有元素之和等于右侧所有元素之和。
- * 如果存在多个中心下标，返回最靠左的一个；如果不存在，返回 -1。
+ * 中心下标的定义是：
+ * 下标左侧所有元素之和等于右侧所有元素之和。
+ * 如果存在多个中心下标，返回最靠左的那个；如果不存在，返回 -1。
+ *
+ * 示例 1：
+ *
+ * 输入：nums = [1,7,3,6,5,6]
+ * 输出：3
+ * 解释：下标 3 左边元素和 1 + 7 + 3 = 11，
+ * 右边元素和 5 + 6 = 11。
+ *
+ * 示例 2：
+ *
+ * 输入：nums = [1,2,3]
+ * 输出：-1
+ *
+ * 示例 3：
+ *
+ * 输入：nums = [2,1,-1]
+ * 输出：0
+ *
+ * 约束：
+ *
+ * - 1 <= nums.length <= 10^4
+ * - -1000 <= nums[i] <= 1000
  *
  * 这题是 EqualMatrixPartition 的一维版，适合拿来建立“左右两部分相等”这类题的固定反应。
  *

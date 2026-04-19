@@ -9,11 +9,28 @@ import java.util.Scanner;
  * LeetCode 2305
  * Fair Distribution of Cookies
  *
- * 把若干袋饼干分给 k 个孩子，
- * 每个孩子拿到的总饼干数越不均衡，不公平值越大。
+ * 原题链接：
+ * https://leetcode.com/problems/fair-distribution-of-cookies/description/?envType=problem-list-v2&envId=dynamic-programming
  *
- * 定义不公平值为“拿得最多的那个孩子拿到的总数”。
- * 问最小可能不公平值。
+ * 题意（按原题补全）：
+ * 给定若干袋饼干 cookies，以及孩子人数 k。
+ * 你需要把每一袋饼干完整地分给某一个孩子。
+ * 一个分配方案的不公平值，定义为“拿到饼干总数最多的那个孩子的总量”。
+ * 返回最小可能的不公平值。
+ *
+ * 示例 1：
+ * Input: cookies = [8,15,10,20,8], k = 2
+ * Output: 31
+ * 解释：一种最优分法是 [8,15,8] 和 [10,20]，不公平值是 31。
+ *
+ * 示例 2：
+ * Input: cookies = [6,1,3,2,2,4,1,2], k = 3
+ * Output: 7
+ *
+ * 约束：
+ * 2 <= cookies.length <= 8
+ * 1 <= cookies[i] <= 10^5
+ * 2 <= k <= cookies.length
  *
  * 笔记
  *

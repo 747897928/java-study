@@ -12,8 +12,37 @@ import java.util.Scanner;
  * LeetCode 787
  * Cheapest Flights Within K Stops
  *
- * 给定 n 个城市和若干航班，flights[i] = [from, to, price]。
- * 求从 src 到 dst，最多经过 k 次中转时的最小费用。
+ * 原题链接：
+ * https://leetcode.com/problems/cheapest-flights-within-k-stops/description/?envType=problem-list-v2&envId=dynamic-programming
+ *
+ * 题意（按原题补全）：
+ * 有 n 个城市，若干条航班 flights，
+ * 其中 flights[i] = [fromi, toi, pricei] 表示从 fromi 飞到 toi 的票价是 pricei。
+ * 现在给定出发城市 src、目的城市 dst 和最多允许的中转次数 k，
+ * 返回从 src 到 dst 的最便宜价格。
+ * 如果不存在满足要求的路线，就返回 -1。
+ *
+ * 示例 1：
+ * Input: n = 4, flights = [[0,1,100],[1,2,100],[2,3,100],[0,2,500]], src = 0, dst = 3, k = 1
+ * Output: 600
+ *
+ * 示例 2：
+ * Input: n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 1
+ * Output: 200
+ *
+ * 示例 3：
+ * Input: n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 0
+ * Output: 500
+ *
+ * 约束：
+ * 1 <= n <= 100
+ * 0 <= flights.length <= n * (n - 1) / 2
+ * flights[i].length == 3
+ * 0 <= fromi, toi < n
+ * fromi != toi
+ * 1 <= pricei <= 10^4
+ * 0 <= src, dst, k < n
+ * src != dst
  *
  * 笔记
  *

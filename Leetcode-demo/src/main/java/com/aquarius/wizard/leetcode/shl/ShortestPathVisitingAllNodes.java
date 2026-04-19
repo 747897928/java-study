@@ -11,8 +11,30 @@ import java.util.Scanner;
  * LeetCode 847
  * Shortest Path Visiting All Nodes
  *
- * 给定无向连通图，问最少经过多少条边，才能访问到所有节点。
- * 可以重复走点和边。
+ * 原题链接：
+ * https://leetcode.com/problems/shortest-path-visiting-all-nodes/description/?envType=problem-list-v2&envId=dynamic-programming
+ *
+ * 题意（按原题补全）：
+ * 给定一个无向连通图 graph，
+ * graph[i] 中列出了与节点 i 相连的所有节点。
+ * 你可以从任意节点出发，也可以重复访问节点和边。
+ * 返回访问完所有节点所需要经过的最少边数。
+ *
+ * 示例 1：
+ * Input: graph = [[1,2,3],[0],[0],[0]]
+ * Output: 4
+ *
+ * 示例 2：
+ * Input: graph = [[1],[0,2,4],[1,3,4],[2],[1,2]]
+ * Output: 4
+ *
+ * 约束：
+ * n == graph.length
+ * 1 <= n <= 12
+ * 0 <= graph[i].length < n
+ * graph[i] 不包含 i
+ * 如果 graph[i] 包含 j，则 graph[j] 也包含 i
+ * 图是连通的
  *
  * 笔记
  *

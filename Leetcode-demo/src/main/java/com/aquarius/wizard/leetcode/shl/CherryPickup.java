@@ -9,9 +9,35 @@ import java.util.Scanner;
  * LeetCode 741
  * Cherry Pickup
  *
- * 给定 n x n 网格，1 表示樱桃，0 表示空地，-1 表示障碍。
- * 从左上角走到右下角，再从右下角回到左上角，
- * 经过有樱桃的位置可以拿走樱桃，每个樱桃只能拿一次。
+ * 原题链接：
+ * https://leetcode.com/problems/cherry-pickup/description/?envType=problem-list-v2&envId=dynamic-programming
+ *
+ * 题意（按原题补全）：
+ * 给定一个 n x n 的网格 grid。
+ * grid[i][j] 的含义是：
+ * - 0：空地，可以通过
+ * - 1：有一个樱桃，可以通过并摘走
+ * - -1：荆棘，不能通过
+ *
+ * 你需要从左上角 (0, 0) 出发走到右下角 (n - 1, n - 1)，
+ * 然后再从右下角走回左上角。
+ * 两次行走过程中只能向右 / 向下，或者回程视角下只能向左 / 向上。
+ * 每个格子里的樱桃最多只能被拿一次。
+ * 返回最多能拿到多少个樱桃；如果无论如何都走不到终点，就返回 0。
+ *
+ * 示例 1：
+ * Input: grid = [[0,1,-1],[1,0,-1],[1,1,1]]
+ * Output: 5
+ *
+ * 示例 2：
+ * Input: grid = [[1,1,-1],[1,-1,1],[-1,1,1]]
+ * Output: 0
+ *
+ * 约束：
+ * n == grid.length == grid[i].length
+ * 1 <= n <= 50
+ * grid[i][j] 是 -1、0 或 1
+ * grid[0][0] != -1 且 grid[n - 1][n - 1] != -1
  *
  * 笔记
  *

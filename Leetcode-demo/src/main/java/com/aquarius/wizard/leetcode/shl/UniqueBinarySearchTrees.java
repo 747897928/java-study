@@ -8,7 +8,23 @@ import java.util.Scanner;
  * LeetCode 96
  * Unique Binary Search Trees
  *
- * 给定整数 n，问由 1..n 这 n 个数字一共能组成多少种不同的二叉搜索树。
+ * 原题链接：
+ * https://leetcode.com/problems/unique-binary-search-trees/description/?envType=problem-list-v2&envId=dynamic-programming
+ *
+ * 题意（按原题补全）：
+ * 给定整数 n，请你用 1 到 n 这 n 个不同数字作为节点值，
+ * 统计一共能构造出多少棵结构不同的二叉搜索树。
+ *
+ * 示例 1：
+ * Input: n = 3
+ * Output: 5
+ *
+ * 示例 2：
+ * Input: n = 1
+ * Output: 1
+ *
+ * 约束：
+ * 1 <= n <= 19
  *
  * 笔记
  *

@@ -9,9 +9,37 @@ import java.util.Scanner;
  * LeetCode 1444
  * Number of Ways of Cutting a Pizza
  *
- * 给定披萨矩阵 pizza，'A' 表示苹果，'.' 表示空。
- * 要把披萨切成 k 块，每一块都至少包含一个苹果。
- * 问总共有多少种切法。
+ * 原题链接：
+ * https://leetcode.com/problems/number-of-ways-of-cutting-a-pizza/description/?envType=problem-list-v2&envId=dynamic-programming
+ *
+ * 题意（按原题补全）：
+ * 给定一个矩形披萨 pizza，其中：
+ * - 'A' 表示这个格子有苹果
+ * - '.' 表示这个格子为空
+ *
+ * 你需要把披萨切 k - 1 刀，最终得到 k 块。
+ * 每一刀都必须沿着网格线水平切或垂直切。
+ * 如果是水平切，那么上半部分要先分出去；
+ * 如果是垂直切，那么左半部分要先分出去。
+ * 要求最后得到的每一块披萨都至少包含一个苹果。
+ * 返回总共有多少种切法，答案对 10^9 + 7 取模。
+ *
+ * 示例 1：
+ * Input: pizza = ["A..","AAA","..."], k = 3
+ * Output: 3
+ *
+ * 示例 2：
+ * Input: pizza = ["A..","AA.","..."], k = 3
+ * Output: 1
+ *
+ * 示例 3：
+ * Input: pizza = ["A..","A..","..."], k = 1
+ * Output: 1
+ *
+ * 约束：
+ * 1 <= rows, cols <= 50
+ * 1 <= k <= 10
+ * pizza 只包含 'A' 和 '.'
  *
  * 笔记
  *

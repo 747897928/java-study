@@ -7,15 +7,37 @@ import java.util.Scanner;
  *
  * LeetCode 76
  * Minimum Window Substring
+ * 原题链接：https://leetcode.com/problems/minimum-window-substring/description/
  *
- * 给你一个字符串 s、一个字符串 t。
- * 返回 s 中涵盖 t 所有字符（包括重复字符）的最小子串。
- * 如果 s 中不存在这样的子串，就返回空字符串 ""。
+ * 给你两个字符串 s 和 t。
+ * 请你返回 s 中涵盖 t 所有字符的最小子串。
+ * 如果 s 中不存在这样的子串，则返回空字符串 ""。
  *
- * 示例：
+ * 注意：
  *
- * s = "ADOBECODEBANC", t = "ABC"
- * answer = "BANC"
+ * - 对于 t 中重复出现的字符，窗口里该字符的数量也必须不少于 t 里的数量。
+ * - 如果 s 中存在这样的最小覆盖子串，题目保证答案唯一。
+ *
+ * 示例 1：
+ *
+ * 输入：s = "ADOBECODEBANC", t = "ABC"
+ * 输出："BANC"
+ * 解释："BANC" 是最短的覆盖子串。
+ *
+ * 示例 2：
+ *
+ * 输入：s = "a", t = "a"
+ * 输出："a"
+ *
+ * 示例 3：
+ *
+ * 输入：s = "a", t = "aa"
+ * 输出：""
+ *
+ * 约束：
+ *
+ * - 1 <= s.length, t.length <= 10^5
+ * - s 和 t 由英文字母组成
  *
  * 笔记
  *

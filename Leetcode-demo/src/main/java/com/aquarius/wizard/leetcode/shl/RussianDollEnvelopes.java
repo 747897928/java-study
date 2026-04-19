@@ -10,11 +10,29 @@ import java.util.Scanner;
  * LeetCode 354
  * Russian Doll Envelopes
  *
- * 给定一批信封 envelopes[i] = [wi, hi]，
- * 如果一个信封的宽和高都严格小于另一个信封，
- * 那它就可以被装进去。
+ * 原题链接：
+ * https://leetcode.com/problems/russian-doll-envelopes/description/?envType=problem-list-v2&envId=sorting
  *
- * 问最多能套多少层。
+ * 题意（按原题补全）：
+ * 给你一个二维数组 envelopes，
+ * 其中 envelopes[i] = [wi, hi] 表示第 i 个信封的宽度和高度。
+ * 只有当一个信封的宽和高都严格小于另一个信封时，前者才能装进后者。
+ * 返回最多能套多少层信封。
+ * 注意：信封不能旋转。
+ *
+ * 示例 1：
+ * Input: envelopes = [[5,4],[6,4],[6,7],[2,3]]
+ * Output: 3
+ * 解释：最多可以套 3 层，[2,3] => [5,4] => [6,7]。
+ *
+ * 示例 2：
+ * Input: envelopes = [[1,1],[1,1],[1,1]]
+ * Output: 1
+ *
+ * 约束：
+ * 1 <= envelopes.length <= 10^5
+ * envelopes[i].length == 2
+ * 1 <= wi, hi <= 10^5
  *
  * 笔记
  *

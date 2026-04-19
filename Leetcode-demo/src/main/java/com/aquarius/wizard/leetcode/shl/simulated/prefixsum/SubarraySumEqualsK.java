@@ -8,13 +8,30 @@ import java.util.Scanner;
 /**
  * Prefix Sum Drill
  *
- * Original source style:
- *
- * LeetCode 560 - Subarray Sum Equals K
+ * LeetCode 560
+ * Subarray Sum Equals K
+ * 原题链接：https://leetcode.com/problems/subarray-sum-equals-k/description/
  *
  * 不是原 SHL 题，是前缀和练习题。
  *
- * 给你一个整数数组 nums 和一个整数 k，请你统计和为 k 的连续子数组个数。
+ * 给你一个整数数组 nums 和一个整数 k，
+ * 请你统计和为 k 的连续子数组个数。
+ *
+ * 示例 1：
+ *
+ * 输入：nums = [1,1,1], k = 2
+ * 输出：2
+ *
+ * 示例 2：
+ *
+ * 输入：nums = [1,2,3], k = 3
+ * 输出：2
+ *
+ * 约束：
+ *
+ * - 1 <= nums.length <= 2 * 10^4
+ * - -1000 <= nums[i] <= 1000
+ * - -10^7 <= k <= 10^7
  *
  * 这题是前缀和训练里最关键的一道升级题，因为它告诉你：
  *
