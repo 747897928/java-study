@@ -212,62 +212,60 @@ public class MinimumWindowSubstring {
     }
 
 
-    class Solution {
-        public String minWindow(String source, String target) {
-            int sourceLength = source.length();
-            int targetLength = target.length();
-            if (sourceLength < targetLength) {
-                return "";
-            }
+    public String minWindow2(String source, String target) {
+        int sourceLength = source.length();
+        int targetLength = target.length();
+        if (sourceLength < targetLength) {
+            return "";
+        }
 
-            char[] targetChars = target.toCharArray();
-            Map<Character, List<Integer>> targetCharIndexMap = new HashMap<>();
-            for (int i = 0; i < targetChars.length; i++) {
-                char targetChar = targetChars[i];
-                List<Integer> indexList = targetCharIndexMap.getOrDefault(targetChar, new ArrayList<>());
-                indexList.add(i);
-                targetCharIndexMap.put(targetChar, indexList);
-            }
-            String result = "";
-            for (int i = 0; i < sourceLength; i++) {
-                // 以 i 为起点，向右扩展窗口，如果当前i的字符在 target 中，则定为起点，否则继续向右扩展，直到找到 target 中的任意一个字符为止。
-                char currentLeftChar = source.charAt(i);
-                List<Integer> indexList = targetCharIndexMap.get(currentLeftChar);
-                if (indexList == null) {
-                    continue;
-                } else {
-                    List<Integer> tempIndexList = new ArrayList<>(indexList.size());
-                    //如果能找到，取第一个元素，代表该元素被占用。后续右指针扫描的时候自动跳过这个元素，至于为什么用List，因为存在输入：s = "a", t = "aa" 输出："", 所以我理解重复的元素个数也要算进去。
+        char[] targetChars = target.toCharArray();
+        Map<Character, List<Integer>> targetCharIndexMap = new HashMap<>();
+        for (int i = 0; i < targetChars.length; i++) {
+            char targetChar = targetChars[i];
+            List<Integer> indexList = targetCharIndexMap.getOrDefault(targetChar, new ArrayList<>());
+            indexList.add(i);
+            targetCharIndexMap.put(targetChar, indexList);
+        }
+        String result = "";
+        for (int i = 0; i < sourceLength; i++) {
+            // 以 i 为起点，向右扩展窗口，如果当前i的字符在 target 中，则定为起点，否则继续向右扩展，直到找到 target 中的任意一个字符为止。
+            char currentLeftChar = source.charAt(i);
+            List<Integer> indexList = targetCharIndexMap.get(currentLeftChar);
+            if (indexList == null) {
+                continue;
+            } else {
+                List<Integer> tempIndexList = new ArrayList<>(indexList.size());
+                //如果能找到，取第一个元素，代表该元素被占用。后续右指针扫描的时候自动跳过这个元素，至于为什么用List，因为存在输入：s = "a", t = "aa" 输出："", 所以我理解重复的元素个数也要算进去。
                 /*Integer i1 = indexList.get(0);
                 tempIndexList.add(i1);*/
-                    for (int j = i; j < sourceLength; j++) {
-                        char currentRightChar = source.charAt(j);
-                        List<Integer> rightIndexList = targetCharIndexMap.get(currentRightChar);
-                        if (rightIndexList == null) {
-                            continue;
-                        } else {
-                            for (Integer index : rightIndexList) {
-                                if (!tempIndexList.contains(index)) {
-                                    tempIndexList.add(index);
-                                    break;
-                                }
+                for (int j = i; j < sourceLength; j++) {
+                    char currentRightChar = source.charAt(j);
+                    List<Integer> rightIndexList = targetCharIndexMap.get(currentRightChar);
+                    if (rightIndexList == null) {
+                        continue;
+                    } else {
+                        for (Integer index : rightIndexList) {
+                            if (!tempIndexList.contains(index)) {
+                                tempIndexList.add(index);
+                                break;
                             }
                         }
-                        if (tempIndexList.size() == targetChars.length) {
-                            String tempResult = source.substring(i, j + 1);
-                            System.out.println(tempResult);
-                            if (result.equals("")) {
-                                result = tempResult;
-                            } else {
-                                result = (result.length() >= tempResult.length()) ? tempResult : result;
-                            }
-                        }
-
                     }
+                    if (tempIndexList.size() == targetChars.length) {
+                        String tempResult = source.substring(i, j + 1);
+                        System.out.println(tempResult);
+                        if (result.equals("")) {
+                            result = tempResult;
+                        } else {
+                            result = (result.length() >= tempResult.length()) ? tempResult : result;
+                        }
+                    }
+
                 }
             }
-            return result;
         }
+        return result;
     }
     
     /**
