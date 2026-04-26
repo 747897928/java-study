@@ -155,7 +155,7 @@ public class LeetCodeTest {
         }
     }*/
 
-    @Test
+    /*@Test
     public void test8() throws IOException {
         File file = new File("../StudyNode/面试话术.md");
         FileWriter fileWriter = new FileWriter(file, true);
@@ -167,7 +167,7 @@ public class LeetCodeTest {
         printWriter.flush();
         fileWriter.close();
         printWriter.close();
-    }
+    }*/
 
     @Test
     public void test9() throws InterruptedException {
