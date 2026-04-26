@@ -626,6 +626,117 @@ public class MinimumWindowSubstring {
     }
 
     /**
+     * 面向提交的精简性能版。
+     *
+     * 核心逻辑和 minWindow3 一样，都是“右边扫到就踢掉，左边收缩时再补回”，
+     * 但这里尽量压缩热点循环里的状态和判断，方便直接贴到题解或力扣提交。
+     */
+    public String minWindowFast(String s, String t) {
+        int sLength = s.length();
+        int tLength = t.length();
+        if (sLength < tLength) {
+            return "";
+        }
+
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+        int[] need = new int[128];
+        for (char c : tChars) {
+            need[c]++;
+        }
+
+        int remain = tLength;
+        int left = 0;
+        int right = 0;
+        int bestStart = 0;
+        int bestLength = Integer.MAX_VALUE;
+
+        while (right < sLength) {
+            char rightChar = sChars[right++];
+            if (need[rightChar]-- > 0) {
+                remain--;
+            }
+
+            while (remain == 0) {
+                int windowLength = right - left;
+                if (windowLength < bestLength) {
+                    bestLength = windowLength;
+                    bestStart = left;
+                }
+
+                char leftChar = sChars[left++];
+                if (++need[leftChar] > 0) {
+                    remain++;
+                }
+            }
+        }
+
+        return bestLength == Integer.MAX_VALUE ? "" : s.substring(bestStart, bestStart + bestLength);
+    }
+
+    /**
+     * 面向提交的差分数组版。
+     *
+     * arr[c - 'A'] 表示：
+     * 当前窗口相对于 target，在字符 c 上还差多少。
+     *
+     * - arr[x] > 0：还缺这种字符
+     * - arr[x] == 0：这种字符刚好够
+     * - arr[x] < 0：这种字符多了
+     *
+     * diff 表示当前还有多少种字符没有达标。
+     */
+    public String minWindowDiffFast(String s, String t) {
+        int sLength = s.length();
+        int tLength = t.length();
+        if (sLength < tLength) {
+            return "";
+        }
+
+        int[] diffArray = new int[58];
+        for (int i = 0; i < tLength; i++) {
+            diffArray[t.charAt(i) - 'A']++;
+            diffArray[s.charAt(i) - 'A']--;
+        }
+
+        int diff = 0;
+        for (int value : diffArray) {
+            if (value > 0) {
+                diff++;
+            }
+        }
+
+        if (diff == 0) {
+            return s.substring(0, tLength);
+        }
+
+        int left = 0;
+        int bestLeft = 0;
+        int bestRight = sLength;
+
+        for (int right = tLength; right < sLength; right++) {
+            int rightIndex = s.charAt(right) - 'A';
+            if (--diffArray[rightIndex] == 0) {
+                diff--;
+            }
+
+            while (diff == 0) {
+                int leftIndex = s.charAt(left) - 'A';
+                if (++diffArray[leftIndex] == 1) {
+                    if (right - left < bestRight - bestLeft) {
+                        bestLeft = left;
+                        bestRight = right;
+                    }
+                    diff++;
+                }
+                left++;
+            }
+        }
+
+        return bestRight == sLength ? "" : s.substring(bestLeft, bestRight + 1);
+    }
+
+    /**
      * 最朴素的暴力法。
      * 
      * 这版只适合学习，不适合大数据量。

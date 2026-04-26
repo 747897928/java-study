@@ -66,4 +66,30 @@ public class MinimumWindowSubstringTest {
         Assert.assertEquals("ABBC", solver.minWindow2Optimized("ZZZABBCAZZ", "ABBC"));
         Assert.assertEquals("AAYB", solver.minWindow2Optimized("XXAAYBB", "AAB"));
     }
+
+    @Test
+    public void fastVersionShouldMatchExpectedAnswers() {
+        MinimumWindowSubstring solver = new MinimumWindowSubstring();
+
+        Assert.assertEquals("BANC", solver.minWindowFast("ADOBECODEBANC", "ABC"));
+        Assert.assertEquals("a", solver.minWindowFast("a", "a"));
+        Assert.assertEquals("", solver.minWindowFast("a", "aa"));
+        Assert.assertEquals("aa", solver.minWindowFast("aa", "aa"));
+        Assert.assertEquals("AABC", solver.minWindowFast("XAABCD", "AABC"));
+        Assert.assertEquals("ABC", solver.minWindowFast("ZZZABCZZZ", "ABC"));
+        Assert.assertEquals("ABBC", solver.minWindowFast("ZZZABBCAZZ", "ABBC"));
+    }
+
+    @Test
+    public void diffFastVersionShouldMatchExpectedAnswers() {
+        MinimumWindowSubstring solver = new MinimumWindowSubstring();
+
+        Assert.assertEquals("BANC", solver.minWindowDiffFast("ADOBECODEBANC", "ABC"));
+        Assert.assertEquals("a", solver.minWindowDiffFast("a", "a"));
+        Assert.assertEquals("", solver.minWindowDiffFast("a", "aa"));
+        Assert.assertEquals("aa", solver.minWindowDiffFast("aa", "aa"));
+        Assert.assertEquals("AABC", solver.minWindowDiffFast("XAABCD", "AABC"));
+        Assert.assertEquals("ABC", solver.minWindowDiffFast("ZZZABCZZZ", "ABC"));
+        Assert.assertEquals("ABBC", solver.minWindowDiffFast("ZZZABBCAZZ", "ABBC"));
+    }
 }
