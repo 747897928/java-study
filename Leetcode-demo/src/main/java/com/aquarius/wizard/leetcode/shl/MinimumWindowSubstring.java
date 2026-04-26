@@ -438,114 +438,191 @@ public class MinimumWindowSubstring {
 
         return bestStart == -1 ? "" : source.substring(bestStart, bestStart + bestLength);
     }
-    
+
     /**
-     * 我自己能先想到的暴力优化版。
-     * 
-     * 这版思路不变：还是枚举每一个可能的左端点，然后从左往右扩右端点，
-     * 直到当前子串已经覆盖 target。
-     * 
-     * 它和最朴素暴力版的区别是：
-     * 
-     * 1. 不再每次拿到一个子串后重新扫描 target。
-     * 2. 扩右端点时顺手维护窗口里的字符数量。
-     * 3. 一旦当前 start 找到第一个合法窗口，就可以 break。
-     * 因为同一个 start 下，right 再继续向右只会让窗口更长，不可能更优。
-     * 
-     * 这里仍然不是最优解，最坏情况还是 O(n^2)，
-     * 但是它比“枚举子串 + 每次完整检查”更接近滑动窗口之前的中间版本。
-     * 
-     * 为什么不用 List 记录 target 里每个字符的下标？
-     * 
-     * 一开始那样想是合理的，因为 t = "aa" 这种情况确实说明“重复字符要算次数”。
-     * 但用下标列表表达“还缺几个字符”会比较绕。
-     * 更直接的表达是频次数组：
-     * 
-     * - requiredCount[c] 表示 target 里字符 c 需要几个
-     * - windowCount[c] 表示当前窗口里字符 c 已经有几个
-     * - matchedCharacters 表示当前窗口已经满足了 target 里的多少个字符位置
-     * 
+     * int[] need = new int[128]; 的原因是直接拿字符 c 当下标用，need[c] 不需要做任何映射。既然题目保证只包含英文字母，理论上你确实可以压到更小：
+     * •
+     * 只考虑大小写字母，一共 52 种字符
+     * •
+     * 可以自己写映射：
+     * ◦
+     * 'A'..'Z' 映射到 0..25
+     * ◦
+     * 'a'..'z' 映射到 26..51
+     * 然后用 int[] need = new int[52];
+     * 但这类优化收益很小，代价是代码更绕：
+     * •
+     * 128 个 int 只占 128 * 4 = 512 字节
+     * •
+     * 52 个 int 只占 208 字节
+     * •
+     * 只省了 304 字节，几乎可以忽略
+     * •
+     * 还额外增加了字符映射逻辑，代码可读性变差，常数时间也未必更好
+     *
+     * @param c
+     * @return
+     */
+    private int indexMapping(char c) {
+        if (c >= 'A' && c <= 'Z') return c - 'A';
+        return c - 'a' + 26;
+    }
+
+    /**
+     * 这是“右指针扫到目标字符，就把它从 target 里踢掉”的滑动窗口写法。
+     *
+     * 这个思路和“维护窗口里每种字符数量是否达标”是同一类解法，
+     * 只是这里换了一个更直观的理解方式：
+     *
+     * 1. 先把 target 里每个字符需要几个，记到 need[c] 里
+     * 2. right 向右扫时，如果当前字符正好还是 target 需要的，就把它“踢掉”
+     * 3. 所有目标字符都被踢掉后，说明当前窗口已经覆盖 target
+     * 4. 然后移动 left，不断缩小窗口
+     * 5. left 每移走一个字符，就相当于把这个字符“还回去”
+     * 6. 一旦某个必要字符被还回去后变成重新缺少，窗口就不合法了，停止缩窗
+     *
+     * 为什么不能真的拷贝一个 target 再做删除？
+     *
+     * 因为那样会频繁创建新对象或删除字符，代价很高。
+     * 真正高效的做法是：用频次数组模拟“踢掉/补回”。
+     *
      * 比如 target = "AABC"：
-     * requiredCount['A'] = 2
-     * requiredCount['B'] = 1
-     * requiredCount['C'] = 1
-     * 
-     * 当窗口里第一个 A 进来时，matchedCharacters + 1；
-     * 第二个 A 进来时，matchedCharacters 再 + 1；
-     * 第三个 A 进来时，不再加，因为 target 只需要两个 A。
+     * - need['A'] = 2
+     * - need['B'] = 1
+     * - need['C'] = 1
+     *
+     * 右指针扫到一个 A：
+     * - 如果 need['A'] > 0，说明这个 A 还是需要的
+     * - 那么它就成功“踢掉”了 target 里的一个 A
+     * - 接着执行 need['A']--
+     *
+     * 左指针移走一个 A：
+     * - 执行 need['A']++
+     * - 如果加完后 need['A'] > 0，说明现在又缺 A 了
+     * - 也就是窗口不再覆盖 target
      */
     public String minWindow3(String source, String target) {
-        int sourceLength = source.length();
-        int targetLength = target.length();
-        if (sourceLength < targetLength) {
+        if (source.length() < target.length()) {
             return "";
         }
 
-        int[] requiredCount = new int[128];
+        int[] need = new int[128];
         for (int i = 0; i < target.length(); i++) {
-            requiredCount[target.charAt(i)]++;
+            /*
+             * target.charAt(i) 返回的是 char。
+             * 在 Java 里，char 会自动转换成对应的整数编码后再作为数组下标使用。
+             *
+             * 例如：
+             * - 'A' 会转成 65
+             * - 'a' 会转成 97
+             *
+             * 所以 need[target.charAt(i)]++ 的意思就是：
+             * 用这个字符的编码值作为下标，把对应位置的计数加一。
+             */
+            need[target.charAt(i)]++;
         }
-        int bestStart = -1;
+
+        /*
+         * remain 表示：target 里总共还有多少个“位置”没有被匹配到。
+         *
+         * 例如 target = "AABC" 时，初始 remain = 4。
+         * 这里统计的是“字符总数”，不是“字符种类数”。
+         */
+        int remain = target.length();
+        int left = 0;
+        int right = 0;
+        int bestStart = 0;
         int bestLength = Integer.MAX_VALUE;
 
-        for (int start = 0; start < sourceLength; start++) {
+        while (right < source.length()) {
+            char rightChar = source.charAt(right);
+
             /*
-             * 如果左端点这个字符根本不是 target 需要的字符，
-             * 那以它开头的窗口一定不会比去掉它之后更短。
-             *
-             * 例如 source = "XABC", target = "ABC"：
-             * "XABC" 合法，但 "ABC" 更短。
-             *
-             * 所以这里可以直接跳过这种 start。
+             * 你可以把 need[rightChar] > 0 理解成：
+             * 这个字符现在仍然是 target 还需要的，所以右指针扫到它时，
+             * 就等于把 target 里的一个字符“踢掉”了。
              */
-            char leftChar = source.charAt(start);
-            if (requiredCount[leftChar] == 0) {
-                continue;
+            if (need[rightChar] > 0) {
+                remain--;
             }
 
-            int[] windowCount = new int[128];
-            int matchedCharacters = 0;
+            /*
+             * 无论是不是目标字符，都先把它记进窗口影响里。
+             *
+             * - 目标字符：可能把 remain 减少
+             * - 非目标字符：会把 need[rightChar] 变成负数，表示它只是多余字符
+             */
+            need[rightChar]--;
+            right++;
 
-            for (int end = start; end < sourceLength; end++) {
-                char rightChar = source.charAt(end);
-
-                /*
-                 * 只有 target 需要的字符才会影响覆盖条件。
-                 * 其他字符可以留在窗口里，但不用计数。
-                 */
-                if (requiredCount[rightChar] > 0) {
-                    windowCount[rightChar]++;
-
-                    /*
-                     * 只有在“当前字符还没超过需求数量”时，才算新匹配了一个 target 位置。
-                     *
-                     * target = "aa" 时：
-                     * 第 1 个 a 进来，matchedCharacters = 1
-                     * 第 2 个 a 进来，matchedCharacters = 2，窗口合法
-                     * 第 3 个 a 进来，不再增加，因为 target 只需要 2 个 a
-                     */
-                    if (windowCount[rightChar] <= requiredCount[rightChar]) {
-                        matchedCharacters++;
-                    }
+            /*
+             * remain == 0 说明 target 已经被“踢空”，
+             * 当前窗口已经覆盖了 target，可以开始缩左边。
+             */
+            while (remain == 0) {
+                if (right - left < bestLength) {
+                    bestStart = left;
+                    bestLength = right - left;
                 }
 
-                if (matchedCharacters == targetLength) {
-                    int candidateLength = end - start + 1;
-                    if (candidateLength < bestLength) {
-                        bestStart = start;
-                        bestLength = candidateLength;
-                    }
+                char leftChar = source.charAt(left);
 
-                    /*
-                     * 对同一个 start 来说，这是最短的合法窗口。
-                     * right 再继续向右扩，只会得到更长的窗口，所以可以停。
-                     */
-                    break;
-                }
+            /*
+             * 左指针右移时，相当于把这个字符重新“还回去”。
+             * 如果还回去之后 need[leftChar] > 0，
+             * 说明这个字符变成缺少了，窗口不再合法。
+             *
+             * 这里最容易担心的问题是：
+             * “右边扩窗时我已经一直在 need[rightChar]-- 了，
+             * 那左边这里 need[leftChar]++ 会不会把那些不属于 target 的字符也算进去？”
+             *
+             * 不会。因为 need[c] 本身就同时表达了三种状态：
+             *
+             * 1. need[c] > 0
+             *    说明字符 c 还缺。
+             *
+             * 2. need[c] == 0
+             *    说明字符 c 当前刚刚好。
+             *
+             * 3. need[c] < 0
+             *    说明字符 c 在当前窗口里是多余的。
+             *
+             * 例如 target = "ABC"：
+             *
+             * - 如果字符 X 根本不在 target 里，
+             *   那它初始 need['X'] = 0
+             *   右指针扫到它后 need['X']--，会变成 -1
+             *   这表示：X 只是窗口里的多余字符
+             *
+             *   之后左指针移走 X：
+             *   need['X']++，-1 会回到 0
+             *   但它不会 > 0，所以 remain 不会增加
+             *
+             * - 如果字符 A 在 target 里，但当前窗口里 A 已经多了，
+             *   比如 need['A'] = -1，
+             *   那左边移走一个 A 后，need['A']++ 只会回到 0
+             *   依然不会 > 0，所以 remain 也不会增加
+             *
+             * 只有一种情况才需要 remain++：
+             * 移走的这个字符原本是“刚刚好够用”的。
+             *
+             * 例如移走前 need['A'] == 0，
+             * 执行 need['A']++ 后变成 1，
+             * 这才说明窗口现在真的缺了一个 A。
+             *
+             * 所以这里完全不需要再 for 一遍 target 去判断
+             * leftChar 是不是目标字符。
+             * 这个信息已经被 need 数组自己记住了。
+             */
+            need[leftChar]++;
+            if (need[leftChar] > 0) {
+                remain++;
+            }
+                left++;
             }
         }
 
-        return bestStart == -1 ? "" : source.substring(bestStart, bestStart + bestLength);
+        return bestLength == Integer.MAX_VALUE ? "" : source.substring(bestStart, bestStart + bestLength);
     }
 
     /**

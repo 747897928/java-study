@@ -26,7 +26,7 @@ public class MinimumWindowSubstringTest {
     }
 
     @Test
-    public void bruteForceVersionShouldMatchExpectedAnswersWithoutDebugOutput() {
+    public void kickOutTargetCharactersVersionShouldMatchExpectedAnswersWithoutDebugOutput() {
         MinimumWindowSubstring solver = new MinimumWindowSubstring();
         PrintStream originalOut = System.out;
         ByteArrayOutputStream capturedOut = new ByteArrayOutputStream();
@@ -38,6 +38,7 @@ public class MinimumWindowSubstringTest {
             Assert.assertEquals("a", solver.minWindow3("a", "a"));
             Assert.assertEquals("", solver.minWindow3("a", "aa"));
             Assert.assertEquals("aa", solver.minWindow3("aa", "aa"));
+            Assert.assertEquals("AABC", solver.minWindow3("XAABCD", "AABC"));
         } finally {
             System.setOut(originalOut);
         }
