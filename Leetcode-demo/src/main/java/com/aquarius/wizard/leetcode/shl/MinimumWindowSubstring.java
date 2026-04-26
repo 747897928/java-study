@@ -236,9 +236,8 @@ public class MinimumWindowSubstring {
                 continue;
             } else {
                 List<Integer> tempIndexList = new ArrayList<>(indexList.size());
-                //如果能找到，取第一个元素，代表该元素被占用。后续右指针扫描的时候自动跳过这个元素，至于为什么用List，因为存在输入：s = "a", t = "aa" 输出："", 所以我理解重复的元素个数也要算进去。
-                /*Integer i1 = indexList.get(0);
-                tempIndexList.add(i1);*/
+                //加入元素代表该元素被占用。后续右指针扫描的时候自动跳过这个元素，至于为什么用List，
+                // 因为存在输入：s = "a", t = "aa" 输出："", 所以我理解重复的元素个数也要算进去。
                 for (int j = i; j < sourceLength; j++) {
                     char currentRightChar = source.charAt(j);
                     List<Integer> rightIndexList = targetCharIndexMap.get(currentRightChar);
@@ -266,6 +265,178 @@ public class MinimumWindowSubstring {
             }
         }
         return result;
+    }
+
+    /**
+     * 基于 minWindow2 思路的“新手友好优化版”。
+     *
+     * 这个方法故意不直接写成后面的标准滑动窗口，
+     * 也不和现有 minWindow3 用同一套变量组织方式。
+     *
+     * 它保留你最自然会想到的主框架：
+     *
+     * 1. 枚举每一个左端点 start
+     * 2. 让右端点 end 从 start 一直向右扩
+     * 3. 一边扩，一边判断“当前窗口是不是已经覆盖了 target”
+     * 4. 当前 start 一旦找到第一个合法窗口，就立刻停止
+     *
+     * 这个版本主要是在 minWindow2 的基础上，做了 3 个局部优化：
+     *
+     * 1. 不再用“target 里每个字符对应哪些下标”来表示需求
+     *    那种写法能做，但会比较绕。
+     *    对这题来说，真正想表达的是：
+     *    “每种字符还缺几个？”
+     *
+     * 2. 不再用 List.contains(...) 判断一个下标有没有被占用
+     *    contains 是线性查找，放在双层循环里会比较慢。
+     *    这里直接改成 remaining[c]：
+     *    - remaining[c] > 0 说明当前窗口还缺字符 c
+     *    - remaining[c] <= 0 说明字符 c 已经够了，甚至多了
+     *
+     * 3. 同一个 start 只找“第一个合法窗口”
+     *    因为 start 固定时，end 再继续向右只会让窗口更长，
+     *    不可能比第一个合法窗口更优，所以可以直接 break。
+     *
+     * 这个版本的时间复杂度仍然不是 O(m + n)。
+     * 它本质上还是“枚举左端点 + 向右找第一个合法窗口”，
+     * 所以最坏情况下依然接近 O(n^2)。
+     *
+     * 但它比原来的 minWindow2 更适合继续往下升级，
+     * 因为“还缺几个字符”这个表达和后续很多字符串题是通用的。
+     *
+     * 你可以把它理解成：
+     * minWindow2 和正式滑动窗口之间，一个更顺手、更稳定的中间版本。
+     */
+    public String minWindow2Optimized(String source, String target) {
+        int sourceLength = source.length();
+        int targetLength = target.length();
+        if (sourceLength < targetLength) {
+            return "";
+        }
+
+        char[] sourceChars = source.toCharArray();
+        char[] targetChars = target.toCharArray();
+
+        /*
+         * 题目明确说 s 和 t 只由英文字母组成：
+         * - 'A' 到 'Z' 的 ASCII 编码是 65 到 90
+         * - 'a' 到 'z' 的 ASCII 编码是 97 到 122
+         *
+         * 所以开一个长度 128 的数组就够了，
+         * 因为 128 已经覆盖了所有标准 ASCII 字符。
+         *
+         * 这里用字符本身当下标：
+         * need['A'] 表示字符 'A' 需要几个
+         * need['a'] 表示字符 'a' 需要几个
+         */
+        int[] need = new int[128];
+        for (char targetChar : targetChars) {
+            need[targetChar]++;
+        }
+        int bestStart = -1;
+        int bestLength = Integer.MAX_VALUE;
+
+        for (int start = 0; start < sourceLength; start++) {
+            /*
+             * 如果从当前 start 到结尾连 target 的总长度都放不下，
+             * 那后面的 start 就更不可能找到合法窗口了。
+             */
+            if (sourceLength - start < targetLength) {
+                break;
+            }
+
+            char leftChar = sourceChars[start];
+
+            /*
+             * 如果左端点这个字符根本不是 target 需要的字符，
+             * 那么以它开头的窗口一定不会比去掉它之后更短。
+             *
+             * 例如：
+             * source = "XABC", target = "ABC"
+             * 以 X 开头的最短合法窗口是 "XABC"
+             * 但去掉 X 后直接就是更短的 "ABC"
+             */
+            if (need[leftChar] == 0) {
+                continue;
+            }
+
+            /*
+             * remaining[c] 表示：
+             * 对当前这个 start 而言，窗口还缺几个字符 c。
+             *
+             * 一开始窗口是空的，所以 remaining 就等于 need。
+             * 每当 end 扫到一个字符 current：
+             *
+             * - 如果 remaining[current] > 0
+             *   说明这个字符正好补上了一个“还缺的位置”
+             *   那 matchedCharacters++
+             *
+             * - 然后 remaining[current]--
+             *   表示当前窗口里多放进来了一个 current
+             *
+             * 为什么即使字符已经够了，也还要 --？
+             *
+             * 因为 remaining 允许变成负数：
+             * - 0 表示刚好够
+             * - 负数表示这个字符已经多出来了
+             *
+             * 这样表达“够了没”会比下标占位更直接。
+             */
+            int[] remaining = Arrays.copyOf(need, need.length);
+            int matchedCharacters = 0;
+
+            for (int end = start; end < sourceLength; end++) {
+                char current = sourceChars[end];
+
+                /*
+                 * 对当前这个“新手版框架”来说，
+                 * target 不需要的字符可以留在窗口里，
+                 * 但没必要参与 remaining 的增减。
+                 */
+                if (need[current] == 0) {
+                    continue;
+                }
+
+                if (remaining[current] > 0) {
+                    matchedCharacters++;
+                }
+                remaining[current]--;
+
+                /*
+                 * matchedCharacters == targetLength
+                 * 表示 target 里的每一个字符位置都已经被当前窗口补齐了。
+                 *
+                 * 注意这里统计的是“匹配到的字符总数”，不是“字符种类数”。
+                 * 所以 target = "AABC" 时：
+                 * - 第一个 A 进来，matchedCharacters + 1
+                 * - 第二个 A 进来，matchedCharacters 再 + 1
+                 * - 第三个 A 进来，不再增加，因为 remaining['A'] 已经 <= 0 了
+                 */
+                if (matchedCharacters == targetLength) {
+                    int candidateLength = end - start + 1;
+                    if (candidateLength < bestLength) {
+                        bestStart = start;
+                        bestLength = candidateLength;
+
+                        /*
+                         * 窗口长度不可能短于 target 自身长度。
+                         * 一旦命中，就已经是理论最优解，可以直接返回。
+                         */
+                        if (bestLength == targetLength) {
+                            return source.substring(bestStart, bestStart + bestLength);
+                        }
+                    }
+
+                    /*
+                     * 这是当前 start 下的第一个合法窗口。
+                     * end 再继续向右，只会更长，不会更短。
+                     */
+                    break;
+                }
+            }
+        }
+
+        return bestStart == -1 ? "" : source.substring(bestStart, bestStart + bestLength);
     }
     
     /**
@@ -310,7 +481,10 @@ public class MinimumWindowSubstring {
             return "";
         }
 
-        int[] requiredCount = buildNeed(target);
+        int[] requiredCount = new int[128];
+        for (int i = 0; i < target.length(); i++) {
+            requiredCount[target.charAt(i)]++;
+        }
         int bestStart = -1;
         int bestLength = Integer.MAX_VALUE;
 
@@ -399,7 +573,10 @@ public class MinimumWindowSubstring {
             return "";
         }
 
-        int[] need = buildNeed(t);
+        int[] need = new int[128];
+        for (int i = 0; i < t.length(); i++) {
+            need[t.charAt(i)]++;
+        }
         int bestStart = -1;
         int bestLength = Integer.MAX_VALUE;
 
@@ -490,7 +667,10 @@ public class MinimumWindowSubstring {
             return "";
         }
 
-        int[] need = buildNeed(t);
+        int[] need = new int[128];
+        for (int i = 0; i < t.length(); i++) {
+            need[t.charAt(i)]++;
+        }
         int[] window = new int[128];
         int needKinds = countNeedKinds(need);
         int validKinds = 0;
@@ -539,7 +719,10 @@ public class MinimumWindowSubstring {
      */
     public String traceMinWindow(String s, String t) {
         StringBuilder trace = new StringBuilder();
-        int[] need = buildNeed(t);
+        int[] need = new int[128];
+        for (int i = 0; i < t.length(); i++) {
+            need[t.charAt(i)]++;
+        }
         int[] window = new int[128];
         int needKinds = countNeedKinds(need);
         int validKinds = 0;
@@ -603,14 +786,6 @@ public class MinimumWindowSubstring {
             trace.append(s.substring(bestStart, bestStart + bestLength));
         }
         return trace.toString();
-    }
-
-    private int[] buildNeed(String t) {
-        int[] need = new int[128];
-        for (int i = 0; i < t.length(); i++) {
-            need[t.charAt(i)]++;
-        }
-        return need;
     }
 
     private int countNeedKinds(int[] need) {

@@ -44,4 +44,25 @@ public class MinimumWindowSubstringTest {
 
         Assert.assertEquals("", capturedOut.toString());
     }
+
+    @Test
+    public void beginnerFriendlyOptimizedVersionShouldMatchExpectedAnswers() {
+        MinimumWindowSubstring solver = new MinimumWindowSubstring();
+
+        Assert.assertEquals("BANC", solver.minWindow2Optimized("ADOBECODEBANC", "ABC"));
+        Assert.assertEquals("a", solver.minWindow2Optimized("a", "a"));
+        Assert.assertEquals("", solver.minWindow2Optimized("a", "aa"));
+        Assert.assertEquals("aa", solver.minWindow2Optimized("aa", "aa"));
+        Assert.assertEquals("AABC", solver.minWindow2Optimized("XAABCD", "AABC"));
+    }
+
+    @Test
+    public void beginnerFriendlyOptimizedVersionShouldHandleMoreEdgeCases() {
+        MinimumWindowSubstring solver = new MinimumWindowSubstring();
+
+        Assert.assertEquals("ABC", solver.minWindow2Optimized("ABC", "ABC"));
+        Assert.assertEquals("ABC", solver.minWindow2Optimized("ZZZABCZZZ", "ABC"));
+        Assert.assertEquals("ABBC", solver.minWindow2Optimized("ZZZABBCAZZ", "ABBC"));
+        Assert.assertEquals("AAYB", solver.minWindow2Optimized("XXAAYBB", "AAB"));
+    }
 }
